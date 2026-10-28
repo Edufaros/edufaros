@@ -374,6 +374,8 @@ export default function HomePage() {
           </div>
         </section>
 
+        <FounderMessage />
+
         <section className="section challenge-section page-shell" id="challenge">
           <Reveal className="section-intro challenge-intro">
             <div>
@@ -591,8 +593,6 @@ export default function HomePage() {
           </Reveal>
           <div className="about-bottomline"><span>EDUFAROS / POINT OF VIEW</span><span>BUSINESS CONTEXT × PRACTICAL SYSTEMS</span></div>
         </section>
-
-        <FounderMessage />
 
         <section className="section fit-section page-shell" id="fit">
           <Reveal className="section-intro">

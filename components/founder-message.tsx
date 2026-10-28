@@ -44,10 +44,11 @@ export default function FounderMessage() {
             <Image
               src="/faizan-ul-haque.webp"
               alt="Faizan ul Haque, founder of EduFaros"
-              width={560}
-              height={560}
-              sizes="(max-width: 680px) 78vw, (max-width: 980px) 42vw, 340px"
+              width={640}
+              height={640}
+              sizes="(max-width: 680px) 84vw, (max-width: 980px) 42vw, 355px"
               className="founder-portrait-image"
+              unoptimized
             />
             <div className="founder-photo-wash" aria-hidden="true" />
             <div className="founder-portrait-topline">

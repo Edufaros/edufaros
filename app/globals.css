@@ -3007,13 +3007,13 @@ canvas {
   height: 100%;
   object-fit: cover;
   object-position: 50% 35%;
-  transform: scale(1.015);
-  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1), filter 900ms ease;
+  transform: none;
+  filter: none;
 }
 
 .founder-portrait-frame:hover .founder-portrait-image {
-  transform: scale(1.055);
-  filter: saturate(1.04);
+  transform: none;
+  filter: none;
 }
 
 .founder-photo-wash {
@@ -3021,8 +3021,7 @@ canvas {
   z-index: 1;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(4, 9, 14, 0.2), transparent 24%, transparent 62%, rgba(5, 10, 16, 0.46)),
-    linear-gradient(90deg, rgba(5, 12, 20, 0.12), transparent 24%, transparent 76%, rgba(5, 12, 20, 0.08));
+    linear-gradient(180deg, rgba(4, 9, 14, 0.04), transparent 32%, transparent 76%, rgba(5, 10, 16, 0.08));
   pointer-events: none;
 }
 
