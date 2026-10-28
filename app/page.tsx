@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   Activity,
+  ArrowDown,
   ArrowDownRight,
   ArrowRight,
   ArrowUpRight,
@@ -13,6 +14,7 @@ import {
   Lightbulb,
   MonitorPlay,
   Network,
+  Play,
   Target,
   Users,
   Workflow,
@@ -170,115 +172,62 @@ export default function HomePage() {
     <>
       <SiteHeader />
       <main id="top">
-        <section className="hero-section hero-section-copy page-shell" aria-labelledby="homepage-hero-title">
-          <div className="hero-copy hero-copy-premium">
-            <div className="hero-eyebrow-premium">
-              <span className="hero-eyebrow-mark" aria-hidden="true">EF</span>
-              <span>GROWTH SYSTEMS FOR EDUCATION &amp; KNOWLEDGE BUSINESSES</span>
+        <section className="hero-section page-shell">
+          <div className="hero-copy">
+            <div className="hero-eyebrow">
+              <span className="eyebrow-live-dot" />
+              EDUCATION GROWTH SYSTEMS
             </div>
-
-            <h1 className="hero-title-premium" id="homepage-hero-title">
-              Understand What&apos;s Holding Growth Back.{" "}
-              <span>Build What Moves the Business Forward.</span>
+            <h1 className="hero-title">
+              Growth<br />
+              engineered<br />
+              <span>for education.</span>
             </h1>
-
-            <div className="hero-description-premium">
-              <p>
-                EduFaros works with established education and knowledge businesses to audit their current approach, develop a strategy around their goals, and build the systems needed to put that strategy into practice.
-              </p>
-              <p>We then measure what changes and improve where the evidence supports it.</p>
-            </div>
-
-            <div className="hero-audience-premium">
-              <span className="hero-audience-label">WHO THIS IS FOR</span>
-              <p>For businesses in professional learning, exam preparation, continuing education, language learning, coaching, training, and college admissions.</p>
-            </div>
-
-            <div className="hero-actions hero-actions-premium">
-              <Link href="/contact" className="button hero-cta-primary">
-                Discuss a Growth Challenge <ArrowUpRight size={17} aria-hidden="true" />
+            <p className="hero-description">
+              We help education businesses connect performance marketing,
+              conversion systems and automation into a clearer path to growth.
+            </p>
+            <div className="hero-actions">
+              <Link href="#contact" className="button button-primary">
+                Book a Strategy Call <ArrowUpRight size={17} aria-hidden="true" />
               </Link>
-              <Link href="#method" className="button hero-cta-secondary">
-                Explore Our Approach <ArrowDownRight size={16} aria-hidden="true" />
+              <Link href="#system" className="button button-quiet">
+                <span className="play-button"><Play size={12} fill="currentColor" aria-hidden="true" /></span>
+                Explore the system
               </Link>
             </div>
 
-            <div className="hero-assurance-note">
-              <span className="hero-assurance-line" aria-hidden="true" />
-              <span>Understand the business before deciding what to build.</span>
+            <div className="hero-pillars">
+              <div className="hero-pillar">
+                <span className="pillar-number">01</span>
+                <span>Acquire</span>
+              </div>
+              <div className="hero-pillar">
+                <span className="pillar-number">02</span>
+                <span>Convert</span>
+              </div>
+              <div className="hero-pillar">
+                <span className="pillar-number">03</span>
+                <span>Connect</span>
+              </div>
+              <div className="hero-pillar">
+                <span className="pillar-number">04</span>
+                <span>Optimize</span>
+              </div>
+            </div>
+            <div className="hero-scroll-note">
+              <span className="scroll-line" />
+              <span>Scroll to explore</span>
+              <ArrowDown size={13} aria-hidden="true" />
             </div>
           </div>
 
-          <div className="hero-path-column">
-            <div className="growth-path-visual" aria-label="A four-stage progression from understanding the business to measuring and improving the system">
-              <div className="growth-path-header">
-                <div>
-                  <span className="growth-path-kicker">A CLEARER PATH FORWARD</span>
-                  <span className="growth-path-subtitle">From business context to considered action</span>
-                </div>
-                <span className="growth-path-index">EF / 01—04</span>
-              </div>
-
-              <div className="growth-path-steps">
-                <svg className="growth-path-connector" viewBox="0 0 64 380" preserveAspectRatio="none" aria-hidden="true">
-                  <defs>
-                    <linearGradient id="growth-path-line" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#B8A071" stopOpacity="0.3" />
-                      <stop offset="48%" stopColor="#D3B77E" stopOpacity="0.9" />
-                      <stop offset="100%" stopColor="#B8A071" stopOpacity="0.28" />
-                    </linearGradient>
-                  </defs>
-                  <path d="M32 18 C12 48 52 70 32 104 S12 156 32 190 S52 242 32 276 S12 328 32 362" stroke="url(#growth-path-line)" strokeWidth="1.4" fill="none" />
-                  <path d="M32 18 C12 48 52 70 32 104 S12 156 32 190 S52 242 32 276 S12 328 32 362" className="growth-path-signal" stroke="#DCC28D" strokeWidth="2" strokeLinecap="round" fill="none" />
-                </svg>
-
-                <div className="growth-path-step">
-                  <div className="growth-path-node"><span>01</span></div>
-                  <div className="growth-path-step-copy">
-                    <span className="growth-path-step-label">START WITH CONTEXT</span>
-                    <h2>Understand</h2>
-                    <p>Audit the current approach and identify what is holding growth back.</p>
-                  </div>
-                  <span className="growth-path-step-mark" aria-hidden="true">↗</span>
-                </div>
-
-                <div className="growth-path-step">
-                  <div className="growth-path-node"><span>02</span></div>
-                  <div className="growth-path-step-copy">
-                    <span className="growth-path-step-label">SET A DIRECTION</span>
-                    <h2>Strategize</h2>
-                    <p>Shape a strategy around the business&apos;s goals and context.</p>
-                  </div>
-                  <span className="growth-path-step-mark" aria-hidden="true">↗</span>
-                </div>
-
-                <div className="growth-path-step">
-                  <div className="growth-path-node"><span>03</span></div>
-                  <div className="growth-path-step-copy">
-                    <span className="growth-path-step-label">PUT IT INTO PRACTICE</span>
-                    <h2>Build</h2>
-                    <p>Create the systems needed to put the strategy to work.</p>
-                  </div>
-                  <span className="growth-path-step-mark" aria-hidden="true">↗</span>
-                </div>
-
-                <div className="growth-path-step">
-                  <div className="growth-path-node"><span>04</span></div>
-                  <div className="growth-path-step-copy">
-                    <span className="growth-path-step-label">LEARN FROM EVIDENCE</span>
-                    <h2>Measure &amp; improve</h2>
-                    <p>Review what changes and refine where the evidence supports it.</p>
-                  </div>
-                  <span className="growth-path-step-mark" aria-hidden="true">↗</span>
-                </div>
-              </div>
-
-              <div className="growth-path-footer">
-                <span className="growth-path-footer-dot" aria-hidden="true" />
-                <span>Understand first. Build with purpose.</span>
-              </div>
+          <div className="hero-art">
+            <HeroVisual />
+            <div className="hero-art-footnote">
+              <span className="tiny-cross">✳</span>
+              Strategy / Technology / Performance
             </div>
-            <span className="hero-path-caption" aria-hidden="true">STRATEGY / IMPLEMENTATION / CONTINUOUS LEARNING</span>
           </div>
         </section>
 
