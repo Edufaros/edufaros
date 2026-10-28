@@ -24,16 +24,16 @@ const caveat = Caveat({
 
 export const metadata: Metadata = {
   title: {
-    default: "EduFaros | Education Growth Systems",
+    default: "EduFaros | Growth Systems for Education Businesses",
     template: "%s | EduFaros"
   },
   description:
-    "EduFaros helps education businesses connect performance marketing, conversion systems, automation and growth strategy.",
+    "EduFaros helps established education and knowledge businesses assess growth constraints, build relevant systems, and measure what improves.",
   applicationName: "EduFaros",
   openGraph: {
-    title: "EduFaros | Education Growth Systems",
+    title: "EduFaros | Growth Systems for Education Businesses",
     description:
-      "A more connected approach to growth for education businesses.",
+      "Assess growth constraints, build relevant systems, and measure what improves.",
     type: "website",
     siteName: "EduFaros"
   },

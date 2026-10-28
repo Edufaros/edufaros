@@ -6,11 +6,11 @@ import { ArrowDownRight, ArrowUpRight, Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const links = [
-  { href: "#solutions", label: "Solutions" },
+  { href: "#challenge", label: "The Challenge" },
+  { href: "#approach", label: "Our Approach" },
+  { href: "#examine", label: "What We Examine" },
   { href: "#who-we-help", label: "Who We Help" },
-  { href: "#method", label: "Our Method" },
-  { href: "#results", label: "Approach" },
-  { href: "#insights", label: "Insights" },
+  { href: "#engagement", label: "How It Works" },
   { href: "#about", label: "About" }
 ];
 
@@ -28,7 +28,7 @@ export default function SiteHeader() {
         >
           <Image
             src="/edufaros-logo.webp"
-            alt="EduFaros — Education Growth Systems"
+            alt="EduFaros — Growth Systems for Education Businesses"
             width={760}
             height={253}
             unoptimized
@@ -46,7 +46,7 @@ export default function SiteHeader() {
         </nav>
 
         <Link href="#contact" className="header-cta">
-          <span>Book a Strategy Call</span>
+          <span>Discuss a Growth Challenge</span>
           <ArrowUpRight size={15} strokeWidth={1.8} aria-hidden="true" />
         </Link>
 
@@ -81,7 +81,7 @@ export default function SiteHeader() {
             className="mobile-nav-cta"
             onClick={() => setOpen(false)}
           >
-            Book a Strategy Call <ArrowUpRight size={16} aria-hidden="true" />
+            Discuss a Growth Challenge <ArrowUpRight size={16} aria-hidden="true" />
           </Link>
         </nav>
       )}

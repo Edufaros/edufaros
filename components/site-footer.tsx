@@ -1,33 +1,31 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Linkedin, Instagram, MoveUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 const footerGroups = [
   {
-    title: "Solutions",
-    links: [
-      ["Performance Marketing", "#solutions"],
-      ["Funnels & Conversion", "#solutions"],
-      ["CRM & Automation", "#solutions"],
-      ["Growth Strategy", "#solutions"]
-    ]
-  },
-  {
     title: "Explore",
     links: [
-      ["Who We Help", "#who-we-help"],
-      ["Our Method", "#method"],
-      ["Our Approach", "#results"],
-      ["Insights", "#insights"]
+      ["Home", "#top"],
+      ["About Us", "#about"],
+      ["Contact Us", "#contact"]
     ]
   },
   {
-    title: "Company",
+    title: "Our Approach",
     links: [
-      ["About EduFaros", "#about"],
-      ["Contact", "#contact"],
-      ["Privacy Policy", "#contact"],
-      ["Terms of Service", "#contact"]
+      ["The Growth Challenge", "#challenge"],
+      ["What We Examine", "#examine"],
+      ["Growth Systems", "#systems"],
+      ["Who We Help", "#who-we-help"],
+      ["How an Engagement Works", "#engagement"]
+    ]
+  },
+  {
+    title: "Information",
+    links: [
+      ["Privacy Policy", "mailto:contact.edufaros@gmail.com?subject=Request%20for%20Privacy%20Policy"],
+      ["Terms", "mailto:contact.edufaros@gmail.com?subject=Request%20for%20Terms"]
     ]
   }
 ];
@@ -40,7 +38,7 @@ export default function SiteFooter() {
           <Link href="#top" className="footer-logo-link" aria-label="EduFaros home">
             <Image
               src="/edufaros-logo.webp"
-              alt="EduFaros — Education Growth Systems"
+              alt="EduFaros — Growth Systems for Education Businesses"
               width={760}
               height={253}
               unoptimized
@@ -48,14 +46,8 @@ export default function SiteFooter() {
             />
           </Link>
           <p>
-            Growth systems, marketing and strategic support for education
-            businesses with bigger ambitions.
+            EduFaros is a growth-systems partner for established education and knowledge businesses. We audit the current approach, develop a focused strategy, implement what is needed, and measure what changes.
           </p>
-          <div className="footer-socials" aria-label="Social profiles">
-            <a href="#contact" aria-label="LinkedIn profile placeholder"><Linkedin size={16} /></a>
-            <a href="#contact" aria-label="Instagram profile placeholder"><Instagram size={16} /></a>
-            <a href="#contact" aria-label="Company updates"><MoveUpRight size={16} /></a>
-          </div>
         </div>
 
         {footerGroups.map((group) => (
@@ -68,18 +60,18 @@ export default function SiteFooter() {
         ))}
 
         <div className="footer-newsletter">
-          <span className="eyebrow">FIELD NOTES</span>
-          <h3>Ideas for education growth.</h3>
-          <p>Practical thinking on acquisition, conversion and connected systems.</p>
-          <Link href="#insights" className="footer-newsletter-link">
-            Explore insights <ArrowUpRight size={15} />
+          <span className="eyebrow">START WITH CONTEXT</span>
+          <h3>Let's understand the challenge.</h3>
+          <p>Tell us what your business sells, what you want to improve, and what you currently know about the customer journey.</p>
+          <Link href="mailto:contact.edufaros@gmail.com?subject=Discuss%20a%20Growth%20Challenge" className="footer-newsletter-link">
+            Discuss a Growth Challenge <ArrowUpRight size={15} />
           </Link>
         </div>
       </div>
 
       <div className="footer-bottom page-shell">
         <span>© {new Date().getFullYear()} EduFaros. All rights reserved.</span>
-        <span className="footer-bottom-note">Education Growth Systems</span>
+        <span className="footer-bottom-note">Growth Systems for Education & Knowledge Businesses</span>
         <Link href="#top" className="back-to-top">Back to top ↑</Link>
       </div>
     </footer>
