@@ -27,7 +27,7 @@ export default function SiteHeader() {
           onClick={() => setOpen(false)}
         >
           <Image
-            src="/edufaros-logo.svg"
+            src="/edufaros-logo.webp"
             alt="EduFaros — Education Growth Systems"
             width={760}
             height={253}
