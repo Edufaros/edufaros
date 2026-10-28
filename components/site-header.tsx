@@ -11,7 +11,8 @@ const links = [
   { href: "#examine", label: "What We Examine" },
   { href: "#who-we-help", label: "Who We Help" },
   { href: "#engagement", label: "How It Works" },
-  { href: "#about", label: "About" }
+  { href: "#about", label: "About" },
+  { href: "/contact", label: "Contact Us" }
 ];
 
 export default function SiteHeader() {
