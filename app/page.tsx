@@ -21,6 +21,7 @@ import {
   Zap
 } from "lucide-react";
 import SiteHeader from "@/components/site-header";
+import FounderMessage from "@/components/founder-message";
 import SiteFooter from "@/components/site-footer";
 import HeroVisual from "@/components/hero-visual";
 import Reveal from "@/components/reveal";
@@ -229,6 +230,8 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        <FounderMessage />
 
         <section className="trust-strip" aria-label="Education business focus">
           <div className="trust-inner page-shell">
