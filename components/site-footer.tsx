@@ -39,10 +39,11 @@ export default function SiteFooter() {
         <div className="footer-brand">
           <Link href="#top" className="footer-logo-link" aria-label="EduFaros home">
             <Image
-              src="/edufaros-logo.webp"
+              src="/edufaros-logo.svg"
               alt="EduFaros — Education Growth Systems"
               width={760}
               height={253}
+              unoptimized
               className="footer-logo"
             />
           </Link>
