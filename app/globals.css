@@ -268,8 +268,8 @@ canvas {
     transparent 74%
   );
   content: "";
-  opacity: 0.9;
-  filter: blur(10px);
+  opacity: 0.62;
+  filter: blur(11px);
   pointer-events: none;
   animation: logo-moon-glow 4.8s ease-in-out infinite alternate;
 }
@@ -282,14 +282,17 @@ canvas {
   height: auto;
   object-fit: contain;
   opacity: 1;
+  /* Reinforce the image alpha with sharp, zero-blur white passes.
+     The halo is added only after the actual lettering is made solid. */
   filter:
     grayscale(1)
     brightness(0)
     invert(1)
-    drop-shadow(0 0 1px rgba(255, 255, 255, 1))
-    drop-shadow(0 0 4px rgba(255, 255, 255, 0.72))
-    drop-shadow(0 0 9px rgba(213, 231, 255, 0.42))
-    drop-shadow(0 0 17px rgba(97, 238, 219, 0.16));
+    drop-shadow(0 0 0 rgba(255, 255, 255, 1))
+    drop-shadow(0 0 0 rgba(255, 255, 255, 1))
+    drop-shadow(0 0 0 rgba(255, 255, 255, 1))
+    drop-shadow(0 0 2px rgba(255, 255, 255, 0.55))
+    drop-shadow(0 0 7px rgba(213, 231, 255, 0.25));
   transition: filter 260ms ease;
 }
 
@@ -298,10 +301,11 @@ canvas {
     grayscale(1)
     brightness(0)
     invert(1)
-    drop-shadow(0 0 1px #fff)
-    drop-shadow(0 0 5px rgba(255, 255, 255, 0.85))
-    drop-shadow(0 0 12px rgba(213, 231, 255, 0.52))
-    drop-shadow(0 0 20px rgba(97, 238, 219, 0.24));
+    drop-shadow(0 0 0 rgba(255, 255, 255, 1))
+    drop-shadow(0 0 0 rgba(255, 255, 255, 1))
+    drop-shadow(0 0 0 rgba(255, 255, 255, 1))
+    drop-shadow(0 0 3px rgba(255, 255, 255, 0.75))
+    drop-shadow(0 0 9px rgba(213, 231, 255, 0.34));
 }
 
 .desktop-nav {
@@ -1899,10 +1903,11 @@ canvas {
     grayscale(1)
     brightness(0)
     invert(1)
-    drop-shadow(0 0 1px rgba(255, 255, 255, 1))
-    drop-shadow(0 0 4px rgba(255, 255, 255, 0.68))
-    drop-shadow(0 0 9px rgba(213, 231, 255, 0.38))
-    drop-shadow(0 0 15px rgba(97, 238, 219, 0.14));
+    drop-shadow(0 0 0 rgba(255, 255, 255, 1))
+    drop-shadow(0 0 0 rgba(255, 255, 255, 1))
+    drop-shadow(0 0 0 rgba(255, 255, 255, 1))
+    drop-shadow(0 0 2px rgba(255, 255, 255, 0.5))
+    drop-shadow(0 0 6px rgba(213, 231, 255, 0.22));
 }
 
 .footer-brand > p,
