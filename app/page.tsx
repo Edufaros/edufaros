@@ -377,7 +377,7 @@ export default function HomePage() {
         <section className="section challenge-section page-shell" id="challenge">
           <Reveal className="section-intro challenge-intro">
             <div>
-              <SectionEyebrow>THE GROWTH CHALLENGE / 01</SectionEyebrow>
+              <SectionEyebrow>THE GROWTH CHALLENGE / 02</SectionEyebrow>
               <h2 className="section-title">Growth Is Not Always<br />a <span>Traffic Problem.</span></h2>
             </div>
             <p className="section-summary">
@@ -408,7 +408,7 @@ export default function HomePage() {
           <div className="page-shell">
             <Reveal className="section-intro">
               <div>
-                <SectionEyebrow>OUR APPROACH / 02</SectionEyebrow>
+                <SectionEyebrow>OUR APPROACH / 03</SectionEyebrow>
                 <h2 className="section-title">Understand the Business<br /><span>Before Changing It.</span></h2>
               </div>
               <p className="section-summary">
@@ -438,7 +438,7 @@ export default function HomePage() {
         <section className="section examine-section page-shell" id="examine">
           <Reveal className="section-intro">
             <div>
-              <SectionEyebrow>DIAGNOSTIC SCOPE / 03</SectionEyebrow>
+              <SectionEyebrow>DIAGNOSTIC SCOPE / 04</SectionEyebrow>
               <h2 className="section-title">Before Deciding What to Build,<br /><span>We Look at the Whole Journey.</span></h2>
             </div>
             <p className="section-summary">
@@ -465,7 +465,7 @@ export default function HomePage() {
           <div className="page-shell">
             <Reveal className="section-intro">
               <div>
-                <SectionEyebrow>GROWTH SYSTEMS / 04</SectionEyebrow>
+                <SectionEyebrow>GROWTH SYSTEMS / 05</SectionEyebrow>
                 <h2 className="section-title">The Strategy Determines<br /><span>the System.</span></h2>
               </div>
               <p className="section-summary">
@@ -487,6 +487,7 @@ export default function HomePage() {
               })}
             </div>
             <p className="systems-note"><Check size={15} />The components are selected after diagnosis. They are not a fixed package of every service, and not every engagement requires every component.</p>
+            <div className="systems-section-cta"><Link href="#contact" className="button button-primary">Discuss a Growth Challenge <ArrowUpRight size={16} /></Link></div>
           </div>
         </section>
 
@@ -494,7 +495,7 @@ export default function HomePage() {
           <div className="page-shell">
             <Reveal className="section-intro">
               <div>
-                <SectionEyebrow>WHO WE HELP / 05</SectionEyebrow>
+                <SectionEyebrow>WHO WE HELP / 06</SectionEyebrow>
                 <h2 className="section-title">Different Education Businesses.<br /><span>Different Customer Journeys.</span></h2>
               </div>
               <p className="section-summary">
@@ -529,7 +530,7 @@ export default function HomePage() {
         <section className="section engagement-section page-shell" id="engagement">
           <Reveal className="section-intro">
             <div>
-              <SectionEyebrow>HOW AN ENGAGEMENT WORKS / 06</SectionEyebrow>
+              <SectionEyebrow>HOW AN ENGAGEMENT WORKS / 07</SectionEyebrow>
               <h2 className="section-title">Clear Scope. Relevant Implementation.<br /><span>Honest Measurement.</span></h2>
             </div>
             <p className="section-summary">
@@ -556,7 +557,7 @@ export default function HomePage() {
           <div className="page-shell">
             <Reveal className="section-intro">
               <div>
-                <SectionEyebrow>OUR OPERATING PRINCIPLES / 07</SectionEyebrow>
+                <SectionEyebrow>OUR OPERATING PRINCIPLES / 08</SectionEyebrow>
                 <h2 className="section-title">Thoughtful Decisions.<br /><span>Practical Implementation. Honest Measurement.</span></h2>
               </div>
             </Reveal>
@@ -578,7 +579,7 @@ export default function HomePage() {
         <section className="section about-section page-shell" id="about">
           <Reveal className="about-intro-grid">
             <div>
-              <SectionEyebrow>ABOUT EDUFAROS / 08</SectionEyebrow>
+              <SectionEyebrow>ABOUT EDUFAROS / 09</SectionEyebrow>
               <h2 className="section-title">A Business-Minded Perspective<br /><span>on Education.</span></h2>
             </div>
             <div className="about-copy">
@@ -596,7 +597,7 @@ export default function HomePage() {
         <section className="section fit-section page-shell" id="fit">
           <Reveal className="section-intro">
             <div>
-              <SectionEyebrow>IS EDUFAROS THE RIGHT FIT? / 09</SectionEyebrow>
+              <SectionEyebrow>IS EDUFAROS THE RIGHT FIT? / 10</SectionEyebrow>
               <h2 className="section-title">Built for Businesses with a Real Offer<br /><span>and Readiness to Improve.</span></h2>
             </div>
             <p className="section-summary">The goal is to identify the work that makes sense for the business—not to recommend a system regardless of fit.</p>
@@ -619,7 +620,7 @@ export default function HomePage() {
         <section className="section faq-section page-shell" id="faq">
           <Reveal className="section-intro">
             <div>
-              <SectionEyebrow>COMMON QUESTIONS / 10</SectionEyebrow>
+              <SectionEyebrow>COMMON QUESTIONS / 11</SectionEyebrow>
               <h2 className="section-title">Clear Answers Before<br /><span>the First Conversation.</span></h2>
             </div>
             <p className="section-summary">A practical overview of what EduFaros does, how we work, and what to expect from a potential engagement.</p>
@@ -646,10 +647,10 @@ export default function HomePage() {
           <div className="final-cta-atmosphere" aria-hidden="true"><div className="final-cta-orbit final-cta-orbit-one" /><div className="final-cta-orbit final-cta-orbit-two" /><div className="final-cta-beam" /></div>
           <div className="page-shell final-cta-layout">
             <Reveal className="final-cta-copy">
-              <SectionEyebrow>START WITH THE CHALLENGE / 11</SectionEyebrow>
+              <SectionEyebrow>START WITH THE CHALLENGE / 12</SectionEyebrow>
               <h2 className="section-title">Start by Understanding<br /><span>the Challenge.</span></h2>
               <p>Tell us what your business sells, what you want to improve, and what you currently know about your customer journey. We&apos;ll use that context to assess whether the way EduFaros works is a fit and whether there is a useful next step.</p>
-              <div className="final-cta-principle"><span className="eyebrow-live-dot" />No pressure to prescribe before we understand.</div>
+              
             </Reveal>
             <Reveal className="final-cta-actions" delay={0.1}>
               <Link href="mailto:contact.edufaros@gmail.com?subject=Discuss%20a%20Growth%20Challenge" className="button button-primary">Discuss a Growth Challenge <ArrowUpRight size={17} /></Link>
