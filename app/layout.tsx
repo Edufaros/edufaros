@@ -15,7 +15,6 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://edufaros.com"),
   title: {
     default: "EduFaros | Education Growth Systems",
     template: "%s | EduFaros"
