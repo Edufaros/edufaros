@@ -246,17 +246,62 @@ canvas {
 }
 
 .brand-lockup {
+  position: relative;
+  isolation: isolate;
   display: flex;
   width: 174px;
   flex: 0 0 auto;
   align-items: center;
 }
 
+.brand-lockup::before,
+.footer-logo-link::before {
+  position: absolute;
+  z-index: -1;
+  inset: -16px -19px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.17) 0%,
+    rgba(205, 224, 255, 0.09) 34%,
+    rgba(97, 238, 219, 0.045) 52%,
+    transparent 74%
+  );
+  content: "";
+  opacity: 0.9;
+  filter: blur(10px);
+  pointer-events: none;
+  animation: logo-moon-glow 4.8s ease-in-out infinite alternate;
+}
+
 .brand-logo {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: auto;
   object-fit: contain;
+  opacity: 1;
+  filter:
+    grayscale(1)
+    brightness(0)
+    invert(1)
+    drop-shadow(0 0 1px rgba(255, 255, 255, 1))
+    drop-shadow(0 0 4px rgba(255, 255, 255, 0.72))
+    drop-shadow(0 0 9px rgba(213, 231, 255, 0.42))
+    drop-shadow(0 0 17px rgba(97, 238, 219, 0.16));
+  transition: filter 260ms ease;
+}
+
+.brand-lockup:hover .brand-logo {
+  filter:
+    grayscale(1)
+    brightness(0)
+    invert(1)
+    drop-shadow(0 0 1px #fff)
+    drop-shadow(0 0 5px rgba(255, 255, 255, 0.85))
+    drop-shadow(0 0 12px rgba(213, 231, 255, 0.52))
+    drop-shadow(0 0 20px rgba(97, 238, 219, 0.24));
 }
 
 .desktop-nav {
@@ -1837,14 +1882,27 @@ canvas {
 }
 
 .footer-logo-link {
+  position: relative;
+  isolation: isolate;
   display: block;
   width: 160px;
 }
 
 .footer-logo {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: auto;
+  opacity: 1;
+  filter:
+    grayscale(1)
+    brightness(0)
+    invert(1)
+    drop-shadow(0 0 1px rgba(255, 255, 255, 1))
+    drop-shadow(0 0 4px rgba(255, 255, 255, 0.68))
+    drop-shadow(0 0 9px rgba(213, 231, 255, 0.38))
+    drop-shadow(0 0 15px rgba(97, 238, 219, 0.14));
 }
 
 .footer-brand > p,
@@ -1952,6 +2010,11 @@ canvas {
 
 .back-to-top:hover {
   color: var(--teal);
+}
+
+@keyframes logo-moon-glow {
+  from { opacity: 0.64; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1.04); }
 }
 
 @keyframes pulse-ring {
@@ -3164,6 +3227,13 @@ canvas {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .brand-lockup::before,
+  .footer-logo-link::before {
+    animation: none;
+    opacity: 0.85;
+  }
+
+
   *,
   *::before,
   *::after {
