@@ -3256,3 +3256,100 @@ canvas {
     animation: none;
   }
 }
+
+
+/* Copy fit for the approved hero — keep the existing composition and 3D visual */
+.hero-section .hero-title-approved {
+  max-width: 620px;
+  font-size: clamp(43px, 4.2vw, 59px);
+  line-height: 1.03;
+  letter-spacing: -0.068em;
+  text-wrap: pretty;
+}
+
+.hero-section .hero-title-approved > span {
+  color: var(--teal);
+}
+
+.hero-section .hero-description-approved {
+  max-width: 480px;
+  margin: 0;
+  color: #aab7c8;
+  font-size: 12px;
+  line-height: 1.82;
+}
+
+.hero-section .hero-description-approved p {
+  margin: 0;
+}
+
+.hero-section .hero-description-approved p + p {
+  margin-top: 10px;
+}
+
+.hero-audience-approved {
+  max-width: 480px;
+  margin: 17px 0 0;
+  border-left: 1px solid rgba(97, 238, 219, 0.46);
+  padding-left: 12px;
+  color: #8294a8;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.hero-section .hero-actions {
+  margin-top: 23px;
+}
+
+@media (max-width: 1180px) {
+  .hero-section .hero-title-approved {
+    font-size: clamp(42px, 4.35vw, 53px);
+  }
+
+  .hero-section .hero-description-approved {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 980px) {
+  .hero-section .hero-title-approved {
+    max-width: 650px;
+    font-size: clamp(44px, 6.2vw, 61px);
+    line-height: 1.04;
+  }
+
+  .hero-section .hero-description-approved {
+    max-width: 680px;
+    font-size: 12px;
+  }
+
+  .hero-audience-approved {
+    max-width: 680px;
+  }
+}
+
+@media (max-width: 680px) {
+  .hero-section .hero-title-approved {
+    margin: 21px 0 18px;
+    font-size: clamp(39px, 10.3vw, 51px);
+    line-height: 1.04;
+    letter-spacing: -0.072em;
+  }
+
+  .hero-section .hero-description-approved {
+    font-size: 12px;
+    line-height: 1.78;
+  }
+
+  .hero-audience-approved {
+    margin-top: 15px;
+    padding-left: 10px;
+    font-size: 10px;
+    line-height: 1.65;
+  }
+
+  .hero-section .hero-actions {
+    margin-top: 20px;
+  }
+}
+

@@ -176,43 +176,47 @@ export default function HomePage() {
           <div className="hero-copy">
             <div className="hero-eyebrow">
               <span className="eyebrow-live-dot" />
-              EDUCATION GROWTH SYSTEMS
+              GROWTH SYSTEMS FOR EDUCATION & KNOWLEDGE BUSINESSES
             </div>
-            <h1 className="hero-title">
-              Growth<br />
-              engineered<br />
-              <span>for education.</span>
+            <h1 className="hero-title hero-title-approved">
+              Understand What&apos;s Holding Growth Back.{" "}
+              <span>Build What Moves the Business Forward.</span>
             </h1>
-            <p className="hero-description">
-              We help education businesses connect performance marketing,
-              conversion systems and automation into a clearer path to growth.
+            <div className="hero-description hero-description-approved">
+              <p>
+                EduFaros works with established education and knowledge businesses to audit their current approach, develop a strategy around their goals, and build the systems needed to put that strategy into practice.
+              </p>
+              <p>We then measure what changes and improve where the evidence supports it.</p>
+            </div>
+            <p className="hero-audience-approved">
+              For businesses in professional learning, exam preparation, continuing education, language learning, coaching, training, and college admissions.
             </p>
             <div className="hero-actions">
               <Link href="#contact" className="button button-primary">
-                Book a Strategy Call <ArrowUpRight size={17} aria-hidden="true" />
+                Discuss a Growth Challenge <ArrowUpRight size={17} aria-hidden="true" />
               </Link>
-              <Link href="#system" className="button button-quiet">
+              <Link href="#method" className="button button-quiet">
                 <span className="play-button"><Play size={12} fill="currentColor" aria-hidden="true" /></span>
-                Explore the system
+                Explore Our Approach
               </Link>
             </div>
 
             <div className="hero-pillars">
               <div className="hero-pillar">
                 <span className="pillar-number">01</span>
-                <span>Acquire</span>
+                <span>Understand</span>
               </div>
               <div className="hero-pillar">
                 <span className="pillar-number">02</span>
-                <span>Convert</span>
+                <span>Strategize</span>
               </div>
               <div className="hero-pillar">
                 <span className="pillar-number">03</span>
-                <span>Connect</span>
+                <span>Build</span>
               </div>
               <div className="hero-pillar">
                 <span className="pillar-number">04</span>
-                <span>Optimize</span>
+                <span>Improve</span>
               </div>
             </div>
             <div className="hero-scroll-note">
