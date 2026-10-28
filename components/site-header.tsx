@@ -21,7 +21,7 @@ export default function SiteHeader() {
     <header className="site-header">
       <div className="header-inner page-shell">
         <Link
-          href="#top"
+          href="/#top"
           className="brand-lockup"
           aria-label="EduFaros home"
           onClick={() => setOpen(false)}
@@ -45,7 +45,7 @@ export default function SiteHeader() {
           ))}
         </nav>
 
-        <Link href="#contact" className="header-cta">
+        <Link href="/contact" className="header-cta">
           <span>Discuss a Growth Challenge</span>
           <ArrowUpRight size={15} strokeWidth={1.8} aria-hidden="true" />
         </Link>
@@ -77,7 +77,7 @@ export default function SiteHeader() {
             </Link>
           ))}
           <Link
-            href="#contact"
+            href="/contact"
             className="mobile-nav-cta"
             onClick={() => setOpen(false)}
           >

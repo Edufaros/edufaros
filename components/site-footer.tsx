@@ -6,19 +6,19 @@ const footerGroups = [
   {
     title: "Explore",
     links: [
-      ["Home", "#top"],
-      ["About Us", "#about"],
-      ["Contact Us", "#contact"]
+      ["Home", "/#top"],
+      ["About Us", "/#about"],
+      ["Contact Us", "/contact"]
     ]
   },
   {
     title: "Our Approach",
     links: [
-      ["The Growth Challenge", "#challenge"],
-      ["What We Examine", "#examine"],
-      ["Growth Systems", "#systems"],
-      ["Who We Help", "#who-we-help"],
-      ["How an Engagement Works", "#engagement"]
+      ["The Growth Challenge", "/#challenge"],
+      ["What We Examine", "/#examine"],
+      ["Growth Systems", "/#systems"],
+      ["Who We Help", "/#who-we-help"],
+      ["How an Engagement Works", "/#engagement"]
     ]
   },
   {
@@ -35,7 +35,7 @@ export default function SiteFooter() {
     <footer className="site-footer">
       <div className="footer-top page-shell">
         <div className="footer-brand">
-          <Link href="#top" className="footer-logo-link" aria-label="EduFaros home">
+          <Link href="/#top" className="footer-logo-link" aria-label="EduFaros home">
             <Image
               src="/edufaros-logo.webp"
               alt="EduFaros — Growth Systems for Education Businesses"
@@ -63,7 +63,7 @@ export default function SiteFooter() {
           <span className="eyebrow">START WITH CONTEXT</span>
           <h3>Let's understand the challenge.</h3>
           <p>Tell us what your business sells, what you want to improve, and what you currently know about the customer journey.</p>
-          <Link href="mailto:contact.edufaros@gmail.com?subject=Discuss%20a%20Growth%20Challenge" className="footer-newsletter-link">
+          <Link href="/contact" className="footer-newsletter-link">
             Discuss a Growth Challenge <ArrowUpRight size={15} />
           </Link>
         </div>
@@ -72,7 +72,7 @@ export default function SiteFooter() {
       <div className="footer-bottom page-shell">
         <span>© {new Date().getFullYear()} EduFaros. All rights reserved.</span>
         <span className="footer-bottom-note">Growth Systems for Education & Knowledge Businesses</span>
-        <Link href="#top" className="back-to-top">Back to top ↑</Link>
+        <Link href="/#top" className="back-to-top">Back to top ↑</Link>
       </div>
     </footer>
   );

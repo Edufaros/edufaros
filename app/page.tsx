@@ -348,7 +348,7 @@ export default function HomePage() {
               For businesses in professional learning, exam preparation, continuing education, language learning, coaching, training, and college admissions.
             </p>
             <div className="hero-actions">
-              <Link href="#contact" className="button button-primary">
+              <Link href="/contact" className="button button-primary">
                 Discuss a Growth Challenge <ArrowUpRight size={17} aria-hidden="true" />
               </Link>
               <Link href="#approach" className="button button-quiet">
@@ -430,7 +430,7 @@ export default function HomePage() {
             </div>
             <Reveal className="inline-cta">
               <span>Have a specific growth challenge in mind?</span>
-              <Link href="#contact">Discuss a Growth Challenge <ArrowUpRight size={16} /></Link>
+              <Link href="/contact">Discuss a Growth Challenge <ArrowUpRight size={16} /></Link>
             </Reveal>
           </div>
         </section>
@@ -481,13 +481,13 @@ export default function HomePage() {
                     <div className="systems-card-icon"><Icon size={25} strokeWidth={1.45} /></div>
                     <h3>{system.title}</h3>
                     <p>{system.description}</p>
-                    <Link href="#contact" className="systems-card-link">Discuss this capability <ArrowUpRight size={15} /></Link>
+                    <Link href="/contact" className="systems-card-link">Discuss this capability <ArrowUpRight size={15} /></Link>
                   </Reveal>
                 );
               })}
             </div>
             <p className="systems-note"><Check size={15} />The components are selected after diagnosis. They are not a fixed package of every service, and not every engagement requires every component.</p>
-            <div className="systems-section-cta"><Link href="#contact" className="button button-primary">Discuss a Growth Challenge <ArrowUpRight size={16} /></Link></div>
+            <div className="systems-section-cta"><Link href="/contact" className="button button-primary">Discuss a Growth Challenge <ArrowUpRight size={16} /></Link></div>
           </div>
         </section>
 
@@ -517,13 +517,13 @@ export default function HomePage() {
                       <span className="micro-label">RELEVANT JOURNEY</span>
                       <p>{audience.journey}</p>
                     </div>
-                    <Link href="#contact" className="segment-link">Discuss your business <ArrowUpRight size={15} /></Link>
+                    <Link href="/contact" className="segment-link">Discuss your business <ArrowUpRight size={15} /></Link>
                   </Reveal>
                 );
               })}
             </div>
             <p className="audiences-disclaimer"><ShieldCheck size={16} />EduFaros supports the business and customer-acquisition systems of these providers. It does not guarantee college admissions, exam scores, exam passes, or other outcomes outside its control.</p>
-            <div className="audiences-cta"><Link href="#contact" className="button button-primary">Discuss a Growth Challenge <ArrowUpRight size={16} /></Link></div>
+            <div className="audiences-cta"><Link href="/contact" className="button button-primary">Discuss a Growth Challenge <ArrowUpRight size={16} /></Link></div>
           </div>
         </section>
 
@@ -630,7 +630,7 @@ export default function HomePage() {
               <span className="faq-aside-icon"><MessageSquareText size={22} /></span>
               <h3>Something specific on your mind?</h3>
               <p>The first conversation is about understanding the business, the challenge, and whether there is a useful next step.</p>
-              <Link href="#contact">Discuss a Growth Challenge <ArrowUpRight size={15} /></Link>
+              <Link href="/contact">Discuss a Growth Challenge <ArrowUpRight size={15} /></Link>
             </div>
             <div className="faq-list">
               {faqs.map((faq, index) => (
@@ -653,7 +653,7 @@ export default function HomePage() {
               
             </Reveal>
             <Reveal className="final-cta-actions" delay={0.1}>
-              <Link href="mailto:contact.edufaros@gmail.com?subject=Discuss%20a%20Growth%20Challenge" className="button button-primary">Discuss a Growth Challenge <ArrowUpRight size={17} /></Link>
+              <Link href="/contact" className="button button-primary">Discuss a Growth Challenge <ArrowUpRight size={17} /></Link>
               <Link href="#about" className="button button-quiet">Learn About EduFaros <ArrowRight size={16} /></Link>
               <span className="final-cta-contact-note">A focused first conversation. A clearer next step.</span>
             </Reveal>
