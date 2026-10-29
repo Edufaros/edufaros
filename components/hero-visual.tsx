@@ -1,9 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
 
-const GrowthScene = dynamic(() => import("./growth-scene"), {
+const MagicBook = dynamic(() => import("./magic-book"), {
   ssr: false,
   loading: () => (
     <div className="scene-fallback book-scene-fallback" aria-hidden="true">
@@ -17,33 +16,13 @@ const GrowthScene = dynamic(() => import("./growth-scene"), {
 });
 
 export default function HeroVisual() {
-  const [reducedMotion, setReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReducedMotion(query.matches);
-    update();
-    query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
+  return (
+ => query.removeEventListener("change", update);
   }, []);
 
   return (
     <div className="hero-visual" aria-label="Illustration of connected education growth systems">
-      <div className="visual-grid" aria-hidden="true" />
-      <div className="visual-glow visual-glow-a" aria-hidden="true" />
-      <div className="visual-glow visual-glow-b" aria-hidden="true" />
-
-      {!reducedMotion ? (
-        <GrowthScene />
-      ) : (
-        <div className="scene-fallback book-scene-fallback" aria-hidden="true">
-          <div className="fallback-book">
-            <span className="fallback-page fallback-page-left" />
-            <span className="fallback-page fallback-page-right" />
-            <span className="fallback-spine" />
-          </div>
-        </div>
-      )}
+      <MagicBook />
 
       <div className="hero-node hero-node-acquire">
         <span className="node-indicator" />
