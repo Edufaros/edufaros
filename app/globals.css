@@ -2972,7 +2972,7 @@ canvas {
 
 .founder-portrait-column {
   justify-self: end;
-  width: min(100%, 355px);
+  width: min(100%, 285px);
   min-width: 0;
   padding: 0 8px 0 0;
 }
@@ -3159,7 +3159,7 @@ canvas {
   }
 
   .founder-portrait-column {
-    width: min(100%, 330px);
+    width: min(100%, 270px);
     padding-right: 0;
   }
 
@@ -3195,7 +3195,7 @@ canvas {
 
   .founder-portrait-column {
     justify-self: center;
-    width: min(86%, 340px);
+    width: min(78%, 280px);
   }
 
   .founder-portrait-frame {
