@@ -5691,3 +5691,52 @@ body {
     font-size: 6.5px;
   }
 }
+
+
+/* Book-only fallback for loading and reduced-motion preferences */
+.book-scene-fallback {
+  display: grid;
+  place-items: center;
+  perspective: 1000px;
+}
+.fallback-book {
+  position: relative;
+  width: min(78%, 430px);
+  aspect-ratio: 1.7;
+  transform: rotateX(20deg) rotateZ(-7deg);
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 0 20px rgba(40, 224, 239, 0.2));
+}
+.fallback-page {
+  position: absolute;
+  top: 5%;
+  width: 50%;
+  height: 88%;
+  border: 1px solid rgba(120, 248, 255, 0.92);
+  background:
+    repeating-linear-gradient(0deg, transparent 0 10px, rgba(120, 248, 255, 0.34) 11px, transparent 12px),
+    linear-gradient(145deg, rgba(58, 214, 255, 0.5), rgba(7, 25, 42, 0.76));
+  box-shadow: inset 0 0 18px rgba(33, 226, 255, 0.22), 0 0 16px rgba(25, 193, 255, 0.13);
+}
+.fallback-page-left {
+  left: 0;
+  transform-origin: right center;
+  border-radius: 4px 0 0 4px;
+  transform: skewY(8deg);
+}
+.fallback-page-right {
+  right: 0;
+  transform-origin: left center;
+  border-radius: 0 4px 4px 0;
+  transform: skewY(-8deg);
+}
+.fallback-spine {
+  position: absolute;
+  z-index: 2;
+  top: 1%;
+  bottom: 0;
+  left: calc(50% - 2px);
+  width: 4px;
+  background: #9bfff7;
+  box-shadow: 0 0 18px 4px rgba(48, 236, 232, 0.72);
+}

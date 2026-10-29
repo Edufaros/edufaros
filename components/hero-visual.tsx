@@ -5,7 +5,15 @@ import { useEffect, useState } from "react";
 
 const GrowthScene = dynamic(() => import("./growth-scene"), {
   ssr: false,
-  loading: () => <div className="scene-fallback" aria-hidden="true" />
+  loading: () => (
+    <div className="scene-fallback book-scene-fallback" aria-hidden="true">
+      <div className="fallback-book">
+        <span className="fallback-page fallback-page-left" />
+        <span className="fallback-page fallback-page-right" />
+        <span className="fallback-spine" />
+      </div>
+    </div>
+  )
 });
 
 export default function HeroVisual() {
@@ -28,11 +36,11 @@ export default function HeroVisual() {
       {!reducedMotion ? (
         <GrowthScene />
       ) : (
-        <div className="scene-fallback" aria-hidden="true">
-          <div className="fallback-orbit fallback-orbit-one" />
-          <div className="fallback-orbit fallback-orbit-two" />
-          <div className="fallback-core">
-            <span>EF</span>
+        <div className="scene-fallback book-scene-fallback" aria-hidden="true">
+          <div className="fallback-book">
+            <span className="fallback-page fallback-page-left" />
+            <span className="fallback-page fallback-page-right" />
+            <span className="fallback-spine" />
           </div>
         </div>
       )}
