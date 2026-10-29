@@ -94,15 +94,18 @@ function makeGlowTexture() {
   return texture;
 }
 
-function pagePoint(side: -1 | 1, u: number, v: number, zOffset = 0) {
+function pagePoint(side: -1 | 1, u: number, v: number, zOffset = 0, fanLift = 0.32) {
+  // Every page rises high near the spine and falls toward its outer edge.
+  // Different fanLift values create the layered, fanned silhouette from the reference.
   const x = side * u * BOOK_WIDTH;
-  const y = (v - 0.5) * BOOK_HEIGHT + Math.sin(u * Math.PI * 0.5) * 0.055;
-  const softArch = Math.sin(u * Math.PI) * Math.sin(v * Math.PI) * 0.035;
-  const z = 0.015 + u * 0.055 + softArch + zOffset;
+  const pageRise = 0.14 + fanLift * Math.pow(1 - u, 1.16);
+  const y = v * pageRise + Math.sin(u * Math.PI) * v * 0.07 + Math.sin(v * Math.PI) * 0.018;
+  const softArch = Math.sin(u * Math.PI) * Math.sin(v * Math.PI) * 0.055;
+  const z = 0.02 + u * 0.045 + softArch + zOffset;
   return new THREE.Vector3(x, y, z);
 }
 
-function makePageGeometry(side: -1 | 1, zOffset = 0) {
+function makePageGeometry(side: -1 | 1, zOffset = 0, fanLift = 0.32) {
   const vertexCount = (GRID_COLUMNS + 1) * (GRID_ROWS + 1);
   const positions = new Float32Array(vertexCount * 3);
   const uvs = new Float32Array(vertexCount * 2);
@@ -114,7 +117,7 @@ function makePageGeometry(side: -1 | 1, zOffset = 0) {
     const v = iy / GRID_ROWS;
     for (let ix = 0; ix <= GRID_COLUMNS; ix += 1) {
       const u = ix / GRID_COLUMNS;
-      const point = pagePoint(side, u, v, zOffset);
+      const point = pagePoint(side, u, v, zOffset, fanLift);
       positions[p++] = point.x;
       positions[p++] = point.y;
       positions[p++] = point.z;
@@ -136,19 +139,24 @@ function makePageGeometry(side: -1 | 1, zOffset = 0) {
 
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute("uv", new THREE.BufferAttribute(uvs, 2));
+  geometry.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
   geometry.setIndex(indices);
   geometry.computeVertexNormals();
   return geometry;
 }
 
-function makeEdgeCurve(side: -1 | 1, edge: "outer" | "top" | "bottom") {
-  const coords = edge === "outer"
-    ? [[side * BOOK_WIDTH, -0.56], [side * BOOK_WIDTH, -0.22], [side * BOOK_WIDTH, 0.2], [side * BOOK_WIDTH, 0.65]]
+function makeEdgeCurve(
+  side: -1 | 1,
+  edge: "outer" | "top" | "bottom",
+  fanLift = 0.32,
+  zOffset = 0.045
+) {
+  const coords: Array<[number, number]> = edge === "outer"
+    ? [[1, 0], [1, 0.24], [1, 0.58], [1, 1]]
     : edge === "top"
-      ? [[0, BOOK_HEIGHT * 0.5], [side * 0.45, BOOK_HEIGHT * 0.52], [side * 0.98, BOOK_HEIGHT * 0.56], [side * BOOK_WIDTH, BOOK_HEIGHT * 0.5 + 0.055]]
-      : [[0, -BOOK_HEIGHT * 0.5], [side * 0.45, -BOOK_HEIGHT * 0.53], [side * 0.98, -BOOK_HEIGHT * 0.50], [side * BOOK_WIDTH, -BOOK_HEIGHT * 0.5 + 0.055]];
-  const points = coords.map(([x, y]) => new THREE.Vector3(x, y, 0.09));
+      ? [[0, 1], [0.32, 1], [0.68, 1], [1, 1]]
+      : [[0, 0], [0.32, 0], [0.68, 0], [1, 0]];
+  const points = coords.map(([u, v]) => pagePoint(side, u, v, zOffset, fanLift));
   return new THREE.CatmullRomCurve3(points);
 }
 
@@ -181,18 +189,22 @@ function PaperSurface({
 function RestingPage({
   side,
   layer,
+  fanLift,
   texture
 }: {
   side: -1 | 1;
   layer: number;
+  fanLift: number;
   texture: THREE.Texture;
 }) {
   const group = useRef<THREE.Group>(null);
-  const geometry = useMemo(() => makePageGeometry(side, layer * 0.008), [side, layer]);
+  const geometry = useMemo(() => makePageGeometry(side, layer * 0.006, fanLift), [side, layer, fanLift]);
+  const edge = useMemo(() => makeEdgeCurve(side, "outer", fanLift, 0.05 + layer * 0.005), [side, fanLift, layer]);
 
   useFrame(() => {
     if (group.current) {
-      group.current.rotation.z = side * (0.009 + layer * 0.006);
+      // The sheets stay anchored at the spine; small opposing angles make the edges fan apart.
+      group.current.rotation.z = -side * (0.006 + layer * 0.012);
       group.current.position.z = layer * 0.004;
     }
   });
@@ -200,13 +212,23 @@ function RestingPage({
   return (
     <group ref={group}>
       <PaperSurface geometry={geometry} texture={texture} />
+      <mesh>
+        <tubeGeometry args={[edge, 30, 0.0055, 5, false]} />
+        <meshStandardMaterial
+          color={layer % 2 === 0 ? "#ecd8a8" : "#c5a96d"}
+          metalness={0.24}
+          roughness={0.52}
+          transparent
+          opacity={0.8}
+        />
+      </mesh>
     </group>
   );
 }
 
 function TurningPage({ index, texture }: { index: number; texture: THREE.Texture }) {
   const group = useRef<THREE.Group>(null);
-  const geometry = useMemo(() => makePageGeometry(1, 0.012 + index * 0.005), [index]);
+  const geometry = useMemo(() => makePageGeometry(1, 0.012 + index * 0.005, 1.12 + (index % 2) * 0.08), [index]);
   const originalPositions = useMemo(() => {
     const attr = geometry.getAttribute("position") as THREE.BufferAttribute;
     return new Float32Array(attr.array as Float32Array);
@@ -249,17 +271,17 @@ function TurningPage({ index, texture }: { index: number; texture: THREE.Texture
   return (
     <group ref={group}>
       <PaperSurface geometry={geometry} texture={texture} />
-      <mesh position={[BOOK_WIDTH * 0.92, 0, 0.12]}>
-        <boxGeometry args={[0.009, BOOK_HEIGHT * 0.88, 0.009]} />
-        <meshBasicMaterial color={GOLD_COLOR} transparent opacity={0.46} />
+      <mesh>
+        <tubeGeometry args={[makeEdgeCurve(1, "outer", 1.12 + (index % 2) * 0.08, 0.1 + index * 0.004), 30, 0.0045, 5, false]} />
+        <meshBasicMaterial color={GOLD_COLOR} transparent opacity={0.62} />
       </mesh>
     </group>
   );
 }
 
 function BookCover({ side }: { side: -1 | 1 }) {
-  const geometry = useMemo(() => makePageGeometry(side, -0.1), [side]);
-  const edge = useMemo(() => makeEdgeCurve(side, "outer"), [side]);
+  const geometry = useMemo(() => makePageGeometry(side, -0.1, 0.09), [side]);
+  const edge = useMemo(() => makeEdgeCurve(side, "outer", 0.09, -0.02), [side]);
 
   return (
     <group>
@@ -285,14 +307,16 @@ function BookCover({ side }: { side: -1 | 1 }) {
 
 function PageBlock() {
   const curves = useMemo(() => {
-    return Array.from({ length: 13 }, (_, index) => {
-      const inset = index * 0.009;
+    return Array.from({ length: 15 }, (_, index) => {
+      const inset = index * 0.008;
+      const frontY = -0.035 - inset * 0.24;
+      const frontZ = 0.12 - index * 0.0035;
       return new THREE.CatmullRomCurve3([
-        new THREE.Vector3(-BOOK_WIDTH + inset, -0.55 + inset * 0.45, 0.12 - index * 0.004),
-        new THREE.Vector3(-0.95, -0.615 + inset * 0.18, 0.19 - index * 0.004),
-        new THREE.Vector3(0, -0.65 + inset * 0.08, 0.22 - index * 0.004),
-        new THREE.Vector3(0.95, -0.615 + inset * 0.18, 0.19 - index * 0.004),
-        new THREE.Vector3(BOOK_WIDTH - inset, -0.55 + inset * 0.45, 0.12 - index * 0.004)
+        new THREE.Vector3(-BOOK_WIDTH + inset, frontY + 0.025, frontZ),
+        new THREE.Vector3(-0.94, frontY + 0.005, frontZ + 0.055),
+        new THREE.Vector3(0, frontY - 0.018, frontZ + 0.085),
+        new THREE.Vector3(0.94, frontY + 0.005, frontZ + 0.055),
+        new THREE.Vector3(BOOK_WIDTH - inset, frontY + 0.025, frontZ)
       ]);
     });
   }, []);
@@ -301,23 +325,23 @@ function PageBlock() {
     <group>
       {curves.map((curve, index) => (
         <mesh key={index}>
-          <tubeGeometry args={[curve, 48, 0.004, 5, false]} />
+          <tubeGeometry args={[curve, 48, 0.0045, 5, false]} />
           <meshStandardMaterial
-            color={index % 3 === 0 ? "#f4e5bf" : index % 3 === 1 ? "#cdb783" : "#a9956c"}
-            metalness={0.13}
+            color={index % 3 === 0 ? "#f6e7c5" : index % 3 === 1 ? "#d1b77d" : "#a79062"}
+            metalness={0.12}
             roughness={0.74}
             transparent
-            opacity={0.74 - index * 0.025}
+            opacity={0.76 - index * 0.022}
           />
         </mesh>
       ))}
-      <mesh position={[0, -0.63, 0.19]}>
-        <boxGeometry args={[0.15, 0.045, 0.16]} />
-        <meshPhysicalMaterial color="#4a1225" metalness={0.25} roughness={0.48} clearcoat={0.25} />
+      <mesh position={[0, -0.058, 0.19]}>
+        <boxGeometry args={[0.14, 0.046, 0.16]} />
+        <meshPhysicalMaterial color="#40111f" metalness={0.22} roughness={0.5} clearcoat={0.26} />
       </mesh>
-      <mesh position={[0, -0.602, 0.265]}>
-        <boxGeometry args={[0.018, 0.075, 0.014]} />
-        <meshStandardMaterial color="#d7b975" metalness={0.8} roughness={0.25} emissive="#66451e" emissiveIntensity={0.42} />
+      <mesh position={[0, -0.03, 0.265]}>
+        <boxGeometry args={[0.018, 0.058, 0.014]} />
+        <meshStandardMaterial color="#d7b975" metalness={0.8} roughness={0.28} emissive="#66451e" emissiveIntensity={0.25} />
       </mesh>
     </group>
   );
@@ -328,13 +352,13 @@ function BookGlow({ texture }: { texture: THREE.Texture }) {
   useFrame(({ clock }) => {
     if (ref.current) {
       const material = ref.current.material as THREE.MeshBasicMaterial;
-      material.opacity = 0.52 + (Math.sin(clock.elapsedTime * 1.45) + 1) * 0.09;
+      material.opacity = 0.18 + (Math.sin(clock.elapsedTime * 1.15) + 1) * 0.045;
       ref.current.scale.y = 1 + Math.sin(clock.elapsedTime * 0.8) * 0.035;
     }
   });
 
   return (
-    <mesh ref={ref} position={[0, 0.52, -0.48]}>
+    <mesh ref={ref} position={[0, 0.04, -0.48]}>
       <planeGeometry args={[3.6, 3.55]} />
       <meshBasicMaterial
         map={texture}
@@ -375,15 +399,15 @@ function StarTrail() {
     const time = clock.elapsedTime;
     for (let i = 0; i < count; i += 1) {
       const progress = (i / count + time * 0.052) % 1;
-      const sBend = Math.sin(progress * Math.PI * 2.05);
-      const subtleWave = Math.sin(progress * 12 + i * 0.9) * 0.028;
+      const sBend = Math.sin(progress * Math.PI * 2.1);
+      const subtleWave = Math.sin(progress * 12 + i * 0.9) * 0.042;
       dummy.position.set(
-        sBend * 0.14 + subtleWave,
-        -0.18 + progress * 2.62,
+        sBend * 0.29 + subtleWave,
+        -0.30 + progress * 2.8,
         0.23 + Math.sin(progress * 5.3 + time) * 0.035
       );
       const twinkle = 0.66 + (Math.sin(time * 2.6 + i * 1.7) + 1) * 0.17;
-      const size = (i % 11 === 0 ? 0.072 : i % 5 === 0 ? 0.046 : 0.023 + (i % 3) * 0.005) * twinkle;
+      const size = (i % 11 === 0 ? 0.105 : i % 5 === 0 ? 0.061 : 0.026 + (i % 3) * 0.006) * twinkle;
       dummy.scale.set(size, size * (i % 4 === 0 ? 1.5 : 1), size);
       dummy.rotation.set(0, 0, Math.sin(time * 0.38 + i) * 0.2);
       dummy.updateMatrix();
@@ -443,26 +467,47 @@ function AmbientParticles() {
   );
 }
 
-function FloatingKnowledgeBook({ paperTexture }: { paperTexture: THREE.Texture }) {
+function FloatingKnowledgeBook({
+  paperTexture,
+  glowTexture
+}: {
+  paperTexture: THREE.Texture;
+  glowTexture: THREE.Texture;
+}) {
   const { size } = useThree();
   const compact = size.width < 560;
 
+  const leftFan = [0.22, 0.36, 0.53, 0.71, 0.9, 1.08, 1.22];
+  const rightFan = [0.2, 0.34, 0.51, 0.7, 0.88, 1.05, 1.18];
+
   return (
     <group>
-      <BookGlow texture={useMemo(() => makeGlowTexture(), [])} />
+      <BookGlow texture={glowTexture} />
       <group
-        position={[0, -0.19, 0]}
-        scale={[compact ? 0.88 : 1.23, compact ? 0.82 : 0.96, compact ? 0.85 : 1]}
+        position={[0, -0.63, 0]}
+        scale={[compact ? 0.84 : 1.22, compact ? 0.84 : 0.98, compact ? 0.86 : 1]}
         rotation={[-0.17, 0, -0.015]}
       >
         <BookCover side={-1} />
         <BookCover side={1} />
 
-        {[0, 1, 2].map((layer) => (
-          <RestingPage key={"left-" + layer} side={-1} layer={layer} texture={paperTexture} />
+        {leftFan.map((fanLift, layer) => (
+          <RestingPage
+            key={"left-" + layer}
+            side={-1}
+            layer={layer}
+            fanLift={fanLift}
+            texture={paperTexture}
+          />
         ))}
-        {[0, 1].map((layer) => (
-          <RestingPage key={"right-" + layer} side={1} layer={layer} texture={paperTexture} />
+        {rightFan.map((fanLift, layer) => (
+          <RestingPage
+            key={"right-" + layer}
+            side={1}
+            layer={layer}
+            fanLift={fanLift}
+            texture={paperTexture}
+          />
         ))}
         {Array.from({ length: PAGE_COUNT }).map((_, index) => (
           <TurningPage key={index} index={index} texture={paperTexture} />
@@ -470,9 +515,9 @@ function FloatingKnowledgeBook({ paperTexture }: { paperTexture: THREE.Texture }
         <PageBlock />
       </group>
 
-      <pointLight position={[0, -0.18, 0.36]} color="#fff2cf" intensity={7.2} distance={3.8} />
-      <pointLight position={[-1.05, 0.15, 0.13]} color="#8adfff" intensity={2.2} distance={3.2} />
-      <pointLight position={[1.0, 0.3, 0.14]} color="#72eaff" intensity={1.7} distance={3.0} />
+      <pointLight position={[0, -0.48, 0.36]} color="#fff2cf" intensity={2.8} distance={3.2} />
+      <pointLight position={[-1.05, -0.05, 0.13]} color="#8adfff" intensity={1.15} distance={3.0} />
+      <pointLight position={[1.0, 0.15, 0.14]} color="#72eaff" intensity={0.95} distance={2.8} />
     </group>
   );
 }
@@ -495,7 +540,7 @@ function SparkleAtmosphere() {
         />
       </mesh>
       <AmbientParticles />
-      <FloatingKnowledgeBook paperTexture={paperTexture} />
+      <FloatingKnowledgeBook paperTexture={paperTexture} glowTexture={glowTexture} />
       <StarTrail />
     </>
   );
@@ -515,10 +560,10 @@ export default function GrowthScene() {
         gl.toneMappingExposure = 1.08;
       }}
     >
-      <ambientLight intensity={1.1} />
-      <pointLight position={[-2.2, 2.6, 3.8]} color="#fff3d2" intensity={15} distance={8} />
-      <pointLight position={[2.7, 1.4, 2.6]} color="#4ddff6" intensity={8} distance={7} />
-      <pointLight position={[-2.5, -1.2, 1.8]} color="#459cff" intensity={5} distance={7} />
+      <ambientLight intensity={0.78} />
+      <pointLight position={[-2.2, 2.6, 3.8]} color="#fff3d2" intensity={9} distance={8} />
+      <pointLight position={[2.7, 1.4, 2.6]} color="#4ddff6" intensity={4.5} distance={7} />
+      <pointLight position={[-2.5, -1.2, 1.8]} color="#459cff" intensity={2.8} distance={7} />
       <SparkleAtmosphere />
     </Canvas>
   );

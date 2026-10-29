@@ -5762,3 +5762,44 @@ body {
   box-shadow: 0 0 13px rgba(255, 236, 197, 0.24);
 }
 
+
+
+/* Reference-match pass: fan pages visible, no washed-out edges or clipped process cards */
+.hero-visual {
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+.hero-visual .visual-glow-a {
+  opacity: 0.72;
+}
+.hero-visual .visual-glow-b {
+  opacity: 0.58;
+}
+.hero-node-acquire,
+.hero-node-automate {
+  left: clamp(18px, 4.5%, 56px);
+}
+.hero-node-convert,
+.hero-node-scale {
+  right: clamp(18px, 4.5%, 56px);
+}
+@media (max-width: 980px) {
+  .hero-section .hero-art {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+@media (max-width: 680px) {
+  .hero-section .hero-art {
+    margin-left: -8px;
+    margin-right: -8px;
+  }
+  .hero-node-acquire,
+  .hero-node-automate {
+    left: 16px;
+  }
+  .hero-node-convert,
+  .hero-node-scale {
+    right: 16px;
+  }
+}
