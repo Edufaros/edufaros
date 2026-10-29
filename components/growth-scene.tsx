@@ -7,7 +7,7 @@ import * as THREE from "three";
 const BOOK_WIDTH = 1.48;
 const BOOK_HEIGHT = 1.24;
 const PAGE_COUNT = 8;
-const INTRO_OPEN_SECONDS = 1.8;
+const INTRO_OPEN_SECONDS = 0; // The book stays open; only pages animate.
 const TURN_SECONDS = 0.9;
 const TURN_STAGGER_SECONDS = 0.94;
 const FORWARD_SECONDS = (PAGE_COUNT - 1) * TURN_STAGGER_SECONDS + TURN_SECONDS;
@@ -214,7 +214,7 @@ function TurningPage({ index, texture }: { index: number; texture: THREE.Texture
 
   useFrame(({ clock }) => {
     if (!group.current) return;
-    const elapsed = Math.max(0, clock.elapsedTime - INTRO_OPEN_SECONDS);
+    const elapsed = clock.elapsedTime;
     const cycle = elapsed % CYCLE_SECONDS;
     let angle = 0;
     let curl = 0;
@@ -258,17 +258,11 @@ function TurningPage({ index, texture }: { index: number; texture: THREE.Texture
 }
 
 function BookCover({ side }: { side: -1 | 1 }) {
-  const group = useRef<THREE.Group>(null);
   const geometry = useMemo(() => makePageGeometry(side, -0.1), [side]);
   const edge = useMemo(() => makeEdgeCurve(side, "outer"), [side]);
 
-  useFrame(({ clock }) => {
-    const open = easeInOut(clock.elapsedTime / INTRO_OPEN_SECONDS);
-    if (group.current) group.current.rotation.y = -side * 1.12 * (1 - open);
-  });
-
   return (
-    <group ref={group}>
+    <group>
       <mesh geometry={geometry}>
         <meshPhysicalMaterial
           color="#35101f"
@@ -450,27 +444,17 @@ function AmbientParticles() {
 }
 
 function FloatingKnowledgeBook({ paperTexture }: { paperTexture: THREE.Texture }) {
-  const root = useRef<THREE.Group>(null);
-  const { size, pointer } = useThree();
-
-  useFrame(({ clock }) => {
-    const time = clock.elapsedTime;
-    const compact = size.width < 560;
-    const open = easeInOut(time / INTRO_OPEN_SECONDS);
-    if (!root.current) return;
-
-    root.current.position.set(0, Math.sin(time * 0.6) * 0.045 - 0.19, 0);
-    const horizontalScale = (compact ? 0.88 : 1.23) * (0.24 + open * 0.76);
-    root.current.scale.set(horizontalScale, compact ? 0.82 : 0.96, compact ? 0.85 : 1);
-    root.current.rotation.x = -0.17 + Math.sin(time * 0.3) * 0.023 - pointer.y * 0.022;
-    root.current.rotation.y = Math.sin(time * 0.2) * 0.1 + time * 0.011 + pointer.x * 0.065;
-    root.current.rotation.z = -0.015 + Math.sin(time * 0.26) * 0.026;
-  });
+  const { size } = useThree();
+  const compact = size.width < 560;
 
   return (
     <group>
       <BookGlow texture={useMemo(() => makeGlowTexture(), [])} />
-      <group ref={root}>
+      <group
+        position={[0, -0.19, 0]}
+        scale={[compact ? 0.88 : 1.23, compact ? 0.82 : 0.96, compact ? 0.85 : 1]}
+        rotation={[-0.17, 0, -0.015]}
+      >
         <BookCover side={-1} />
         <BookCover side={1} />
 
