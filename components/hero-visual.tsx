@@ -37,6 +37,20 @@ export default function HeroVisual() {
         </div>
       )}
 
+      <div className="mobile-scene-fallback" aria-hidden="true">
+        <div className="mobile-scene-orbit mobile-scene-orbit-one" />
+        <div className="mobile-scene-orbit mobile-scene-orbit-two" />
+        <div className="mobile-scene-orbit mobile-scene-orbit-three" />
+        <div className="mobile-scene-globe">
+          <span className="mobile-scene-longitude mobile-scene-longitude-one" />
+          <span className="mobile-scene-longitude mobile-scene-longitude-two" />
+          <span className="mobile-scene-latitude mobile-scene-latitude-one" />
+          <span className="mobile-scene-latitude mobile-scene-latitude-two" />
+          <span className="mobile-scene-node mobile-scene-node-one" />
+          <span className="mobile-scene-node mobile-scene-node-two" />
+        </div>
+      </div>
+
       <div className="hero-node hero-node-acquire">
         <span className="node-indicator" />
         <span className="node-label">UNDERSTAND</span>
