@@ -5674,6 +5674,7 @@ body {
   .hero-visual .mobile-scene-fallback {
     display: none !important;
   }
+}
 @media (max-width: 380px) {
   .hero-section .hero-art {
     height: 270px;
