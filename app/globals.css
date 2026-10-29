@@ -5549,3 +5549,81 @@ canvas {
     min-height: 210px;
   }
 }
+
+
+/* Global true-black background pass — all routes */
+:root {
+  --ink: #030405;
+  --ink-soft: #050607;
+  --panel: #080a0c;
+  --panel-raised: #0c0e10;
+}
+html,
+body {
+  background: #030405;
+}
+body {
+  background-image: none;
+}
+.site-header {
+  background: rgba(3, 4, 5, 0.96);
+}
+.site-footer {
+  background: #030405;
+}
+.founder-section {
+  background:
+    radial-gradient(ellipse at 78% 42%, rgba(97, 238, 219, 0.045), transparent 40%),
+    #030405;
+}
+.approach-section,
+.systems-section,
+.principles-section {
+  background: #040506;
+}
+.audiences-section {
+  background:
+    radial-gradient(ellipse at 80% 0%, rgba(97, 238, 219, 0.035), transparent 45%),
+    #030405;
+}
+.about-section {
+  background:
+    radial-gradient(ellipse at 98% 15%, rgba(97, 238, 219, 0.028), transparent 45%),
+    #030405;
+}
+.faq-section {
+  background: linear-gradient(180deg, #050607, #030405);
+}
+.final-cta-section {
+  background:
+    radial-gradient(ellipse at 78% 40%, rgba(97, 238, 219, 0.065), transparent 50%),
+    radial-gradient(ellipse at 22% 110%, rgba(97, 238, 219, 0.035), transparent 52%),
+    #030405;
+}
+.contact-page {
+  background:
+    radial-gradient(ellipse at 84% 9%, rgba(97, 238, 219, 0.045), transparent 34%),
+    radial-gradient(ellipse at 4% 54%, rgba(97, 238, 219, 0.025), transparent 34%),
+    #030405;
+}
+
+/* Keep interface surfaces black-charcoal rather than blue-navy. */
+.approach-card,
+.examine-card,
+.systems-card,
+.segment-card,
+.principle-card,
+.fit-card,
+.faq-aside,
+.contact-context-panel,
+.contact-form-panel {
+  background: linear-gradient(145deg, #090b0d, #050607 82%);
+}
+.challenge-highlight {
+  background:
+    radial-gradient(circle at 40% 20%, rgba(97, 238, 219, 0.055), transparent 62%),
+    linear-gradient(145deg, #090b0d, #050607 84%);
+}
+.engagement-step {
+  background: linear-gradient(150deg, #090b0d, #050607 86%);
+}
