@@ -5803,3 +5803,33 @@ body {
     right: 16px;
   }
 }
+
+
+/* Hero visual framing correction: keep book and process cards fully inside the canvas */
+.hero-section .hero-art {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.hero-section .hero-visual {
+  overflow: hidden;
+}
+.hero-section .hero-node-acquire,
+.hero-section .hero-node-automate {
+  left: clamp(16px, 4.2%, 42px);
+}
+.hero-section .hero-node-convert,
+.hero-section .hero-node-scale {
+  right: clamp(16px, 4.2%, 42px);
+}
+@media (max-width: 980px) {
+  .hero-section .hero-art {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+@media (max-width: 680px) {
+  .hero-section .hero-art {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}

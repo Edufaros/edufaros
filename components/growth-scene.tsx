@@ -95,13 +95,13 @@ function makeGlowTexture() {
 }
 
 function pagePoint(side: -1 | 1, u: number, v: number, zOffset = 0, fanLift = 0.32) {
-  // Every page rises high near the spine and falls toward its outer edge.
-  // Different fanLift values create the layered, fanned silhouette from the reference.
+  // The front edge remains low and broad; each page rises from the spine to form a fan.
   const x = side * u * BOOK_WIDTH;
-  const pageRise = 0.14 + fanLift * Math.pow(1 - u, 1.16);
-  const y = v * pageRise + Math.sin(u * Math.PI) * v * 0.07 + Math.sin(v * Math.PI) * 0.018;
-  const softArch = Math.sin(u * Math.PI) * Math.sin(v * Math.PI) * 0.055;
-  const z = 0.02 + u * 0.045 + softArch + zOffset;
+  const frontToBack = -0.35 + v * 0.31;
+  const spineRise = fanLift * Math.pow(1 - u, 1.28) * Math.pow(v, 1.52);
+  const paperCurl = Math.sin(u * Math.PI) * Math.sin(v * Math.PI) * (0.032 + v * 0.024);
+  const z = 0.025 + u * 0.038 + Math.sin(u * Math.PI) * 0.052 + zOffset;
+  const y = frontToBack + spineRise + paperCurl;
   return new THREE.Vector3(x, y, z);
 }
 
@@ -198,14 +198,14 @@ function RestingPage({
   texture: THREE.Texture;
 }) {
   const group = useRef<THREE.Group>(null);
-  const geometry = useMemo(() => makePageGeometry(side, layer * 0.006, fanLift), [side, layer, fanLift]);
-  const edge = useMemo(() => makeEdgeCurve(side, "outer", fanLift, 0.05 + layer * 0.005), [side, fanLift, layer]);
+  const geometry = useMemo(() => makePageGeometry(side, -layer * 0.008, fanLift), [side, layer, fanLift]);
+  const edge = useMemo(() => makeEdgeCurve(side, "outer", fanLift, 0.04 - layer * 0.008), [side, fanLift, layer]);
 
   useFrame(() => {
     if (group.current) {
-      // The sheets stay anchored at the spine; small opposing angles make the edges fan apart.
-      group.current.rotation.z = -side * (0.006 + layer * 0.012);
-      group.current.position.z = layer * 0.004;
+      // Outer/lower sheets sit in front; taller sheets recede slightly to form a visible fan.
+      group.current.rotation.z = -side * (0.009 + layer * 0.005);
+      group.current.position.z = -layer * 0.006;
     }
   });
 
@@ -228,7 +228,8 @@ function RestingPage({
 
 function TurningPage({ index, texture }: { index: number; texture: THREE.Texture }) {
   const group = useRef<THREE.Group>(null);
-  const geometry = useMemo(() => makePageGeometry(1, 0.012 + index * 0.005, 1.12 + (index % 2) * 0.08), [index]);
+  const fanLift = 0.2 + index * 0.09;
+  const geometry = useMemo(() => makePageGeometry(1, 0.012 + index * 0.005, fanLift), [index, fanLift]);
   const originalPositions = useMemo(() => {
     const attr = geometry.getAttribute("position") as THREE.BufferAttribute;
     return new Float32Array(attr.array as Float32Array);
@@ -309,8 +310,8 @@ function PageBlock() {
   const curves = useMemo(() => {
     return Array.from({ length: 15 }, (_, index) => {
       const inset = index * 0.008;
-      const frontY = -0.035 - inset * 0.24;
-      const frontZ = 0.12 - index * 0.0035;
+      const frontY = -0.04 - inset * 0.34;
+      const frontZ = 0.12 - index * 0.0048;
       return new THREE.CatmullRomCurve3([
         new THREE.Vector3(-BOOK_WIDTH + inset, frontY + 0.025, frontZ),
         new THREE.Vector3(-0.94, frontY + 0.005, frontZ + 0.055),
@@ -325,7 +326,7 @@ function PageBlock() {
     <group>
       {curves.map((curve, index) => (
         <mesh key={index}>
-          <tubeGeometry args={[curve, 48, 0.0045, 5, false]} />
+          <tubeGeometry args={[curve, 48, 0.0055, 5, false]} />
           <meshStandardMaterial
             color={index % 3 === 0 ? "#f6e7c5" : index % 3 === 1 ? "#d1b77d" : "#a79062"}
             metalness={0.12}
@@ -352,7 +353,7 @@ function BookGlow({ texture }: { texture: THREE.Texture }) {
   useFrame(({ clock }) => {
     if (ref.current) {
       const material = ref.current.material as THREE.MeshBasicMaterial;
-      material.opacity = 0.18 + (Math.sin(clock.elapsedTime * 1.15) + 1) * 0.045;
+      material.opacity = 0.085 + (Math.sin(clock.elapsedTime * 1.15) + 1) * 0.025;
       ref.current.scale.y = 1 + Math.sin(clock.elapsedTime * 0.8) * 0.035;
     }
   });
@@ -402,12 +403,12 @@ function StarTrail() {
       const sBend = Math.sin(progress * Math.PI * 2.1);
       const subtleWave = Math.sin(progress * 12 + i * 0.9) * 0.042;
       dummy.position.set(
-        sBend * 0.29 + subtleWave,
+        sBend * 0.36 + subtleWave,
         -0.30 + progress * 2.8,
         0.23 + Math.sin(progress * 5.3 + time) * 0.035
       );
       const twinkle = 0.66 + (Math.sin(time * 2.6 + i * 1.7) + 1) * 0.17;
-      const size = (i % 11 === 0 ? 0.105 : i % 5 === 0 ? 0.061 : 0.026 + (i % 3) * 0.006) * twinkle;
+      const size = (i % 11 === 0 ? 0.12 : i % 5 === 0 ? 0.067 : 0.026 + (i % 3) * 0.006) * twinkle;
       dummy.scale.set(size, size * (i % 4 === 0 ? 1.5 : 1), size);
       dummy.rotation.set(0, 0, Math.sin(time * 0.38 + i) * 0.2);
       dummy.updateMatrix();
@@ -477,8 +478,8 @@ function FloatingKnowledgeBook({
   const { size } = useThree();
   const compact = size.width < 560;
 
-  const leftFan = [0.22, 0.36, 0.53, 0.71, 0.9, 1.08, 1.22];
-  const rightFan = [0.2, 0.34, 0.51, 0.7, 0.88, 1.05, 1.18];
+  const leftFan = [0.08, 0.16, 0.25, 0.35, 0.46, 0.58, 0.7, 0.82, 0.94, 1.02];
+  const rightFan = [0.07, 0.15, 0.23, 0.33, 0.44, 0.55, 0.67, 0.78, 0.89, 0.98];
 
   return (
     <group>
@@ -515,9 +516,9 @@ function FloatingKnowledgeBook({
         <PageBlock />
       </group>
 
-      <pointLight position={[0, -0.48, 0.36]} color="#fff2cf" intensity={2.8} distance={3.2} />
-      <pointLight position={[-1.05, -0.05, 0.13]} color="#8adfff" intensity={1.15} distance={3.0} />
-      <pointLight position={[1.0, 0.15, 0.14]} color="#72eaff" intensity={0.95} distance={2.8} />
+      <pointLight position={[0, -0.48, 0.36]} color="#fff2cf" intensity={1.45} distance={2.8} />
+      <pointLight position={[-1.05, -0.05, 0.13]} color="#8adfff" intensity={0.85} distance={2.7} />
+      <pointLight position={[1.0, 0.15, 0.14]} color="#72eaff" intensity={0.7} distance={2.5} />
     </group>
   );
 }
