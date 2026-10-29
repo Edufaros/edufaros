@@ -5630,9 +5630,6 @@ body {
 
 
 /* Mobile hero visibility pass — bring the system visual into the first screen */
-.mobile-scene-fallback {
-  display: none;
-}
 @media (max-width: 680px) {
   /* Make the visual an early hero item, rather than placing it after every CTA and paragraph. */
   .hero-section .hero-copy {
@@ -5667,126 +5664,16 @@ body {
     display: none;
   }
 
-  /* CSS-rendered globe ensures the mobile preview shows the concept even without WebGL. */
-  .hero-visual .growth-canvas,
+  /* Use the same live Three.js scene on mobile as on desktop. */
+  .hero-visual .growth-canvas {
+    display: block !important;
+  }
   .hero-visual .scene-fallback {
-    display: none !important;
+    display: grid;
   }
   .hero-visual .mobile-scene-fallback {
-    position: absolute;
-    z-index: 1;
-    inset: 0;
-    display: block;
-    overflow: hidden;
+    display: none !important;
   }
-  .mobile-scene-orbit {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 88%;
-    height: 34%;
-    border: 1px solid rgba(101, 231, 222, 0.72);
-    border-radius: 50%;
-    transform: translate(-50%, -50%) rotate(-24deg);
-    box-shadow: 0 0 14px rgba(70, 221, 212, 0.05);
-  }
-  .mobile-scene-orbit-two {
-    width: 96%;
-    height: 56%;
-    border-color: rgba(80, 145, 255, 0.62);
-    transform: translate(-50%, -50%) rotate(-43deg);
-  }
-  .mobile-scene-orbit-three {
-    width: 76%;
-    height: 72%;
-    border-color: rgba(163, 222, 228, 0.42);
-    transform: translate(-50%, -50%) rotate(31deg);
-  }
-  .mobile-scene-globe {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: min(47vw, 176px);
-    aspect-ratio: 1;
-    overflow: hidden;
-    border: 1px solid rgba(139, 231, 231, 0.7);
-    border-radius: 50%;
-    background:
-      radial-gradient(circle at 35% 28%, rgba(25, 125, 155, 0.4), transparent 40%),
-      radial-gradient(circle at 54% 56%, #062437 0%, #03101c 76%);
-    box-shadow: 0 0 34px rgba(14, 145, 176, 0.16), inset 0 0 24px rgba(97, 238, 219, 0.09);
-    transform: translate(-50%, -50%);
-  }
-  .mobile-scene-globe::before {
-    position: absolute;
-    inset: 0;
-    background-image:
-      repeating-linear-gradient(28deg, transparent 0 19px, rgba(133, 222, 227, 0.5) 20px, transparent 21px),
-      repeating-linear-gradient(151deg, transparent 0 23px, rgba(133, 222, 227, 0.42) 24px, transparent 25px);
-    content: "";
-    opacity: 0.82;
-  }
-  .mobile-scene-longitude {
-    position: absolute;
-    top: -2%;
-    bottom: -2%;
-    left: 50%;
-    width: 42%;
-    border: 1px solid rgba(139, 231, 231, 0.54);
-    border-radius: 50%;
-    transform: translateX(-50%);
-  }
-  .mobile-scene-longitude-two {
-    width: 76%;
-    opacity: 0.72;
-  }
-  .mobile-scene-latitude {
-    position: absolute;
-    left: -3%;
-    width: 106%;
-    height: 34%;
-    border: 1px solid rgba(139, 231, 231, 0.48);
-    border-radius: 50%;
-    transform: rotate(-18deg);
-  }
-  .mobile-scene-latitude-one {
-    top: 20%;
-  }
-  .mobile-scene-latitude-two {
-    top: 48%;
-    height: 28%;
-    transform: rotate(20deg);
-  }
-  .mobile-scene-node {
-    position: absolute;
-    z-index: 2;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: #9dfff4;
-    box-shadow: 0 0 15px 4px rgba(77, 233, 220, 0.48);
-  }
-  .mobile-scene-node-one {
-    top: 27%;
-    right: 19%;
-  }
-  .mobile-scene-node-two {
-    top: 61%;
-    left: 18%;
-    width: 7px;
-    height: 7px;
-    background: #7eadff;
-    box-shadow: 0 0 13px 3px rgba(75, 132, 255, 0.48);
-  }
-  .hero-section .hero-node {
-    z-index: 3;
-    min-width: 0;
-    width: 120px;
-    max-width: 35%;
-    padding: 8px 9px;
-    backdrop-filter: blur(10px);
-  }
-}
 @media (max-width: 380px) {
   .hero-section .hero-art {
     height: 270px;
