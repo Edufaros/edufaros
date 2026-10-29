@@ -5323,3 +5323,41 @@ canvas {
     margin-top: 0.56em;
   }
 }
+
+
+/* Hero spacing correction — reduce the dead zone below navigation */
+.hero-section {
+  min-height: min(700px, calc(100svh - 78px));
+  padding-block: 30px 46px;
+}
+.hero-section .hero-copy {
+  padding-block: 0 18px;
+}
+.hero-section .hero-eyebrow-positioning {
+  max-width: 100%;
+  margin-bottom: 15px;
+}
+@media (max-width: 1180px) {
+  .hero-section {
+    padding-block: 28px 40px;
+  }
+}
+@media (max-width: 980px) {
+  .hero-section {
+    padding-block: 30px 34px;
+  }
+  .hero-section .hero-copy {
+    padding-bottom: 10px;
+  }
+}
+@media (max-width: 680px) {
+  .hero-section {
+    padding-block: 22px 28px;
+  }
+  .hero-section .hero-copy {
+    padding: 0;
+  }
+  .hero-section .hero-eyebrow-positioning {
+    margin-bottom: 13px;
+  }
+}
