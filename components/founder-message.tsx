@@ -42,7 +42,7 @@ export default function FounderMessage() {
         <Reveal className="founder-portrait-column" delay={0.14}>
           <div className="founder-portrait-frame">
             <Image
-              src="/faizan-ul-haque.webp"
+              src="/faizan-ul-haque-v2.webp"
               alt="Faizan ul Haque, founder of EduFaros"
               width={280}
               height={341}
