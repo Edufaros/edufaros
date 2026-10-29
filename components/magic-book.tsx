@@ -49,6 +49,7 @@ export default function MagicBook() {
   useEffect(() => {
     const stage = stageRef.current;
     if (!stage) return;
+    const stageElement: HTMLDivElement = stage;
 
     let disposed = false;
     let isOnScreen = false;
@@ -66,7 +67,7 @@ export default function MagicBook() {
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.1;
     renderer.setClearColor(0x000000, 0);
-    stage.appendChild(renderer.domElement);
+    stageElement.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 60);
@@ -349,8 +350,8 @@ export default function MagicBook() {
 
     function resize() {
       if (disposed) return;
-      const width = Math.max(1, stage.clientWidth);
-      const height = Math.max(1, stage.clientHeight);
+      const width = Math.max(1, stageElement.clientWidth);
+      const height = Math.max(1, stageElement.clientHeight);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.setSize(width, height, false);
       camera.aspect = width / height;
@@ -413,7 +414,7 @@ export default function MagicBook() {
     renderer.render(scene, camera);
 
     const resizeObserver = new ResizeObserver(resize);
-    resizeObserver.observe(stage);
+    resizeObserver.observe(stageElement);
 
     const intersectionObserver = "IntersectionObserver" in window
       ? new IntersectionObserver((entries) => {
@@ -422,7 +423,7 @@ export default function MagicBook() {
         }, { threshold: 0.01, rootMargin: "40px" })
       : null;
 
-    if (intersectionObserver) intersectionObserver.observe(stage);
+    if (intersectionObserver) intersectionObserver.observe(stageElement);
     else isOnScreen = true;
 
     window.addEventListener("pointermove", onPointerMove, { passive: true });
@@ -476,7 +477,7 @@ export default function MagicBook() {
       materials.forEach((material) => material.dispose());
       textures.forEach((texture) => texture.dispose());
       renderer.dispose();
-      if (renderer.domElement.parentElement === stage) stage.removeChild(renderer.domElement);
+      if (renderer.domElement.parentElement === stageElement) stageElement.removeChild(renderer.domElement);
     };
   }, []);
 
