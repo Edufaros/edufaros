@@ -330,9 +330,12 @@ export default function HomePage() {
       <main id="top">
         <section className="hero-section page-shell">
           <div className="hero-copy">
-            <div className="hero-eyebrow">
-              <span className="eyebrow-live-dot" />
-              GROWTH SYSTEMS FOR EDUCATION & KNOWLEDGE BUSINESSES
+            <div className="hero-eyebrow hero-eyebrow-positioning">
+              <span className="eyebrow-live-dot" aria-hidden="true" />
+              <span className="hero-eyebrow-copy">
+                <span className="hero-eyebrow-lead">GROWTH SYSTEMS</span>{" "}FOR{" "}
+                <span className="hero-eyebrow-highlight">EDUCATION & KNOWLEDGE BUSINESSES</span>
+              </span>
             </div>
             <h1 className="hero-title hero-title-approved">
               Understand What&apos;s Holding Growth Back.{" "}
