@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import styles from "./magic-book.module.css";
 
 /* CONFIG: tweak these values to tune the book without changing its logic. */
 const C = {
@@ -474,11 +475,10 @@ export default function MagicBook() {
       geometries.forEach((geometry) => geometry.dispose());
       materials.forEach((material) => material.dispose());
       textures.forEach((texture) => texture.dispose());
-      renderer.renderLists.dispose();
       renderer.dispose();
       if (renderer.domElement.parentElement === stage) stage.removeChild(renderer.domElement);
     };
   }, []);
 
-  return <div ref={stageRef} className="magic-book-stage" aria-hidden="true" />;
+  return <div ref={stageRef} className={styles.stage} aria-hidden="true" />;
 }

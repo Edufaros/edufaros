@@ -17,10 +17,6 @@ const MagicBook = dynamic(() => import("./magic-book"), {
 
 export default function HeroVisual() {
   return (
- => query.removeEventListener("change", update);
-  }, []);
-
-  return (
     <div className="hero-visual" aria-label="Illustration of connected education growth systems">
       <MagicBook />
 
