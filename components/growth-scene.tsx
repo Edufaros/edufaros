@@ -4,17 +4,17 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
 
-const PAGE_WIDTH = 1.28;
-const PAGE_HEIGHT = 1.42;
-const PAGE_COUNT = 7;
-const OPEN_DURATION = 1.9;
-const TURN_DURATION = 1.34;
-const PAGE_STAGGER = 1.72;
+const PAGE_WIDTH = 1.48;
+const PAGE_HEIGHT = 1.34;
+const PAGE_COUNT = 6;
+const OPEN_DURATION = 1.85;
+const TURN_DURATION = 1.05;
+const PAGE_STAGGER = 1.1;
 const TURN_SEQUENCE = (PAGE_COUNT - 1) * PAGE_STAGGER + TURN_DURATION;
 const RESET_DURATION = 2.8;
 const LOOP_DURATION = TURN_SEQUENCE + RESET_DURATION;
-const GRID_X = 20;
-const GRID_Y = 16;
+const GRID_X = 22;
+const GRID_Y = 18;
 
 function clamp01(value: number) {
   return Math.max(0, Math.min(1, value));
@@ -25,6 +25,13 @@ function smoothstep(value: number) {
   return t * t * (3 - 2 * t);
 }
 
+function pagePoint(side: -1 | 1, u: number, v: number, zOffset = 0) {
+  const x = side * u * PAGE_WIDTH;
+  const y = (v - 0.5) * PAGE_HEIGHT + u * 0.085;
+  const z = 0.055 + u * 0.34 + Math.sin(u * Math.PI) * 0.14 + Math.sin(v * Math.PI) * 0.028 + zOffset;
+  return new THREE.Vector3(x, y, z);
+}
+
 function makePageGeometry(side: -1 | 1, zOffset = 0) {
   const positions = new Float32Array((GRID_X + 1) * (GRID_Y + 1) * 3);
   const indices: number[] = [];
@@ -32,15 +39,12 @@ function makePageGeometry(side: -1 | 1, zOffset = 0) {
 
   for (let iy = 0; iy <= GRID_Y; iy += 1) {
     const v = iy / GRID_Y;
-    const y = (v - 0.5) * PAGE_HEIGHT;
     for (let ix = 0; ix <= GRID_X; ix += 1) {
       const u = ix / GRID_X;
-      const x = side * u * PAGE_WIDTH;
-      const liftedEdge = Math.pow(Math.abs(v - 0.5) * 2, 2) * 0.024;
-      const pageArch = Math.sin(u * Math.PI) * 0.048;
-      positions[vertex++] = x;
-      positions[vertex++] = y;
-      positions[vertex++] = 0.035 + pageArch + liftedEdge + zOffset;
+      const point = pagePoint(side, u, v, zOffset);
+      positions[vertex++] = point.x;
+      positions[vertex++] = point.y;
+      positions[vertex++] = point.z;
     }
   }
 
@@ -62,38 +66,91 @@ function makePageGeometry(side: -1 | 1, zOffset = 0) {
   return geometry;
 }
 
-function PageDetails({ side, z = 0.12 }: { side: -1 | 1; z?: number }) {
-  const rows = [
-    { y: 0.43, width: 0.64, color: "#c9ffff", opacity: 0.98, height: 0.013 },
-    { y: 0.32, width: 0.76, color: "#59e7ee", opacity: 0.82, height: 0.006 },
-    { y: 0.23, width: 0.52, color: "#75efff", opacity: 0.72, height: 0.005 },
-    { y: 0.12, width: 0.69, color: "#58c9ff", opacity: 0.78, height: 0.006 },
-    { y: 0.02, width: 0.62, color: "#83fff1", opacity: 0.66, height: 0.005 },
-    { y: -0.08, width: 0.75, color: "#50d9f7", opacity: 0.76, height: 0.006 },
-    { y: -0.18, width: 0.47, color: "#9cfff7", opacity: 0.7, height: 0.005 },
-    { y: -0.29, width: 0.65, color: "#50bbff", opacity: 0.7, height: 0.005 },
-    { y: -0.39, width: 0.38, color: "#67f3e8", opacity: 0.78, height: 0.006 }
-  ];
+function makeNodeGeometry(side: -1 | 1) {
+  const positions: number[] = [];
+  for (let iy = 1; iy < GRID_Y; iy += 3) {
+    for (let ix = 1; ix < GRID_X; ix += 3) {
+      const point = pagePoint(side, ix / GRID_X, iy / GRID_Y, 0.012);
+      positions.push(point.x, point.y, point.z);
+    }
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+  return geometry;
+}
+
+function makePageEdgeCurves(side: -1 | 1) {
+  const top = new THREE.CatmullRomCurve3([
+    pagePoint(side, 0, 1),
+    pagePoint(side, 0.3, 1),
+    pagePoint(side, 0.68, 1),
+    pagePoint(side, 1, 1)
+  ]);
+  const bottom = new THREE.CatmullRomCurve3([
+    pagePoint(side, 0, 0),
+    pagePoint(side, 0.3, 0),
+    pagePoint(side, 0.68, 0),
+    pagePoint(side, 1, 0)
+  ]);
+  const outer = new THREE.CatmullRomCurve3([
+    pagePoint(side, 1, 0),
+    pagePoint(side, 1, 0.35),
+    pagePoint(side, 1, 0.68),
+    pagePoint(side, 1, 1)
+  ]);
+  const hinge = new THREE.CatmullRomCurve3([
+    pagePoint(side, 0, 0),
+    pagePoint(side, 0, 0.35),
+    pagePoint(side, 0, 0.68),
+    pagePoint(side, 0, 1)
+  ]);
+  return [top, bottom, outer, hinge];
+}
+
+function PageNetwork({ side, geometry, opacity = 0.72 }: { side: -1 | 1; geometry: THREE.BufferGeometry; opacity?: number }) {
+  const nodes = useMemo(() => makeNodeGeometry(side), [side]);
+  const edges = useMemo(() => makePageEdgeCurves(side), [side]);
 
   return (
     <group>
-      {rows.map((row, index) => (
-        <mesh
-          key={index}
-          position={[side * PAGE_WIDTH * 0.53, row.y, z + (index % 2) * 0.001]}
-        >
-          <boxGeometry args={[row.width * 0.76, row.height, 0.002]} />
-          <meshBasicMaterial color={row.color} transparent opacity={row.opacity} />
-        </mesh>
-      ))}
-      <mesh position={[side * PAGE_WIDTH * 0.34, 0.02, z + 0.004]}>
-        <boxGeometry args={[0.22, 0.38, 0.002]} />
-        <meshBasicMaterial color="#139cc5" transparent opacity={0.12} />
+      <mesh geometry={geometry}>
+        <meshBasicMaterial
+          color="#15b8f3"
+          transparent
+          opacity={0.22}
+          side={THREE.DoubleSide}
+          depthWrite={false}
+        />
       </mesh>
-      {[0, 1, 2, 3].map((i) => (
-        <mesh key={i} position={[side * PAGE_WIDTH * (0.18 + i * 0.1), -0.48, z + 0.004]}>
-          <boxGeometry args={[0.032, 0.032, 0.003]} />
-          <meshBasicMaterial color={i % 2 ? "#4ebcff" : "#65fff0"} transparent opacity={0.82} />
+      <mesh geometry={geometry}>
+        <meshBasicMaterial
+          color="#9dfaff"
+          wireframe
+          transparent
+          opacity={opacity}
+          side={THREE.DoubleSide}
+          depthWrite={false}
+        />
+      </mesh>
+      <points geometry={nodes}>
+        <pointsMaterial
+          color="#b8ffff"
+          size={0.018}
+          sizeAttenuation
+          transparent
+          opacity={0.9}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </points>
+      {edges.map((curve, index) => (
+        <mesh key={index}>
+          <tubeGeometry args={[curve, 32, index === 3 ? 0.004 : 0.006, 5, false]} />
+          <meshBasicMaterial
+            color={index === 2 ? "#4deaff" : "#a6ffff"}
+            transparent
+            opacity={index === 3 ? 0.46 : 0.86}
+          />
         </mesh>
       ))}
     </group>
@@ -102,76 +159,47 @@ function PageDetails({ side, z = 0.12 }: { side: -1 | 1; z?: number }) {
 
 function FixedPage({ side }: { side: -1 | 1 }) {
   const geometry = useMemo(() => makePageGeometry(side, 0), [side]);
-  return (
-    <group>
-      <mesh geometry={geometry}>
-        <meshPhysicalMaterial
-          color="#72ddeb"
-          metalness={0.26}
-          roughness={0.26}
-          clearcoat={1}
-          clearcoatRoughness={0.2}
-          transmission={0.12}
-          thickness={0.08}
-          transparent
-          opacity={0.54}
-          emissive="#06465e"
-          emissiveIntensity={0.52}
-          side={THREE.DoubleSide}
-          depthWrite={false}
-        />
-      </mesh>
-      <mesh geometry={geometry} scale={[1, 1, 1.006]}>
-        <meshBasicMaterial color="#8ffbff" wireframe transparent opacity={0.13} side={THREE.DoubleSide} depthWrite={false} />
-      </mesh>
-      <PageDetails side={side} z={0.13} />
-    </group>
-  );
+  return <PageNetwork side={side} geometry={geometry} opacity={0.76} />;
 }
 
 function TurningPage({ index }: { index: number }) {
   const group = useRef<THREE.Group>(null);
-  const mesh = useRef<THREE.Mesh>(null);
-  const geometry = useMemo(() => makePageGeometry(1, index * 0.0028), [index]);
+  const geometry = useMemo(() => makePageGeometry(1, 0.008 + index * 0.005), [index]);
   const basePositions = useMemo(() => {
     const attribute = geometry.getAttribute("position") as THREE.BufferAttribute;
     return new Float32Array(attribute.array as Float32Array);
   }, [geometry]);
 
   useFrame(({ clock }) => {
-    const time = clock.elapsedTime;
-    if (!group.current || !mesh.current) return;
-
-    const afterOpening = Math.max(0, time - OPEN_DURATION);
+    if (!group.current) return;
+    const afterOpening = Math.max(0, clock.elapsedTime - OPEN_DURATION - 0.16);
     const cycle = afterOpening % LOOP_DURATION;
-    const start = index * PAGE_STAGGER;
-    const progress = smoothstep((cycle - start) / TURN_DURATION);
-    let angle = cycle < start ? 0 : Math.PI * progress;
-    let curl = cycle >= start && cycle <= start + TURN_DURATION
-      ? Math.sin(clamp01((cycle - start) / TURN_DURATION) * Math.PI)
-      : 0;
+    let angle = 0;
+    let curl = 0;
 
-    const closingStart = TURN_SEQUENCE + 0.25;
-    if (cycle > closingStart) {
-      const closing = smoothstep((cycle - closingStart) / (RESET_DURATION - 0.25));
-      angle = Math.PI * (1 - closing);
-      curl = Math.sin(closing * Math.PI) * 0.75;
+    if (cycle < TURN_SEQUENCE) {
+      const start = index * PAGE_STAGGER;
+      const raw = (cycle - start) / TURN_DURATION;
+      angle = Math.PI * smoothstep(raw);
+      if (raw >= 0 && raw <= 1) curl = Math.sin(raw * Math.PI);
+    } else {
+      const resetTime = cycle - TURN_SEQUENCE;
+      const resetStart = (PAGE_COUNT - 1 - index) * 0.36;
+      const raw = (resetTime - resetStart) / 0.72;
+      angle = Math.PI * (1 - smoothstep(raw));
+      if (raw >= 0 && raw <= 1) curl = Math.sin(raw * Math.PI) * 0.72;
     }
 
     group.current.rotation.y = angle;
-    group.current.position.z = 0.018 + (PAGE_COUNT - index) * 0.0032;
+    group.current.position.z = 0.006 + index * 0.004;
 
     const attribute = geometry.getAttribute("position") as THREE.BufferAttribute;
     const current = attribute.array as Float32Array;
     for (let i = 0; i < current.length; i += 3) {
-      const baseX = basePositions[i];
-      const baseY = basePositions[i + 1];
-      const baseZ = basePositions[i + 2];
-      const u = clamp01(baseX / PAGE_WIDTH);
-      const middleBend = Math.sin(u * Math.PI);
-      current[i] = baseX - u * u * curl * 0.07;
-      current[i + 1] = baseY + Math.cos((baseY / PAGE_HEIGHT) * Math.PI) * middleBend * curl * 0.045;
-      current[i + 2] = baseZ + middleBend * curl * 0.28 + u * curl * 0.035;
+      const u = clamp01(basePositions[i] / PAGE_WIDTH);
+      current[i] = basePositions[i] - u * u * curl * 0.055;
+      current[i + 1] = basePositions[i + 1] + Math.sin(u * Math.PI) * curl * 0.035;
+      current[i + 2] = basePositions[i + 2] + Math.sin(u * Math.PI) * curl * 0.22;
     }
     attribute.needsUpdate = true;
     geometry.computeVertexNormals();
@@ -179,95 +207,72 @@ function TurningPage({ index }: { index: number }) {
 
   return (
     <group ref={group}>
-      <mesh ref={mesh} geometry={geometry}>
+      <PageNetwork side={1} geometry={geometry} opacity={0.5} />
+    </group>
+  );
+}
+
+function BookCover({ side }: { side: -1 | 1 }) {
+  const group = useRef<THREE.Group>(null);
+  const geometry = useMemo(() => makePageGeometry(side, -0.055), [side]);
+
+  useFrame(({ clock }) => {
+    const open = smoothstep(clock.elapsedTime / OPEN_DURATION);
+    if (group.current) group.current.rotation.y = -side * 1.12 * (1 - open);
+  });
+
+  return (
+    <group ref={group}>
+      <mesh geometry={geometry}>
         <meshPhysicalMaterial
-          color={index % 2 === 0 ? "#91efff" : "#68dce9"}
-          metalness={0.2}
-          roughness={0.2}
+          color="#08749e"
+          metalness={0.55}
+          roughness={0.22}
           clearcoat={1}
-          clearcoatRoughness={0.14}
-          transmission={0.17}
-          thickness={0.12}
+          emissive="#075d88"
+          emissiveIntensity={0.48}
           transparent
-          opacity={0.56}
-          emissive={index % 2 === 0 ? "#087ea7" : "#07546d"}
-          emissiveIntensity={0.68}
+          opacity={0.2}
           side={THREE.DoubleSide}
           depthWrite={false}
         />
       </mesh>
-      <mesh geometry={geometry} scale={[1, 1, 1.008]}>
-        <meshBasicMaterial color="#a9ffff" wireframe transparent opacity={0.16} side={THREE.DoubleSide} depthWrite={false} />
-      </mesh>
-      <PageDetails side={1} z={0.135 + index * 0.0028} />
-      <mesh position={[PAGE_WIDTH * 0.94, 0, 0.12]}>
-        <boxGeometry args={[0.014, PAGE_HEIGHT * 0.92, 0.014]} />
-        <meshBasicMaterial color={index % 2 === 0 ? "#79f9ef" : "#5bbaff"} transparent opacity={0.78} />
+      <mesh geometry={geometry}>
+        <meshBasicMaterial color="#43e9ff" wireframe transparent opacity={0.22} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
     </group>
   );
 }
 
-function Cover({ side }: { side: -1 | 1 }) {
-  const group = useRef<THREE.Group>(null);
-  useFrame(({ clock }) => {
-    const time = clock.elapsedTime;
-    const afterOpening = Math.max(0, time - OPEN_DURATION);
-    const cycle = afterOpening % LOOP_DURATION;
-    const initialOpen = smoothstep(time / OPEN_DURATION);
-    const closingStart = TURN_SEQUENCE + 0.25;
-    const cycleOpen = cycle > closingStart
-      ? 1 - smoothstep((cycle - closingStart) / (RESET_DURATION - 0.25))
-      : 1;
-    const open = time < OPEN_DURATION ? initialOpen : cycleOpen;
-    if (group.current) {
-      group.current.rotation.y = -side * 1.18 * (1 - open);
-    }
-  });
+function PageStack() {
+  const lines = useMemo(() => {
+    return Array.from({ length: 8 }, (_, index) => {
+      const depth = index * 0.013;
+      return new THREE.CatmullRomCurve3([
+        new THREE.Vector3(-PAGE_WIDTH, -0.59 - depth * 0.2, 0.35 - depth),
+        new THREE.Vector3(-0.93, -0.645 - depth, 0.27 - depth),
+        new THREE.Vector3(0, -0.66 - depth, 0.24 - depth),
+        new THREE.Vector3(0.93, -0.645 - depth, 0.27 - depth),
+        new THREE.Vector3(PAGE_WIDTH, -0.59 - depth * 0.2, 0.35 - depth)
+      ]);
+    });
+  }, []);
 
   return (
-    <group ref={group}>
-      <mesh position={[side * PAGE_WIDTH * 0.5, 0, side === 1 ? 0.118 : -0.09]}>
-        <boxGeometry args={[PAGE_WIDTH + 0.08, PAGE_HEIGHT + 0.12, 0.085]} />
-        <meshStandardMaterial
-          color="#07121d"
-          metalness={0.94}
-          roughness={0.21}
-          emissive="#052f43"
-          emissiveIntensity={0.84}
-        />
-      </mesh>
-      <mesh position={[side * PAGE_WIDTH * 0.5, 0, side === 1 ? 0.164 : -0.044]}>
-        <planeGeometry args={[PAGE_WIDTH, PAGE_HEIGHT]} />
-        <meshPhysicalMaterial
-          color="#071d2d"
-          metalness={0.68}
-          roughness={0.24}
-          clearcoat={1}
-          emissive="#063e58"
-          emissiveIntensity={0.52}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-      <mesh position={[side * PAGE_WIDTH * 0.5, 0, side === 1 ? 0.17 : -0.038]}>
-        <planeGeometry args={[PAGE_WIDTH * 0.92, PAGE_HEIGHT * 0.92]} />
-        <meshBasicMaterial color="#25cbd4" transparent opacity={0.065} side={THREE.DoubleSide} />
-      </mesh>
-      <mesh position={[side * PAGE_WIDTH * 0.5, 0, side === 1 ? 0.18 : -0.03]}>
-        <boxGeometry args={[PAGE_WIDTH * 0.72, 0.006, 0.003]} />
-        <meshBasicMaterial color="#7dfff4" transparent opacity={0.8} />
-      </mesh>
-      <mesh position={[side * PAGE_WIDTH * 0.5, -0.12, side === 1 ? 0.18 : -0.03]}>
-        <boxGeometry args={[PAGE_WIDTH * 0.48, 0.004, 0.003]} />
-        <meshBasicMaterial color="#56aefa" transparent opacity={0.6} />
-      </mesh>
-      <mesh position={[side * PAGE_WIDTH * 0.5, -0.2, side === 1 ? 0.18 : -0.03]}>
-        <boxGeometry args={[PAGE_WIDTH * 0.61, 0.004, 0.003]} />
-        <meshBasicMaterial color="#61f8e5" transparent opacity={0.54} />
-      </mesh>
-      <mesh position={[side * PAGE_WIDTH * 0.5, PAGE_HEIGHT * 0.44, side === 1 ? 0.18 : -0.03]}>
-        <sphereGeometry args={[0.035, 14, 14]} />
-        <meshStandardMaterial color="#a9fff9" emissive="#4bfff0" emissiveIntensity={3.5} />
+    <group>
+      {lines.map((curve, index) => (
+        <mesh key={index}>
+          <tubeGeometry args={[curve, 46, 0.0045, 4, false]} />
+          <meshBasicMaterial
+            color={index % 3 === 0 ? "#a5ffff" : index % 3 === 1 ? "#47cfff" : "#258aff"}
+            transparent
+            opacity={0.68 - index * 0.045}
+          />
+        </mesh>
+      ))}
+      <mesh position={[0, -0.67, 0.28]}>
+        <boxGeometry args={[0.1, 0.04, 0.12]} />
+        <meshStandardMaterial color="#24e5e6" emissive="#27d9ea" emissiveIntensity={1.8} metalness={0.82} roughness={0.22} />
       </mesh>
     </group>
   );
@@ -280,104 +285,76 @@ function FloatingKnowledgeBook() {
   useFrame(({ clock }) => {
     const time = clock.elapsedTime;
     const compact = size.width < 560;
-    const afterOpening = Math.max(0, time - OPEN_DURATION);
-    const cycle = afterOpening % LOOP_DURATION;
-    const closingStart = TURN_SEQUENCE + 0.25;
-    const initialOpen = smoothstep(time / OPEN_DURATION);
-    const cycleOpen = cycle > closingStart
-      ? 1 - smoothstep((cycle - closingStart) / (RESET_DURATION - 0.25))
-      : 1;
-    const open = time < OPEN_DURATION ? initialOpen : cycleOpen;
+    const opening = smoothstep(time / OPEN_DURATION);
 
     if (root.current) {
-      root.current.position.set(
-        compact ? 0 : 0,
-        Math.sin(time * 0.68) * 0.095 - 0.03,
-        0
-      );
-      root.current.scale.set(
-        (compact ? 1.04 : 1.25) * (0.22 + open * 0.78),
-        compact ? 0.88 : 1.02,
-        compact ? 0.88 : 1
-      );
-      root.current.rotation.x = -0.22 + Math.sin(time * 0.38) * 0.035 - pointer.y * 0.035;
-      root.current.rotation.y = Math.sin(time * 0.29) * 0.16 + time * 0.028 + pointer.x * 0.11;
-      root.current.rotation.z = Math.sin(time * 0.32) * 0.045;
+      root.current.position.set(0, Math.sin(time * 0.62) * 0.065 - 0.02, 0);
+      root.current.scale.setScalar((compact ? 0.9 : 1.17) * (0.74 + opening * 0.26));
+      root.current.rotation.x = -0.25 + Math.sin(time * 0.34) * 0.032 - pointer.y * 0.035;
+      root.current.rotation.y = Math.sin(time * 0.24) * 0.13 + time * 0.018 + pointer.x * 0.105;
+      root.current.rotation.z = Math.sin(time * 0.31) * 0.035;
     }
   });
 
   return (
     <group ref={root}>
-      <mesh position={[0, -0.02, -0.15]}>
-        <boxGeometry args={[0.16, PAGE_HEIGHT + 0.15, 0.13]} />
-        <meshStandardMaterial color="#06121c" metalness={0.95} roughness={0.22} emissive="#0b687a" emissiveIntensity={1.05} />
+      <mesh position={[0, -0.03, -0.11]}>
+        <boxGeometry args={[0.13, PAGE_HEIGHT + 0.16, 0.13]} />
+        <meshStandardMaterial color="#087c9a" metalness={0.88} roughness={0.23} emissive="#087d95" emissiveIntensity={1.6} />
       </mesh>
 
       <FixedPage side={-1} />
+      <FixedPage side={1} />
       {Array.from({ length: PAGE_COUNT }).map((_, index) => (
         <TurningPage key={index} index={index} />
       ))}
+      <BookCover side={-1} />
+      <BookCover side={1} />
+      <PageStack />
 
-      <group position={[0, 0, -0.045]}>
-        <mesh position={[-PAGE_WIDTH * 0.5, 0, 0]}>
-          <boxGeometry args={[PAGE_WIDTH + 0.035, PAGE_HEIGHT + 0.045, 0.055]} />
-          <meshStandardMaterial color="#0a1723" metalness={0.92} roughness={0.24} />
-        </mesh>
-        <mesh position={[PAGE_WIDTH * 0.5, 0, 0]}>
-          <boxGeometry args={[PAGE_WIDTH + 0.035, PAGE_HEIGHT + 0.045, 0.055]} />
-          <meshStandardMaterial color="#0a1723" metalness={0.92} roughness={0.24} />
-        </mesh>
-      </group>
-
-      <Cover side={-1} />
-      <Cover side={1} />
-
-      <mesh position={[0, -PAGE_HEIGHT * 0.53, 0.11]}>
-        <boxGeometry args={[PAGE_WIDTH * 2.02, 0.018, 0.04]} />
-        <meshStandardMaterial color="#42e9e3" emissive="#1ec9dc" emissiveIntensity={2.3} metalness={0.75} roughness={0.22} />
-      </mesh>
-      <pointLight position={[0, 0.18, 0.5]} color="#43f6e5" intensity={5.2} distance={3.5} />
-      <pointLight position={[0.5, 0.18, 0.16]} color="#258bff" intensity={3.2} distance={2.8} />
+      <pointLight position={[0, 0.18, 0.58]} color="#49f3ff" intensity={4.3} distance={3.8} />
+      <pointLight position={[-0.85, 0.3, 0.14]} color="#168cff" intensity={2.7} distance={3.1} />
+      <pointLight position={[0.85, 0.5, 0.2]} color="#70fff1" intensity={2.2} distance={3} />
     </group>
   );
 }
 
-function ParticleField() {
+function AmbientParticles() {
   const points = useRef<THREE.Points>(null);
   const geometry = useMemo(() => {
     const positions = new Float32Array(520 * 3);
     for (let i = 0; i < 520; i += 1) {
-      positions[i * 3] = (Math.random() - 0.5) * 7.6;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 5.8;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 3.8;
+      positions[i * 3] = Math.sin(i * 12.9898) * 3.8;
+      positions[i * 3 + 1] = Math.cos(i * 7.233) * 2.6;
+      positions[i * 3 + 2] = Math.sin(i * 4.723) * 2.0 - 0.5;
     }
-    const nextGeometry = new THREE.BufferGeometry();
-    nextGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    return nextGeometry;
+    const result = new THREE.BufferGeometry();
+    result.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    return result;
   }, []);
 
   useFrame(({ clock }) => {
     if (points.current) {
       points.current.rotation.y = clock.elapsedTime * 0.009;
-      points.current.rotation.z = Math.sin(clock.elapsedTime * 0.07) * 0.015;
+      points.current.rotation.z = Math.sin(clock.elapsedTime * 0.06) * 0.012;
     }
   });
 
   return (
     <points ref={points} geometry={geometry}>
       <pointsMaterial
-        color="#4dded8"
-        size={0.014}
+        color="#54e8ec"
+        size={0.012}
         sizeAttenuation
         transparent
-        opacity={0.62}
+        opacity={0.65}
         depthWrite={false}
       />
     </points>
   );
 }
 
-function KnowledgeHologramTrail() {
+function KnowledgeParticleStream() {
   const points = useRef<THREE.Points>(null);
   const geometry = useMemo(() => {
     const positions = new Float32Array(96 * 3);
@@ -385,32 +362,26 @@ function KnowledgeHologramTrail() {
     result.setAttribute("position", new THREE.BufferAttribute(positions, 3));
     return result;
   }, []);
-
-  const curve = useMemo(
-    () =>
-      new THREE.CatmullRomCurve3([
-        new THREE.Vector3(-0.6, 0.2, 0.36),
-        new THREE.Vector3(-0.76, 0.52, 0.18),
-        new THREE.Vector3(-0.36, 0.86, -0.08),
-        new THREE.Vector3(0.28, 1.12, -0.18),
-        new THREE.Vector3(0.82, 0.93, -0.3)
-      ]),
-    []
-  );
+  const curve = useMemo(() => new THREE.CatmullRomCurve3([
+    new THREE.Vector3(-1.15, -0.06, 0.2),
+    new THREE.Vector3(-0.82, 0.2, 0.36),
+    new THREE.Vector3(-0.35, 0.52, 0.52),
+    new THREE.Vector3(0.28, 0.61, 0.25),
+    new THREE.Vector3(0.88, 0.42, -0.1),
+    new THREE.Vector3(1.12, 0.18, -0.2)
+  ]), []);
 
   useFrame(({ clock }) => {
     const attribute = geometry.getAttribute("position") as THREE.BufferAttribute;
     const positions = attribute.array as Float32Array;
-    const time = clock.elapsedTime * 0.105;
+    const time = clock.elapsedTime * 0.075;
     const count = positions.length / 3;
-
     for (let i = 0; i < count; i += 1) {
       const t = (i / count + time) % 1;
       const point = curve.getPoint(t);
-      const pulse = Math.sin(t * Math.PI * 10 + clock.elapsedTime * 1.5) * 0.018;
-      positions[i * 3] = point.x + pulse;
-      positions[i * 3 + 1] = point.y + Math.cos(t * Math.PI * 7 + clock.elapsedTime) * 0.022;
-      positions[i * 3 + 2] = point.z + Math.sin(t * Math.PI * 6 + clock.elapsedTime) * 0.024;
+      positions[i * 3] = point.x + Math.sin(t * Math.PI * 8 + clock.elapsedTime) * 0.015;
+      positions[i * 3 + 1] = point.y + Math.cos(t * Math.PI * 6 + clock.elapsedTime * 1.2) * 0.018;
+      positions[i * 3 + 2] = point.z + Math.sin(t * Math.PI * 7 + clock.elapsedTime) * 0.014;
     }
     attribute.needsUpdate = true;
   });
@@ -418,16 +389,16 @@ function KnowledgeHologramTrail() {
   return (
     <>
       <mesh>
-        <tubeGeometry args={[curve, 64, 0.0035, 6, false]} />
-        <meshBasicMaterial color="#5cf4ed" transparent opacity={0.34} />
+        <tubeGeometry args={[curve, 56, 0.003, 5, false]} />
+        <meshBasicMaterial color="#65f9ed" transparent opacity={0.2} />
       </mesh>
       <points ref={points} geometry={geometry}>
         <pointsMaterial
-          color="#b5ffff"
-          size={0.022}
+          color="#b7ffff"
+          size={0.02}
           sizeAttenuation
           transparent
-          opacity={0.96}
+          opacity={0.88}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />
@@ -437,27 +408,20 @@ function KnowledgeHologramTrail() {
 }
 
 function HologramFloor() {
-  const rings = useRef<THREE.Group>(null);
+  const floor = useRef<THREE.Group>(null);
   useFrame(({ clock }) => {
-    if (rings.current) {
-      rings.current.rotation.z = clock.elapsedTime * 0.035;
-      rings.current.rotation.x = -0.08 + Math.sin(clock.elapsedTime * 0.23) * 0.025;
-    }
+    if (floor.current) floor.current.rotation.z = clock.elapsedTime * 0.022;
   });
 
   return (
-    <group ref={rings} position={[0, -1.13, -0.26]} scale={[1.22, 0.28, 1]}>
+    <group ref={floor} position={[0, -1.22, -0.55]} scale={[1.35, 0.24, 1]}>
       <mesh>
-        <torusGeometry args={[1.24, 0.006, 8, 140]} />
-        <meshBasicMaterial color="#5cf2e7" transparent opacity={0.42} />
+        <torusGeometry args={[1.22, 0.0035, 6, 120]} />
+        <meshBasicMaterial color="#4ae8e7" transparent opacity={0.23} />
       </mesh>
-      <mesh rotation={[0, 0, 0.8]} scale={[1.27, 1, 1]}>
-        <torusGeometry args={[1.24, 0.0035, 8, 140]} />
-        <meshBasicMaterial color="#438cff" transparent opacity={0.34} />
-      </mesh>
-      <mesh scale={[0.78, 0.75, 1]}>
-        <torusGeometry args={[1.24, 0.003, 8, 140]} />
-        <meshBasicMaterial color="#a1ffff" transparent opacity={0.24} />
+      <mesh rotation={[0, 0, 0.78]} scale={[1.24, 1, 1]}>
+        <torusGeometry args={[1.22, 0.0025, 6, 120]} />
+        <meshBasicMaterial color="#448cff" transparent opacity={0.19} />
       </mesh>
     </group>
   );
@@ -466,13 +430,13 @@ function HologramFloor() {
 function SceneContents() {
   return (
     <>
-      <ambientLight intensity={0.72} />
-      <pointLight position={[2.2, 2.7, 3.8]} color="#64f4e9" intensity={32} distance={8} />
-      <pointLight position={[-3, -1.2, 1.4]} color="#3277ff" intensity={18} distance={8} />
-      <pointLight position={[0, 2.2, -2]} color="#2b9dff" intensity={11} distance={7} />
-      <ParticleField />
+      <ambientLight intensity={0.74} />
+      <pointLight position={[2.2, 2.7, 3.8]} color="#5ceeff" intensity={30} distance={8} />
+      <pointLight position={[-3, -1.2, 1.4]} color="#327cff" intensity={17} distance={8} />
+      <pointLight position={[0, 2.2, -2]} color="#2b9dff" intensity={10} distance={7} />
+      <AmbientParticles />
       <FloatingKnowledgeBook />
-      <KnowledgeHologramTrail />
+      <KnowledgeParticleStream />
       <HologramFloor />
     </>
   );
