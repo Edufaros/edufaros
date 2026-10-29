@@ -4,55 +4,130 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
 
-const PAGE_WIDTH = 1.48;
-const PAGE_HEIGHT = 1.34;
-const PAGE_COUNT = 6;
-const OPEN_DURATION = 1.85;
-const TURN_DURATION = 1.05;
-const PAGE_STAGGER = 1.1;
-const TURN_SEQUENCE = (PAGE_COUNT - 1) * PAGE_STAGGER + TURN_DURATION;
-const RESET_DURATION = 2.8;
-const LOOP_DURATION = TURN_SEQUENCE + RESET_DURATION;
-const GRID_X = 22;
-const GRID_Y = 18;
+const BOOK_WIDTH = 1.48;
+const BOOK_HEIGHT = 1.24;
+const PAGE_COUNT = 8;
+const INTRO_OPEN_SECONDS = 1.8;
+const TURN_SECONDS = 0.9;
+const TURN_STAGGER_SECONDS = 0.94;
+const FORWARD_SECONDS = (PAGE_COUNT - 1) * TURN_STAGGER_SECONDS + TURN_SECONDS;
+const RETURN_SECONDS = 2.35;
+const CYCLE_SECONDS = FORWARD_SECONDS + RETURN_SECONDS;
+const GRID_COLUMNS = 28;
+const GRID_ROWS = 20;
+const PAPER_COLOR = "#fff6df";
+const GOLD_COLOR = "#d3b77b";
 
 function clamp01(value: number) {
   return Math.max(0, Math.min(1, value));
 }
 
-function smoothstep(value: number) {
+function easeInOut(value: number) {
   const t = clamp01(value);
   return t * t * (3 - 2 * t);
 }
 
+function makePaperTexture() {
+  const canvas = document.createElement("canvas");
+  canvas.width = 512;
+  canvas.height = 512;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Could not create paper texture canvas.");
+
+  const gradient = ctx.createLinearGradient(0, 0, 512, 512);
+  gradient.addColorStop(0, "#fff9e9");
+  gradient.addColorStop(0.48, "#f3e8ce");
+  gradient.addColorStop(1, "#e8d9b8");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, 512, 512);
+
+  // Fine paper fibres and subdued, unreadable book-print detail.
+  for (let i = 0; i < 1150; i += 1) {
+    const x = (i * 73.73) % 512;
+    const y = (i * 137.91 + (i % 17) * 3.3) % 512;
+    const alpha = 0.025 + ((i * 13) % 7) * 0.006;
+    ctx.fillStyle = "rgba(112, 87, 51, " + alpha + ")";
+    ctx.fillRect(x, y, 1 + (i % 3), 1);
+  }
+
+  ctx.fillStyle = "rgba(122, 91, 46, 0.25)";
+  ctx.fillRect(30, 42, 112, 2);
+  ctx.fillStyle = "rgba(135, 100, 46, 0.48)";
+  ctx.fillRect(30, 53, 72, 3);
+
+  for (let row = 0; row < 27; row += 1) {
+    const y = 82 + row * 14.2;
+    const width = 222 + ((row * 37) % 82);
+    ctx.fillStyle = row % 5 === 0 ? "rgba(110, 99, 76, 0.18)" : "rgba(95, 89, 76, 0.28)";
+    ctx.fillRect(30, y, Math.min(width, 294), row % 6 === 0 ? 2.4 : 1.4);
+    if (row % 3 !== 0) {
+      ctx.fillRect(30, y + 4, Math.max(84, width - ((row * 19) % 65)), 1);
+    }
+  }
+
+  ctx.strokeStyle = "rgba(185, 145, 76, 0.38)";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(18, 18, 476, 476);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.anisotropy = 4;
+  return texture;
+}
+
+function makeGlowTexture() {
+  const canvas = document.createElement("canvas");
+  canvas.width = 512;
+  canvas.height = 512;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Could not create glow texture canvas.");
+
+  const gradient = ctx.createRadialGradient(256, 256, 2, 256, 256, 254);
+  gradient.addColorStop(0, "rgba(255, 255, 246, 0.98)");
+  gradient.addColorStop(0.12, "rgba(255, 250, 229, 0.62)");
+  gradient.addColorStop(0.28, "rgba(255, 226, 165, 0.24)");
+  gradient.addColorStop(0.54, "rgba(255, 248, 222, 0.065)");
+  gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, 512, 512);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
+}
+
 function pagePoint(side: -1 | 1, u: number, v: number, zOffset = 0) {
-  const x = side * u * PAGE_WIDTH;
-  const y = (v - 0.5) * PAGE_HEIGHT + u * 0.085;
-  const z = 0.055 + u * 0.34 + Math.sin(u * Math.PI) * 0.14 + Math.sin(v * Math.PI) * 0.028 + zOffset;
+  const x = side * u * BOOK_WIDTH;
+  const y = (v - 0.5) * BOOK_HEIGHT + Math.sin(u * Math.PI * 0.5) * 0.055;
+  const softArch = Math.sin(u * Math.PI) * Math.sin(v * Math.PI) * 0.035;
+  const z = 0.015 + u * 0.055 + softArch + zOffset;
   return new THREE.Vector3(x, y, z);
 }
 
 function makePageGeometry(side: -1 | 1, zOffset = 0) {
-  const positions = new Float32Array((GRID_X + 1) * (GRID_Y + 1) * 3);
+  const vertexCount = (GRID_COLUMNS + 1) * (GRID_ROWS + 1);
+  const positions = new Float32Array(vertexCount * 3);
+  const uvs = new Float32Array(vertexCount * 2);
   const indices: number[] = [];
-  let vertex = 0;
+  let p = 0;
+  let uv = 0;
 
-  for (let iy = 0; iy <= GRID_Y; iy += 1) {
-    const v = iy / GRID_Y;
-    for (let ix = 0; ix <= GRID_X; ix += 1) {
-      const u = ix / GRID_X;
+  for (let iy = 0; iy <= GRID_ROWS; iy += 1) {
+    const v = iy / GRID_ROWS;
+    for (let ix = 0; ix <= GRID_COLUMNS; ix += 1) {
+      const u = ix / GRID_COLUMNS;
       const point = pagePoint(side, u, v, zOffset);
-      positions[vertex++] = point.x;
-      positions[vertex++] = point.y;
-      positions[vertex++] = point.z;
+      positions[p++] = point.x;
+      positions[p++] = point.y;
+      positions[p++] = point.z;
+      uvs[uv++] = u;
+      uvs[uv++] = v;
     }
   }
 
-  for (let iy = 0; iy < GRID_Y; iy += 1) {
-    for (let ix = 0; ix < GRID_X; ix += 1) {
-      const a = iy * (GRID_X + 1) + ix;
+  for (let iy = 0; iy < GRID_ROWS; iy += 1) {
+    for (let ix = 0; ix < GRID_COLUMNS; ix += 1) {
+      const a = iy * (GRID_COLUMNS + 1) + ix;
       const b = a + 1;
-      const c = a + GRID_X + 1;
+      const c = a + GRID_COLUMNS + 1;
       const d = c + 1;
       if (side === 1) indices.push(a, b, c, b, d, c);
       else indices.push(a, c, b, b, c, d);
@@ -61,163 +136,134 @@ function makePageGeometry(side: -1 | 1, zOffset = 0) {
 
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute("uv", new THREE.BufferAttribute(uvs, 2));
   geometry.setIndex(indices);
   geometry.computeVertexNormals();
   return geometry;
 }
 
-function makeNodeGeometry(side: -1 | 1) {
-  const positions: number[] = [];
-  for (let iy = 1; iy < GRID_Y; iy += 3) {
-    for (let ix = 1; ix < GRID_X; ix += 3) {
-      const point = pagePoint(side, ix / GRID_X, iy / GRID_Y, 0.012);
-      positions.push(point.x, point.y, point.z);
+function makeEdgeCurve(side: -1 | 1, edge: "outer" | "top" | "bottom") {
+  const coords = edge === "outer"
+    ? [[side * BOOK_WIDTH, -0.56], [side * BOOK_WIDTH, -0.22], [side * BOOK_WIDTH, 0.2], [side * BOOK_WIDTH, 0.65]]
+    : edge === "top"
+      ? [[0, BOOK_HEIGHT * 0.5], [side * 0.45, BOOK_HEIGHT * 0.52], [side * 0.98, BOOK_HEIGHT * 0.56], [side * BOOK_WIDTH, BOOK_HEIGHT * 0.5 + 0.055]]
+      : [[0, -BOOK_HEIGHT * 0.5], [side * 0.45, -BOOK_HEIGHT * 0.53], [side * 0.98, -BOOK_HEIGHT * 0.50], [side * BOOK_WIDTH, -BOOK_HEIGHT * 0.5 + 0.055]];
+  const points = coords.map(([x, y]) => new THREE.Vector3(x, y, 0.09));
+  return new THREE.CatmullRomCurve3(points);
+}
+
+function PaperSurface({
+  geometry,
+  texture,
+  opacity = 1
+}: {
+  geometry: THREE.BufferGeometry;
+  texture: THREE.Texture;
+  opacity?: number;
+}) {
+  return (
+    <mesh geometry={geometry}>
+      <meshPhysicalMaterial
+        map={texture}
+        color={PAPER_COLOR}
+        metalness={0.015}
+        roughness={0.79}
+        clearcoat={0.08}
+        clearcoatRoughness={0.76}
+        transparent={opacity < 1}
+        opacity={opacity}
+        side={THREE.DoubleSide}
+      />
+    </mesh>
+  );
+}
+
+function RestingPage({
+  side,
+  layer,
+  texture
+}: {
+  side: -1 | 1;
+  layer: number;
+  texture: THREE.Texture;
+}) {
+  const group = useRef<THREE.Group>(null);
+  const geometry = useMemo(() => makePageGeometry(side, layer * 0.008), [side, layer]);
+
+  useFrame(() => {
+    if (group.current) {
+      group.current.rotation.z = side * (0.009 + layer * 0.006);
+      group.current.position.z = layer * 0.004;
     }
-  }
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-  return geometry;
-}
-
-function makePageEdgeCurves(side: -1 | 1) {
-  const top = new THREE.CatmullRomCurve3([
-    pagePoint(side, 0, 1),
-    pagePoint(side, 0.3, 1),
-    pagePoint(side, 0.68, 1),
-    pagePoint(side, 1, 1)
-  ]);
-  const bottom = new THREE.CatmullRomCurve3([
-    pagePoint(side, 0, 0),
-    pagePoint(side, 0.3, 0),
-    pagePoint(side, 0.68, 0),
-    pagePoint(side, 1, 0)
-  ]);
-  const outer = new THREE.CatmullRomCurve3([
-    pagePoint(side, 1, 0),
-    pagePoint(side, 1, 0.35),
-    pagePoint(side, 1, 0.68),
-    pagePoint(side, 1, 1)
-  ]);
-  const hinge = new THREE.CatmullRomCurve3([
-    pagePoint(side, 0, 0),
-    pagePoint(side, 0, 0.35),
-    pagePoint(side, 0, 0.68),
-    pagePoint(side, 0, 1)
-  ]);
-  return [top, bottom, outer, hinge];
-}
-
-function PageNetwork({ side, geometry, opacity = 0.72 }: { side: -1 | 1; geometry: THREE.BufferGeometry; opacity?: number }) {
-  const nodes = useMemo(() => makeNodeGeometry(side), [side]);
-  const edges = useMemo(() => makePageEdgeCurves(side), [side]);
+  });
 
   return (
-    <group>
-      <mesh geometry={geometry}>
-        <meshBasicMaterial
-          color="#15b8f3"
-          transparent
-          opacity={0.22}
-          side={THREE.DoubleSide}
-          depthWrite={false}
-        />
-      </mesh>
-      <mesh geometry={geometry}>
-        <meshBasicMaterial
-          color="#9dfaff"
-          wireframe
-          transparent
-          opacity={opacity}
-          side={THREE.DoubleSide}
-          depthWrite={false}
-        />
-      </mesh>
-      <points geometry={nodes}>
-        <pointsMaterial
-          color="#b8ffff"
-          size={0.018}
-          sizeAttenuation
-          transparent
-          opacity={0.9}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </points>
-      {edges.map((curve, index) => (
-        <mesh key={index}>
-          <tubeGeometry args={[curve, 32, index === 3 ? 0.004 : 0.006, 5, false]} />
-          <meshBasicMaterial
-            color={index === 2 ? "#4deaff" : "#a6ffff"}
-            transparent
-            opacity={index === 3 ? 0.46 : 0.86}
-          />
-        </mesh>
-      ))}
+    <group ref={group}>
+      <PaperSurface geometry={geometry} texture={texture} />
     </group>
   );
 }
 
-function FixedPage({ side }: { side: -1 | 1 }) {
-  const geometry = useMemo(() => makePageGeometry(side, 0), [side]);
-  return <PageNetwork side={side} geometry={geometry} opacity={0.76} />;
-}
-
-function TurningPage({ index }: { index: number }) {
+function TurningPage({ index, texture }: { index: number; texture: THREE.Texture }) {
   const group = useRef<THREE.Group>(null);
-  const geometry = useMemo(() => makePageGeometry(1, 0.008 + index * 0.005), [index]);
-  const basePositions = useMemo(() => {
-    const attribute = geometry.getAttribute("position") as THREE.BufferAttribute;
-    return new Float32Array(attribute.array as Float32Array);
+  const geometry = useMemo(() => makePageGeometry(1, 0.012 + index * 0.005), [index]);
+  const originalPositions = useMemo(() => {
+    const attr = geometry.getAttribute("position") as THREE.BufferAttribute;
+    return new Float32Array(attr.array as Float32Array);
   }, [geometry]);
 
   useFrame(({ clock }) => {
     if (!group.current) return;
-    const afterOpening = Math.max(0, clock.elapsedTime - OPEN_DURATION - 0.16);
-    const cycle = afterOpening % LOOP_DURATION;
+    const elapsed = Math.max(0, clock.elapsedTime - INTRO_OPEN_SECONDS);
+    const cycle = elapsed % CYCLE_SECONDS;
     let angle = 0;
     let curl = 0;
 
-    if (cycle < TURN_SEQUENCE) {
-      const start = index * PAGE_STAGGER;
-      const raw = (cycle - start) / TURN_DURATION;
-      angle = Math.PI * smoothstep(raw);
+    if (cycle < FORWARD_SECONDS) {
+      const raw = (cycle - index * TURN_STAGGER_SECONDS) / TURN_SECONDS;
+      angle = Math.PI * easeInOut(raw);
       if (raw >= 0 && raw <= 1) curl = Math.sin(raw * Math.PI);
     } else {
-      const resetTime = cycle - TURN_SEQUENCE;
-      const resetStart = (PAGE_COUNT - 1 - index) * 0.36;
-      const raw = (resetTime - resetStart) / 0.72;
-      angle = Math.PI * (1 - smoothstep(raw));
+      const reset = cycle - FORWARD_SECONDS;
+      const raw = (reset - (PAGE_COUNT - 1 - index) * 0.2) / 0.66;
+      angle = Math.PI * (1 - easeInOut(raw));
       if (raw >= 0 && raw <= 1) curl = Math.sin(raw * Math.PI) * 0.72;
     }
 
     group.current.rotation.y = angle;
-    group.current.position.z = 0.006 + index * 0.004;
+    group.current.position.z = 0.015 + index * 0.004;
 
-    const attribute = geometry.getAttribute("position") as THREE.BufferAttribute;
-    const current = attribute.array as Float32Array;
+    const position = geometry.getAttribute("position") as THREE.BufferAttribute;
+    const current = position.array as Float32Array;
     for (let i = 0; i < current.length; i += 3) {
-      const u = clamp01(basePositions[i] / PAGE_WIDTH);
-      current[i] = basePositions[i] - u * u * curl * 0.055;
-      current[i + 1] = basePositions[i + 1] + Math.sin(u * Math.PI) * curl * 0.035;
-      current[i + 2] = basePositions[i + 2] + Math.sin(u * Math.PI) * curl * 0.22;
+      const u = clamp01(originalPositions[i] / BOOK_WIDTH);
+      const pageMiddle = Math.sin(u * Math.PI);
+      current[i] = originalPositions[i] - u * u * curl * 0.045;
+      current[i + 1] = originalPositions[i + 1] + pageMiddle * curl * 0.07;
+      current[i + 2] = originalPositions[i + 2] + pageMiddle * curl * 0.23 + u * curl * 0.025;
     }
-    attribute.needsUpdate = true;
+    position.needsUpdate = true;
     geometry.computeVertexNormals();
   });
 
   return (
     <group ref={group}>
-      <PageNetwork side={1} geometry={geometry} opacity={0.5} />
+      <PaperSurface geometry={geometry} texture={texture} />
+      <mesh position={[BOOK_WIDTH * 0.92, 0, 0.12]}>
+        <boxGeometry args={[0.009, BOOK_HEIGHT * 0.88, 0.009]} />
+        <meshBasicMaterial color={GOLD_COLOR} transparent opacity={0.46} />
+      </mesh>
     </group>
   );
 }
 
 function BookCover({ side }: { side: -1 | 1 }) {
   const group = useRef<THREE.Group>(null);
-  const geometry = useMemo(() => makePageGeometry(side, -0.055), [side]);
+  const geometry = useMemo(() => makePageGeometry(side, -0.1), [side]);
+  const edge = useMemo(() => makeEdgeCurve(side, "outer"), [side]);
 
   useFrame(({ clock }) => {
-    const open = smoothstep(clock.elapsedTime / OPEN_DURATION);
+    const open = easeInOut(clock.elapsedTime / INTRO_OPEN_SECONDS);
     if (group.current) group.current.rotation.y = -side * 1.12 * (1 - open);
   });
 
@@ -225,108 +271,157 @@ function BookCover({ side }: { side: -1 | 1 }) {
     <group ref={group}>
       <mesh geometry={geometry}>
         <meshPhysicalMaterial
-          color="#08749e"
-          metalness={0.55}
-          roughness={0.22}
-          clearcoat={1}
-          emissive="#075d88"
-          emissiveIntensity={0.48}
-          transparent
-          opacity={0.2}
+          color="#35101f"
+          metalness={0.24}
+          roughness={0.42}
+          clearcoat={0.42}
+          clearcoatRoughness={0.32}
+          emissive="#15050c"
+          emissiveIntensity={0.24}
           side={THREE.DoubleSide}
-          depthWrite={false}
         />
       </mesh>
-      <mesh geometry={geometry}>
-        <meshBasicMaterial color="#43e9ff" wireframe transparent opacity={0.22} side={THREE.DoubleSide} depthWrite={false} />
+      <mesh>
+        <tubeGeometry args={[edge, 38, 0.006, 5, false]} />
+        <meshStandardMaterial color={GOLD_COLOR} metalness={0.65} roughness={0.32} emissive="#5c3f1d" emissiveIntensity={0.28} />
       </mesh>
     </group>
   );
 }
 
-function PageStack() {
-  const lines = useMemo(() => {
-    return Array.from({ length: 8 }, (_, index) => {
-      const depth = index * 0.013;
+function PageBlock() {
+  const curves = useMemo(() => {
+    return Array.from({ length: 13 }, (_, index) => {
+      const inset = index * 0.009;
       return new THREE.CatmullRomCurve3([
-        new THREE.Vector3(-PAGE_WIDTH, -0.59 - depth * 0.2, 0.35 - depth),
-        new THREE.Vector3(-0.93, -0.645 - depth, 0.27 - depth),
-        new THREE.Vector3(0, -0.66 - depth, 0.24 - depth),
-        new THREE.Vector3(0.93, -0.645 - depth, 0.27 - depth),
-        new THREE.Vector3(PAGE_WIDTH, -0.59 - depth * 0.2, 0.35 - depth)
+        new THREE.Vector3(-BOOK_WIDTH + inset, -0.55 + inset * 0.45, 0.12 - index * 0.004),
+        new THREE.Vector3(-0.95, -0.615 + inset * 0.18, 0.19 - index * 0.004),
+        new THREE.Vector3(0, -0.65 + inset * 0.08, 0.22 - index * 0.004),
+        new THREE.Vector3(0.95, -0.615 + inset * 0.18, 0.19 - index * 0.004),
+        new THREE.Vector3(BOOK_WIDTH - inset, -0.55 + inset * 0.45, 0.12 - index * 0.004)
       ]);
     });
   }, []);
 
   return (
     <group>
-      {lines.map((curve, index) => (
+      {curves.map((curve, index) => (
         <mesh key={index}>
-          <tubeGeometry args={[curve, 46, 0.0045, 4, false]} />
-          <meshBasicMaterial
-            color={index % 3 === 0 ? "#a5ffff" : index % 3 === 1 ? "#47cfff" : "#258aff"}
+          <tubeGeometry args={[curve, 48, 0.004, 5, false]} />
+          <meshStandardMaterial
+            color={index % 3 === 0 ? "#f4e5bf" : index % 3 === 1 ? "#cdb783" : "#a9956c"}
+            metalness={0.13}
+            roughness={0.74}
             transparent
-            opacity={0.68 - index * 0.045}
+            opacity={0.74 - index * 0.025}
           />
         </mesh>
       ))}
-      <mesh position={[0, -0.67, 0.28]}>
-        <boxGeometry args={[0.1, 0.04, 0.12]} />
-        <meshStandardMaterial color="#24e5e6" emissive="#27d9ea" emissiveIntensity={1.8} metalness={0.82} roughness={0.22} />
+      <mesh position={[0, -0.63, 0.19]}>
+        <boxGeometry args={[0.15, 0.045, 0.16]} />
+        <meshPhysicalMaterial color="#4a1225" metalness={0.25} roughness={0.48} clearcoat={0.25} />
+      </mesh>
+      <mesh position={[0, -0.602, 0.265]}>
+        <boxGeometry args={[0.018, 0.075, 0.014]} />
+        <meshStandardMaterial color="#d7b975" metalness={0.8} roughness={0.25} emissive="#66451e" emissiveIntensity={0.42} />
       </mesh>
     </group>
   );
 }
 
-function FloatingKnowledgeBook() {
-  const root = useRef<THREE.Group>(null);
-  const { size, pointer } = useThree();
-
+function BookGlow({ texture }: { texture: THREE.Texture }) {
+  const ref = useRef<THREE.Mesh>(null);
   useFrame(({ clock }) => {
-    const time = clock.elapsedTime;
-    const compact = size.width < 560;
-    const opening = smoothstep(time / OPEN_DURATION);
-
-    if (root.current) {
-      root.current.position.set(0, Math.sin(time * 0.62) * 0.065 - 0.02, 0);
-      root.current.scale.setScalar((compact ? 0.9 : 1.17) * (0.74 + opening * 0.26));
-      root.current.rotation.x = -0.25 + Math.sin(time * 0.34) * 0.032 - pointer.y * 0.035;
-      root.current.rotation.y = Math.sin(time * 0.24) * 0.13 + time * 0.018 + pointer.x * 0.105;
-      root.current.rotation.z = Math.sin(time * 0.31) * 0.035;
+    if (ref.current) {
+      const material = ref.current.material as THREE.MeshBasicMaterial;
+      material.opacity = 0.52 + (Math.sin(clock.elapsedTime * 1.45) + 1) * 0.09;
+      ref.current.scale.y = 1 + Math.sin(clock.elapsedTime * 0.8) * 0.035;
     }
   });
 
   return (
-    <group ref={root}>
-      <mesh position={[0, -0.03, -0.11]}>
-        <boxGeometry args={[0.13, PAGE_HEIGHT + 0.16, 0.13]} />
-        <meshStandardMaterial color="#087c9a" metalness={0.88} roughness={0.23} emissive="#087d95" emissiveIntensity={1.6} />
-      </mesh>
+    <mesh ref={ref} position={[0, 0.52, -0.48]}>
+      <planeGeometry args={[3.6, 3.55]} />
+      <meshBasicMaterial
+        map={texture}
+        transparent
+        opacity={0.62}
+        blending={THREE.AdditiveBlending}
+        depthWrite={false}
+        toneMapped={false}
+      />
+    </mesh>
+  );
+}
 
-      <FixedPage side={-1} />
-      <FixedPage side={1} />
-      {Array.from({ length: PAGE_COUNT }).map((_, index) => (
-        <TurningPage key={index} index={index} />
-      ))}
-      <BookCover side={-1} />
-      <BookCover side={1} />
-      <PageStack />
+function makeFourPointStar() {
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 1);
+  shape.lineTo(0.075, 0.12);
+  shape.lineTo(0.5, 0);
+  shape.lineTo(0.075, -0.12);
+  shape.lineTo(0, -1);
+  shape.lineTo(-0.075, -0.12);
+  shape.lineTo(-0.5, 0);
+  shape.lineTo(-0.075, 0.12);
+  shape.closePath();
+  return new THREE.ShapeGeometry(shape, 1);
+}
 
-      <pointLight position={[0, 0.18, 0.58]} color="#49f3ff" intensity={4.3} distance={3.8} />
-      <pointLight position={[-0.85, 0.3, 0.14]} color="#168cff" intensity={2.7} distance={3.1} />
-      <pointLight position={[0.85, 0.5, 0.2]} color="#70fff1" intensity={2.2} distance={3} />
-    </group>
+function StarTrail() {
+  const stars = useRef<THREE.InstancedMesh>(null);
+  const count = 38;
+  const geometry = useMemo(() => makeFourPointStar(), []);
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+  const tintWhite = useMemo(() => new THREE.Color("#fffdf4"), []);
+  const tintGold = useMemo(() => new THREE.Color("#f8e7c3"), []);
+
+  useFrame(({ clock }) => {
+    if (!stars.current) return;
+    const time = clock.elapsedTime;
+    for (let i = 0; i < count; i += 1) {
+      const progress = (i / count + time * 0.052) % 1;
+      const sBend = Math.sin(progress * Math.PI * 2.05);
+      const subtleWave = Math.sin(progress * 12 + i * 0.9) * 0.028;
+      dummy.position.set(
+        sBend * 0.14 + subtleWave,
+        -0.18 + progress * 2.62,
+        0.23 + Math.sin(progress * 5.3 + time) * 0.035
+      );
+      const twinkle = 0.66 + (Math.sin(time * 2.6 + i * 1.7) + 1) * 0.17;
+      const size = (i % 11 === 0 ? 0.072 : i % 5 === 0 ? 0.046 : 0.023 + (i % 3) * 0.005) * twinkle;
+      dummy.scale.set(size, size * (i % 4 === 0 ? 1.5 : 1), size);
+      dummy.rotation.set(0, 0, Math.sin(time * 0.38 + i) * 0.2);
+      dummy.updateMatrix();
+      stars.current.setMatrixAt(i, dummy.matrix);
+      stars.current.setColorAt(i, i % 4 === 0 ? tintGold : tintWhite);
+    }
+    stars.current.instanceMatrix.needsUpdate = true;
+    if (stars.current.instanceColor) stars.current.instanceColor.needsUpdate = true;
+  });
+
+  return (
+    <instancedMesh ref={stars} args={[geometry, undefined, count]}>
+      <meshBasicMaterial
+        color="#fffdf4"
+        transparent
+        opacity={0.94}
+        blending={THREE.AdditiveBlending}
+        depthWrite={false}
+        toneMapped={false}
+      />
+    </instancedMesh>
   );
 }
 
 function AmbientParticles() {
   const points = useRef<THREE.Points>(null);
   const geometry = useMemo(() => {
-    const positions = new Float32Array(520 * 3);
-    for (let i = 0; i < 520; i += 1) {
+    const positions = new Float32Array(310 * 3);
+    for (let i = 0; i < 310; i += 1) {
       positions[i * 3] = Math.sin(i * 12.9898) * 3.8;
       positions[i * 3 + 1] = Math.cos(i * 7.233) * 2.6;
-      positions[i * 3 + 2] = Math.sin(i * 4.723) * 2.0 - 0.5;
+      positions[i * 3 + 2] = Math.sin(i * 4.723) * 1.8 - 0.55;
     }
     const result = new THREE.BufferGeometry();
     result.setAttribute("position", new THREE.BufferAttribute(positions, 3));
@@ -335,109 +430,89 @@ function AmbientParticles() {
 
   useFrame(({ clock }) => {
     if (points.current) {
-      points.current.rotation.y = clock.elapsedTime * 0.009;
-      points.current.rotation.z = Math.sin(clock.elapsedTime * 0.06) * 0.012;
+      points.current.rotation.y = clock.elapsedTime * 0.006;
+      points.current.rotation.z = Math.sin(clock.elapsedTime * 0.06) * 0.008;
     }
   });
 
   return (
     <points ref={points} geometry={geometry}>
       <pointsMaterial
-        color="#54e8ec"
-        size={0.012}
+        color="#c2e5ea"
+        size={0.011}
         sizeAttenuation
         transparent
-        opacity={0.65}
+        opacity={0.39}
         depthWrite={false}
       />
     </points>
   );
 }
 
-function KnowledgeParticleStream() {
-  const points = useRef<THREE.Points>(null);
-  const geometry = useMemo(() => {
-    const positions = new Float32Array(96 * 3);
-    const result = new THREE.BufferGeometry();
-    result.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    return result;
-  }, []);
-  const curve = useMemo(() => new THREE.CatmullRomCurve3([
-    new THREE.Vector3(-1.15, -0.06, 0.2),
-    new THREE.Vector3(-0.82, 0.2, 0.36),
-    new THREE.Vector3(-0.35, 0.52, 0.52),
-    new THREE.Vector3(0.28, 0.61, 0.25),
-    new THREE.Vector3(0.88, 0.42, -0.1),
-    new THREE.Vector3(1.12, 0.18, -0.2)
-  ]), []);
+function FloatingKnowledgeBook({ paperTexture }: { paperTexture: THREE.Texture }) {
+  const root = useRef<THREE.Group>(null);
+  const { size, pointer } = useThree();
 
   useFrame(({ clock }) => {
-    const attribute = geometry.getAttribute("position") as THREE.BufferAttribute;
-    const positions = attribute.array as Float32Array;
-    const time = clock.elapsedTime * 0.075;
-    const count = positions.length / 3;
-    for (let i = 0; i < count; i += 1) {
-      const t = (i / count + time) % 1;
-      const point = curve.getPoint(t);
-      positions[i * 3] = point.x + Math.sin(t * Math.PI * 8 + clock.elapsedTime) * 0.015;
-      positions[i * 3 + 1] = point.y + Math.cos(t * Math.PI * 6 + clock.elapsedTime * 1.2) * 0.018;
-      positions[i * 3 + 2] = point.z + Math.sin(t * Math.PI * 7 + clock.elapsedTime) * 0.014;
-    }
-    attribute.needsUpdate = true;
+    const time = clock.elapsedTime;
+    const compact = size.width < 560;
+    const open = easeInOut(time / INTRO_OPEN_SECONDS);
+    if (!root.current) return;
+
+    root.current.position.set(0, Math.sin(time * 0.6) * 0.045 - 0.19, 0);
+    const horizontalScale = (compact ? 0.88 : 1.23) * (0.24 + open * 0.76);
+    root.current.scale.set(horizontalScale, compact ? 0.82 : 0.96, compact ? 0.85 : 1);
+    root.current.rotation.x = -0.17 + Math.sin(time * 0.3) * 0.023 - pointer.y * 0.022;
+    root.current.rotation.y = Math.sin(time * 0.2) * 0.1 + time * 0.011 + pointer.x * 0.065;
+    root.current.rotation.z = -0.015 + Math.sin(time * 0.26) * 0.026;
   });
 
   return (
-    <>
-      <mesh>
-        <tubeGeometry args={[curve, 56, 0.003, 5, false]} />
-        <meshBasicMaterial color="#65f9ed" transparent opacity={0.2} />
-      </mesh>
-      <points ref={points} geometry={geometry}>
-        <pointsMaterial
-          color="#b7ffff"
-          size={0.02}
-          sizeAttenuation
-          transparent
-          opacity={0.88}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </points>
-    </>
-  );
-}
+    <group>
+      <BookGlow texture={useMemo(() => makeGlowTexture(), [])} />
+      <group ref={root}>
+        <BookCover side={-1} />
+        <BookCover side={1} />
 
-function HologramFloor() {
-  const floor = useRef<THREE.Group>(null);
-  useFrame(({ clock }) => {
-    if (floor.current) floor.current.rotation.z = clock.elapsedTime * 0.022;
-  });
+        {[0, 1, 2].map((layer) => (
+          <RestingPage key={"left-" + layer} side={-1} layer={layer} texture={paperTexture} />
+        ))}
+        {[0, 1].map((layer) => (
+          <RestingPage key={"right-" + layer} side={1} layer={layer} texture={paperTexture} />
+        ))}
+        {Array.from({ length: PAGE_COUNT }).map((_, index) => (
+          <TurningPage key={index} index={index} texture={paperTexture} />
+        ))}
+        <PageBlock />
+      </group>
 
-  return (
-    <group ref={floor} position={[0, -1.22, -0.55]} scale={[1.35, 0.24, 1]}>
-      <mesh>
-        <torusGeometry args={[1.22, 0.0035, 6, 120]} />
-        <meshBasicMaterial color="#4ae8e7" transparent opacity={0.23} />
-      </mesh>
-      <mesh rotation={[0, 0, 0.78]} scale={[1.24, 1, 1]}>
-        <torusGeometry args={[1.22, 0.0025, 6, 120]} />
-        <meshBasicMaterial color="#448cff" transparent opacity={0.19} />
-      </mesh>
+      <pointLight position={[0, -0.18, 0.36]} color="#fff2cf" intensity={7.2} distance={3.8} />
+      <pointLight position={[-1.05, 0.15, 0.13]} color="#8adfff" intensity={2.2} distance={3.2} />
+      <pointLight position={[1.0, 0.3, 0.14]} color="#72eaff" intensity={1.7} distance={3.0} />
     </group>
   );
 }
 
-function SceneContents() {
+function SparkleAtmosphere() {
+  const paperTexture = useMemo(() => makePaperTexture(), []);
+  const glowTexture = useMemo(() => makeGlowTexture(), []);
+
   return (
     <>
-      <ambientLight intensity={0.74} />
-      <pointLight position={[2.2, 2.7, 3.8]} color="#5ceeff" intensity={30} distance={8} />
-      <pointLight position={[-3, -1.2, 1.4]} color="#327cff" intensity={17} distance={8} />
-      <pointLight position={[0, 2.2, -2]} color="#2b9dff" intensity={10} distance={7} />
+      <mesh position={[0, 0.4, -0.9]}>
+        <planeGeometry args={[4.0, 4.0]} />
+        <meshBasicMaterial
+          map={glowTexture}
+          transparent
+          opacity={0.27}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
       <AmbientParticles />
-      <FloatingKnowledgeBook />
-      <KnowledgeParticleStream />
-      <HologramFloor />
+      <FloatingKnowledgeBook paperTexture={paperTexture} />
+      <StarTrail />
     </>
   );
 }
@@ -447,14 +522,20 @@ export default function GrowthScene() {
     <Canvas
       className="growth-canvas"
       camera={{ position: [0, 0, 5.65], fov: 38 }}
-      dpr={[1, 1.35]}
+      dpr={[1, 1.3]}
       gl={{ alpha: true, antialias: true, powerPreference: "low-power" }}
       onCreated={({ gl }) => {
         gl.setClearColor("#000000", 0);
         gl.outputColorSpace = THREE.SRGBColorSpace;
+        gl.toneMapping = THREE.ACESFilmicToneMapping;
+        gl.toneMappingExposure = 1.08;
       }}
     >
-      <SceneContents />
+      <ambientLight intensity={1.1} />
+      <pointLight position={[-2.2, 2.6, 3.8]} color="#fff3d2" intensity={15} distance={8} />
+      <pointLight position={[2.7, 1.4, 2.6]} color="#4ddff6" intensity={8} distance={7} />
+      <pointLight position={[-2.5, -1.2, 1.8]} color="#459cff" intensity={5} distance={7} />
+      <SparkleAtmosphere />
     </Canvas>
   );
 }
