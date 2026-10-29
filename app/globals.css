@@ -5361,3 +5361,191 @@ canvas {
     margin-bottom: 13px;
   }
 }
+
+
+/* Site-wide vertical rhythm audit — remove dead space without flattening the design */
+/* Homepage hero: let content set the height instead of a tall artificial canvas. */
+.hero-section {
+  min-height: auto;
+  padding-block: 26px 26px;
+  align-items: center;
+}
+.hero-section .hero-copy {
+  padding-block: 0;
+}
+.hero-section .hero-eyebrow-positioning {
+  margin-bottom: 12px;
+}
+.hero-section .hero-art {
+  height: 500px;
+}
+.hero-section .hero-scroll-note {
+  margin-top: 20px;
+}
+
+/* The second section should begin promptly after the hero visual ends. */
+.founder-layout {
+  padding-block: 54px 48px;
+  gap: clamp(34px, 5vw, 72px);
+}
+
+/* Consistent section spacing throughout the 12-part homepage. */
+.section {
+  padding-block: 92px;
+}
+.section-intro {
+  margin-bottom: 36px;
+  gap: clamp(28px, 4vw, 52px);
+}
+.challenge-intro {
+  margin-bottom: 32px;
+}
+.challenge-body {
+  gap: 28px;
+}
+.challenge-conclusion {
+  margin-top: 28px;
+  padding-top: 20px;
+}
+.approach-card {
+  min-height: 310px;
+}
+.examine-card {
+  min-height: 220px;
+}
+.systems-card {
+  min-height: 330px;
+}
+.principle-card {
+  min-height: 200px;
+}
+.audiences-intro-note {
+  margin-top: -12px;
+  margin-bottom: 24px;
+}
+.about-bottomline {
+  margin-top: 38px;
+}
+
+/* Final CTA and contact route: trim decorative top/bottom-only spacing. */
+.final-cta-section {
+  padding-block: clamp(72px, 8vw, 108px);
+}
+.contact-page {
+  min-height: auto;
+  padding-block: 28px 76px;
+}
+.contact-page-heading {
+  margin: 36px auto 38px;
+}
+.contact-form-success {
+  min-height: 250px;
+}
+
+@media (max-width: 1180px) {
+  .hero-section {
+    padding-block: 24px 22px;
+  }
+  .hero-section .hero-art {
+    height: 460px;
+  }
+}
+
+@media (max-width: 980px) {
+  .section {
+    padding-block: 72px;
+  }
+  .section-intro {
+    margin-bottom: 30px;
+  }
+  .hero-section {
+    padding-block: 24px 22px;
+  }
+  .hero-section .hero-art {
+    height: 420px;
+  }
+  .founder-layout {
+    padding-block: 48px 40px;
+    gap: 30px;
+  }
+  .approach-card {
+    min-height: 285px;
+  }
+  .systems-card {
+    min-height: 300px;
+  }
+  .final-cta-section {
+    padding-block: 72px;
+  }
+  .contact-page {
+    padding-bottom: 60px;
+  }
+  .contact-page-heading {
+    margin: 30px auto 30px;
+  }
+}
+
+@media (max-width: 680px) {
+  .section {
+    padding-block: 54px;
+  }
+  .section-intro {
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .challenge-intro {
+    margin-bottom: 24px;
+  }
+  .hero-section {
+    min-height: 0;
+    padding-block: 20px 20px;
+    gap: 3px;
+  }
+  .hero-section .hero-copy {
+    padding: 0;
+  }
+  .hero-section .hero-eyebrow-positioning {
+    margin-bottom: 10px;
+  }
+  .hero-section .hero-art {
+    height: 310px;
+    margin: 4px -18px -10px;
+  }
+  .founder-layout {
+    padding-block: 40px 30px;
+    gap: 26px;
+  }
+  .founder-edition {
+    margin-top: 22px;
+  }
+  .approach-card {
+    min-height: 0;
+  }
+  .examine-card {
+    min-height: 0;
+  }
+  .systems-card {
+    min-height: 0;
+  }
+  .principle-card {
+    min-height: 0;
+  }
+  .audiences-intro-note {
+    margin: -4px 0 20px;
+  }
+  .about-bottomline {
+    margin-top: 28px;
+  }
+  .final-cta-section {
+    padding-block: 58px;
+  }
+  .contact-page {
+    padding-block: 22px 48px;
+  }
+  .contact-page-heading {
+    margin: 28px auto 24px;
+  }
+  .contact-form-success {
+    min-height: 210px;
+  }
+}
