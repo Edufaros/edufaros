@@ -6037,7 +6037,8 @@ html.lenis.lenis-smooth iframe {
 
 
 
-/* Compact, balanced client and professional-partner marquee. */
+
+/* Equal-width partner logo slots keep every mark on a consistent rhythm. */
 .client-logo-strip {
   padding: 8px 0 10px;
 }
@@ -6046,17 +6047,8 @@ html.lenis.lenis-smooth iframe {
   font-size: 8.5px;
   letter-spacing: 0.16em;
 }
-.client-logo-marquee-sequence {
-  display: flex;
-  align-items: center;
-  width: max-content;
-  flex: 0 0 auto;
-}
 .client-logo-marquee-art {
-  height: 116px;
-}
-.client-logo-marquee-additions {
-  margin-left: 22px;
+  height: 124px;
 }
 @media (max-width: 680px) {
   .client-logo-strip {
@@ -6068,9 +6060,6 @@ html.lenis.lenis-smooth iframe {
     letter-spacing: 0.12em;
   }
   .client-logo-marquee-art {
-    height: 86px;
-  }
-  .client-logo-marquee-additions {
-    margin-left: 16px;
+    height: 96px;
   }
 }

@@ -334,43 +334,24 @@ export default function HomePage() {
           </h2>
           <div className="client-logo-marquee">
             <div className="client-logo-marquee-track">
-              <div className="client-logo-marquee-sequence">
-                <Image
-                  src="/client-logos-marquee.svg"
-                  alt="Azan Overseas, Azan Enterprises, D-Naaz International, Synergy Career Consultant, Paika, Synergy IELTS, and Nutri Coach"
-                  width={2710}
-                  height={320}
-                  className="client-logo-marquee-art"
-                  unoptimized
-                  priority
-                />
-                <Image
-                  src="/new-professional-partner-logos.svg"
-                  alt="LinkedIn Coach and Creative Agency"
-                  width={1100}
-                  height={320}
-                  className="client-logo-marquee-art client-logo-marquee-additions"
-                  unoptimized
-                />
-              </div>
-              <div className="client-logo-marquee-sequence" aria-hidden="true">
-                <Image
-                  src="/client-logos-marquee.svg"
-                  alt=""
-                  width={2710}
-                  height={320}
-                  className="client-logo-marquee-art"
-                  unoptimized
-                />
-                <Image
-                  src="/new-professional-partner-logos.svg"
-                  alt=""
-                  width={1100}
-                  height={320}
-                  className="client-logo-marquee-art client-logo-marquee-additions"
-                  unoptimized
-                />
-              </div>
+              <Image
+                src="/client-logos-marquee.svg"
+                alt="Azan Overseas, Azan Enterprises, D-Naaz International, Synergy Career Consultant, Paika, Synergy IELTS, Nutri Coach, LinkedIn Coach, and Creative Agency"
+                width={3420}
+                height={320}
+                className="client-logo-marquee-art"
+                unoptimized
+                priority
+              />
+              <Image
+                src="/client-logos-marquee.svg"
+                alt=""
+                aria-hidden="true"
+                width={3420}
+                height={320}
+                className="client-logo-marquee-art"
+                unoptimized
+              />
             </div>
           </div>
         </section>
