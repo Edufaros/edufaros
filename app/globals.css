@@ -5993,7 +5993,7 @@ html.lenis.lenis-smooth iframe {
   display: flex;
   width: max-content;
   align-items: center;
-  animation: edufaros-client-logo-scroll 32s linear infinite;
+  animation: edufaros-client-logo-scroll 20s linear infinite;
   will-change: transform;
 }
 .client-logo-marquee-art {
@@ -6056,6 +6056,9 @@ html.lenis.lenis-smooth iframe {
   flex: 0 0 auto;
 }
 @media (max-width: 680px) {
+  .client-logo-marquee-track {
+    animation-duration: 16s;
+  }
   .client-logo-strip {
     padding: 6px 0 8px;
   }
