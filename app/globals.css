@@ -5963,3 +5963,74 @@ html.lenis.lenis-smooth iframe {
 .engagement-step-copy h3 {
   text-wrap: pretty;
 }
+
+
+/* Client logo marquee — a clean white bridge above the growth challenge. */
+.client-logo-strip {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  overflow: hidden;
+  padding: 14px 0 15px;
+  border-block: 1px solid rgba(13, 18, 22, 0.08);
+  background: #fff;
+}
+.client-logo-strip-heading {
+  margin: 0 0 5px;
+  color: #111619;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.22em;
+  line-height: 1.45;
+  text-align: center;
+}
+.client-logo-marquee {
+  width: 100%;
+  overflow: hidden;
+}
+.client-logo-marquee-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  animation: edufaros-client-logo-scroll 42s linear infinite;
+  will-change: transform;
+}
+.client-logo-marquee-art {
+  display: block;
+  width: auto;
+  height: 112px;
+  max-width: none;
+  flex: 0 0 auto;
+}
+@keyframes edufaros-client-logo-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (hover: hover) and (pointer: fine) {
+  .client-logo-marquee:hover .client-logo-marquee-track {
+    animation-play-state: paused;
+  }
+}
+@media (max-width: 680px) {
+  .client-logo-strip {
+    padding: 11px 0 12px;
+  }
+  .client-logo-strip-heading {
+    margin-bottom: 3px;
+    font-size: 8px;
+    letter-spacing: 0.16em;
+  }
+  .client-logo-marquee-art {
+    height: 90px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .client-logo-marquee-track {
+    animation: none;
+    transform: none;
+  }
+  .client-logo-marquee {
+    overflow-x: auto;
+  }
+}

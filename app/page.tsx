@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   Activity,
@@ -326,6 +327,34 @@ export default function HomePage() {
         </section>
 
         <FounderMessage />
+
+        <section className="client-logo-strip" aria-labelledby="client-logo-strip-heading">
+          <h2 className="client-logo-strip-heading" id="client-logo-strip-heading">
+            COMPANIES WE&apos;VE WORKED WITH
+          </h2>
+          <div className="client-logo-marquee">
+            <div className="client-logo-marquee-track">
+              <Image
+                src="/client-logos-marquee.png"
+                alt="Azan Overseas, Enterprises, D-Naaz International, Synergy, Paika, Synergy IELTS, and Nutri Coach"
+                width={3430}
+                height={320}
+                className="client-logo-marquee-art"
+                unoptimized
+                priority
+              />
+              <Image
+                src="/client-logos-marquee.png"
+                alt=""
+                aria-hidden="true"
+                width={3430}
+                height={320}
+                className="client-logo-marquee-art"
+                unoptimized
+              />
+            </div>
+          </div>
+        </section>
 
         <section className="section challenge-section page-shell" id="challenge">
           <Reveal className="section-intro challenge-intro">
