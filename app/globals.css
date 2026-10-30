@@ -5833,3 +5833,29 @@ body {
     margin-right: 0 !important;
   }
 }
+
+
+/* Lenis smooth scrolling — preserves native scroll and reduced-motion preferences. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+html.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+html.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+html.lenis.lenis-stopped {
+  overflow: clip;
+}
+html.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.lenis,
+  html.lenis body,
+  html.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Caveat, Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -60,6 +61,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={spaceGrotesk.variable + " " + inter.variable + " " + caveat.variable}>
+        <SmoothScroll />
         {children}
       </body>
     </html>
