@@ -1,28 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="3430" height="320" viewBox="0 0 3430 320">
-  <g>
-    <rect x="55" y="0" width="360" height="320" fill="#fff"/>
-    <rect x="3015" y="0" width="415" height="320" fill="#fff"/>
-  </g>
-  <g fill="#050505" stroke="none">
+  <rect width="480" height="320" fill="#fff"/>
+  <rect x="2950" width="480" height="320" fill="#fff"/>
+  <g fill="#050505">
     <g transform="translate(235 0)">
-      <circle cx="0" cy="58" r="19"/>
-      <circle cx="-91" cy="154" r="17"/>
-      <circle cx="94" cy="176" r="17"/>
-      <path d="M-18 80 C-78 88 -111 126 -98 162 C-87 193 -44 204 10 221 C54 235 72 252 58 271 C43 292 1 293 -34 278 C-54 269 -70 255 -78 237 C-54 261 -17 263 8 252 C28 243 24 228 -1 218 C-43 201 -103 186 -119 153 C-140 110 -101 70 -54 54 C-41 49 -29 49 -18 50 Z"/>
-      <path d="M-15 86 C38 79 90 109 102 148 C111 177 91 202 66 219 C94 190 82 158 60 139 C33 116 3 111 -15 113 C-38 115 -56 126 -70 143 C-67 111 -45 93 -15 86 Z"/>
+      <circle cx="0" cy="52" r="15"/>
+      <circle cx="-76" cy="142" r="13"/>
+      <circle cx="78" cy="164" r="13"/>
+      <path d="M-24 72 C-80 76 -108 108 -91 141 C-78 166 -37 178 6 192 C40 204 52 222 34 237 C12 255 -35 242 -58 215 C-50 245 -14 263 23 255 C60 247 80 221 67 195 C56 172 21 158 -16 146 C-49 135 -62 120 -53 102 C-45 84 -28 77 -9 75 Z"/>
+      <path d="M-17 79 C20 76 57 96 73 127 C84 150 77 172 61 187 C69 159 50 129 27 115 C8 104 -12 102 -32 109 C-29 94 -24 85 -17 79 Z"/>
     </g>
-    <g transform="translate(3260 0)">
-      <circle cx="0" cy="58" r="19"/>
-      <circle cx="-91" cy="154" r="17"/>
-      <circle cx="94" cy="176" r="17"/>
-      <path d="M-18 80 C-78 88 -111 126 -98 162 C-87 193 -44 204 10 221 C54 235 72 252 58 271 C43 292 1 293 -34 278 C-54 269 -70 255 -78 237 C-54 261 -17 263 8 252 C28 243 24 228 -1 218 C-43 201 -103 186 -119 153 C-140 110 -101 70 -54 54 C-41 49 -29 49 -18 50 Z"/>
-      <path d="M-15 86 C38 79 90 109 102 148 C111 177 91 202 66 219 C94 190 82 158 60 139 C33 116 3 111 -15 113 C-38 115 -56 126 -70 143 C-67 111 -45 93 -15 86 Z"/>
+    <g transform="translate(3220 0)">
+      <circle cx="0" cy="52" r="15"/>
+      <circle cx="-76" cy="142" r="13"/>
+      <circle cx="78" cy="164" r="13"/>
+      <path d="M-24 72 C-80 76 -108 108 -91 141 C-78 166 -37 178 6 192 C40 204 52 222 34 237 C12 255 -35 242 -58 215 C-50 245 -14 263 23 255 C60 247 80 221 67 195 C56 172 21 158 -16 146 C-49 135 -62 120 -53 102 C-45 84 -28 77 -9 75 Z"/>
+      <path d="M-17 79 C20 76 57 96 73 127 C84 150 77 172 61 187 C69 159 50 129 27 115 C8 104 -12 102 -32 109 C-29 94 -24 85 -17 79 Z"/>
     </g>
   </g>
   <g fill="#050505" font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
-    <text x="235" y="247" font-size="48" font-weight="700" letter-spacing="2">SYNERGY</text>
-    <text x="235" y="278" font-size="19" font-weight="700" letter-spacing="1.4">CAREER CONSULTANT</text>
-    <text x="3260" y="247" font-size="48" font-weight="700" letter-spacing="2">SYNERGY</text>
-    <text x="3260" y="278" font-size="19" font-weight="700" letter-spacing="1.4">CAREER CONSULTANT</text>
+    <text x="235" y="265" font-size="46" font-weight="700" letter-spacing="1.4">SYNERGY</text>
+    <text x="235" y="294" font-size="18" font-weight="700" letter-spacing="1.8">CAREER CONSULTANT</text>
+    <text x="3220" y="265" font-size="46" font-weight="700" letter-spacing="1.4">SYNERGY</text>
+    <text x="3220" y="294" font-size="18" font-weight="700" letter-spacing="1.8">CAREER CONSULTANT</text>
   </g>
 </svg>

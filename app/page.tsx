@@ -357,7 +357,7 @@ export default function HomePage() {
                 <Image
                   src="/new-professional-partner-logos.svg"
                   alt="LinkedIn Coach and Creative Agency"
-                  width={1800}
+                  width={1300}
                   height={320}
                   className="client-logo-marquee-art client-logo-marquee-additions"
                   unoptimized
