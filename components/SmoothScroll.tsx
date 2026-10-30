@@ -12,6 +12,7 @@ export default function SmoothScroll() {
     const lenis = new Lenis({
       lerp: 0.085,
       smoothWheel: true,
+      syncTouch: true,
       anchors: { offset: -96 }
     });
 
