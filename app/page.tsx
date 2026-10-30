@@ -335,57 +335,37 @@ export default function HomePage() {
           <div className="client-logo-marquee">
             <div className="client-logo-marquee-track">
               <div className="client-logo-marquee-sequence">
-                <div className="client-logo-marquee-original">
-                  <Image
-                    src="/client-logos-marquee.png"
-                    alt="Paika, Synergy IELTS, Nutri Coach, Azan Overseas, Azan Enterprises, and D-Naaz International"
-                    width={3430}
-                    height={320}
-                    className="client-logo-marquee-art"
-                    unoptimized
-                    priority
-                  />
-                  <Image
-                    src="/synergy-career-consultant-overlay.svg"
-                    alt="Synergy Career Consultant"
-                    width={3430}
-                    height={320}
-                    className="client-logo-marquee-overlay"
-                    unoptimized
-                  />
-                </div>
+                <Image
+                  src="/client-logos-marquee.svg"
+                  alt="Azan Overseas, Azan Enterprises, D-Naaz International, Synergy Career Consultant, Paika, Synergy IELTS, and Nutri Coach"
+                  width={2710}
+                  height={320}
+                  className="client-logo-marquee-art"
+                  unoptimized
+                  priority
+                />
                 <Image
                   src="/new-professional-partner-logos.svg"
                   alt="LinkedIn Coach and Creative Agency"
-                  width={1300}
+                  width={1100}
                   height={320}
                   className="client-logo-marquee-art client-logo-marquee-additions"
                   unoptimized
                 />
               </div>
               <div className="client-logo-marquee-sequence" aria-hidden="true">
-                <div className="client-logo-marquee-original">
-                  <Image
-                    src="/client-logos-marquee.png"
-                    alt=""
-                    width={3430}
-                    height={320}
-                    className="client-logo-marquee-art"
-                    unoptimized
-                  />
-                  <Image
-                    src="/synergy-career-consultant-overlay.svg"
-                    alt=""
-                    width={3430}
-                    height={320}
-                    className="client-logo-marquee-overlay"
-                    unoptimized
-                  />
-                </div>
+                <Image
+                  src="/client-logos-marquee.svg"
+                  alt=""
+                  width={2710}
+                  height={320}
+                  className="client-logo-marquee-art"
+                  unoptimized
+                />
                 <Image
                   src="/new-professional-partner-logos.svg"
                   alt=""
-                  width={1800}
+                  width={1100}
                   height={320}
                   className="client-logo-marquee-art client-logo-marquee-additions"
                   unoptimized

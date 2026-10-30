@@ -6036,11 +6036,15 @@ html.lenis.lenis-smooth iframe {
 }
 
 
-/* Partner logo extensions: replace the former Synergy study-abroad marks
-   and append the two additional professional partners in the same loop. */
+
+/* Compact, balanced client and professional-partner marquee. */
+.client-logo-strip {
+  padding: 8px 0 10px;
+}
 .client-logo-strip-heading {
+  margin: 0 0 3px;
   font-size: 8.5px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
 }
 .client-logo-marquee-sequence {
   display: flex;
@@ -6048,32 +6052,25 @@ html.lenis.lenis-smooth iframe {
   width: max-content;
   flex: 0 0 auto;
 }
-.client-logo-marquee-original {
-  position: relative;
-  display: block;
-  flex: 0 0 auto;
-  line-height: 0;
-}
-.client-logo-marquee-overlay {
-  position: absolute !important;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  pointer-events: none;
+.client-logo-marquee-art {
+  height: 116px;
 }
 .client-logo-marquee-additions {
-  margin-left: 18px;
-  margin-right: 65px;
+  margin-left: 22px;
 }
 @media (max-width: 680px) {
+  .client-logo-strip {
+    padding: 6px 0 8px;
+  }
   .client-logo-strip-heading {
+    margin-bottom: 2px;
     font-size: 7px;
     letter-spacing: 0.12em;
   }
+  .client-logo-marquee-art {
+    height: 86px;
+  }
   .client-logo-marquee-additions {
-    margin-left: 12px;
-    margin-right: 35px;
+    margin-left: 16px;
   }
 }
