@@ -5859,3 +5859,107 @@ html.lenis.lenis-smooth iframe {
     scroll-behavior: auto !important;
   }
 }
+
+
+/* Audience profiles: compact, accessible disclosures keep the overview scannable. */
+.segment-reveal {
+  min-width: 0;
+  align-self: start;
+}
+.segment-card {
+  display: block;
+  min-height: 0;
+  padding: 0;
+}
+.segment-card-summary {
+  display: block;
+  padding: 23px 21px 19px;
+  cursor: pointer;
+  list-style: none;
+}
+.segment-card-summary::-webkit-details-marker {
+  display: none;
+}
+.segment-card-summary:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: -4px;
+}
+.segment-card-summary h3 {
+  margin: 21px 0 11px;
+}
+.segment-expand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 18px;
+  border-top: 1px solid rgba(135, 166, 194, 0.13);
+  padding-top: 13px;
+  color: var(--teal);
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+.segment-expand-close {
+  display: none;
+}
+.segment-expand-icon {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(97, 238, 219, 0.27);
+  border-radius: 50%;
+  color: var(--teal);
+  font-size: 16px;
+  font-weight: 400;
+  transition: transform 220ms ease, background 220ms ease;
+}
+.segment-card[open] .segment-expand-open {
+  display: none;
+}
+.segment-card[open] .segment-expand-close {
+  display: inline;
+}
+.segment-card[open] .segment-expand-icon {
+  transform: rotate(45deg);
+  background: rgba(97, 238, 219, 0.07);
+}
+.segment-details-body {
+  padding: 0 21px 21px;
+}
+.segment-details-body .segment-divider {
+  margin: 0 0 15px;
+}
+.segment-detail-label {
+  color: var(--teal);
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+.segment-details-body .segment-examines {
+  margin: 8px 0 15px;
+}
+.segment-details-body .segment-journey {
+  margin-top: 0;
+}
+.segment-card[open] {
+  border-color: rgba(97, 238, 219, 0.3);
+}
+@media (max-width: 680px) {
+  .segment-card-summary {
+    padding: 20px 18px 17px;
+  }
+  .segment-details-body {
+    padding: 0 18px 18px;
+  }
+}
+
+/* Keep the primary contact action, but provide softer paths elsewhere. */
+.approach-card h3,
+.examine-card h3,
+.systems-card h3,
+.engagement-step-copy h3 {
+  text-wrap: pretty;
+}

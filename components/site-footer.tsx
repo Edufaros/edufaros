@@ -63,8 +63,8 @@ export default function SiteFooter() {
           <span className="eyebrow">START WITH CONTEXT</span>
           <h3>Let's understand the challenge.</h3>
           <p>Tell us what your business sells, what you want to improve, and what you currently know about the customer journey.</p>
-          <Link href="/contact" className="footer-newsletter-link">
-            Discuss a Growth Challenge <ArrowUpRight size={15} />
+          <Link href="/#fit" className="footer-newsletter-link">
+            Review the Fit Criteria <ArrowUpRight size={15} />
           </Link>
         </div>
       </div>

@@ -23,9 +23,7 @@ export default function FounderMessage() {
             <span>We help the right students find you.</span>
           </h2>
           <blockquote className="founder-quote">
-            “Again and again—with a connected growth system designed to make
-            the next enquiry feel less uncertain, and the next step more
-            intentional.”
+            “A clear growth system starts with understanding where enquiries come from, what happens next, and what deserves attention.”
           </blockquote>
           <p className="founder-support">
             Education businesses should not have to guess where tomorrow’s

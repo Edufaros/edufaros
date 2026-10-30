@@ -32,7 +32,7 @@ export default function HeroVisual() {
       </div>
       <div className="hero-node hero-node-automate">
         <span className="node-indicator" />
-        <span className="node-label">IMPLEMENT</span>
+        <span className="node-label">BUILD</span>
         <strong>Build what is needed</strong>
       </div>
       <div className="hero-node hero-node-scale">

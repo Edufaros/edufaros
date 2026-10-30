@@ -20,7 +20,6 @@ import {
   MessageSquareText,
   MonitorPlay,
   Network,
-  Play,
   Route,
   Search,
   ShieldCheck,
@@ -37,31 +36,31 @@ import Reveal from "@/components/reveal";
 const approach = [
   {
     number: "01",
-    label: "DIAGNOSE",
+    label: "UNDERSTAND",
     icon: Search,
-    title: "Audit",
-    description: "We examine the offer, audience, current approach, demand sources, customer journey, conversion process, follow-up, available measurement, and operating constraints. The aim is to understand the current situation and identify the areas that deserve closer attention."
+    title: "Understand the journey",
+    description: "We review the offer, audience, demand sources, conversion path, follow-up, measurement, and operating constraints to understand what is happening today."
   },
   {
     number: "02",
     label: "PRIORITIZE",
     icon: Compass,
-    title: "Strategize",
-    description: "We use what the audit reveals to identify the most important constraint or opportunity, prioritize what to address first, and define a focused objective and implementation plan."
+    title: "Choose the priority",
+    description: "We identify the most important constraint or opportunity, decide what deserves attention first, and agree on a focused objective and plan."
   },
   {
     number: "03",
-    label: "PUT INTO PRACTICE",
+    label: "BUILD",
     icon: Workflow,
-    title: "Build & Implement",
-    description: "We implement the agreed components needed to put the strategy into practice. Depending on the situation, this may involve campaigns, pages, conversion flows, CRM workflows, follow-up, automation, tracking, or changes to an operating process."
+    title: "Build what is needed",
+    description: "We implement the agreed components. Depending on the need, that may include campaigns, pages, conversion flows, CRM workflows, follow-up, automation, or tracking."
   },
   {
     number: "04",
-    label: "LEARN & REFINE",
+    label: "IMPROVE",
     icon: Activity,
-    title: "Measure & Improve",
-    description: "We test the implementation, review performance against an available baseline, and assess what the evidence shows. The next improvement is based on what we learn—not on adding activity for its own sake."
+    title: "Learn from evidence",
+    description: "We review performance against the available baseline, learn from reliable evidence, and decide what to keep, change, or test next."
   }
 ];
 
@@ -140,7 +139,7 @@ const audiences = [
     number: "01",
     icon: GraduationCap,
     title: "Independent Admissions Consultants & College Counselors",
-    description: "For independent educational consultants and smaller practices advising students and families on college choice and applications.",
+    description: "For independent education consultants advising students and families on college choice and applications.",
     examines: "We may examine how the practice explains its services, attracts suitable family inquiries, qualifies prospective clients, books consultations, follows up with families, and understands which sources lead to signed engagements.",
     journey: "Suitable family inquiry → qualification → fit call or consultation → paid package or signed engagement."
   },
@@ -148,7 +147,7 @@ const audiences = [
     number: "02",
     icon: BookOpen,
     title: "Professional Certification & Exam-Prep Companies",
-    description: "For businesses selling preparation courses, question banks, study materials, mock exams, tutoring, bootcamps, or subscriptions for professional credentials and exams.",
+    description: "For providers of certification preparation, question banks, mock exams, tutoring, bootcamps, and exam subscriptions.",
     examines: "We may examine the path from exam-specific interest to a sample, trial, or course page and onward to paid enrollment, including offer clarity, checkout, follow-up, and measurement through purchase.",
     journey: "Exam-specific interest → course page → sample, trial, or checkout → paid course enrollment."
   },
@@ -156,7 +155,7 @@ const audiences = [
     number: "03",
     icon: Building2,
     title: "Continuing Education Providers",
-    description: "For providers selling professional development courses, webinars, workshops, credit-bearing learning, memberships, course bundles, or employer training.",
+    description: "For providers selling professional development, workshops, webinars, memberships, and employer training.",
     examines: "We may examine course discovery, registration, webinar follow-up, purchase and refund data, repeat registration, and relevant paths to further courses or employer opportunities.",
     journey: "Professional learning need → course discovery or webinar → paid registration → relevant next course or program."
   },
@@ -164,7 +163,7 @@ const audiences = [
     number: "04",
     icon: MessageSquareText,
     title: "Online Language & Test-Preparation Businesses",
-    description: "For online businesses offering language instruction or preparation for tests such as IELTS, TOEFL, PTE, OET, and similar exams.",
+    description: "For online providers of language learning and IELTS, TOEFL, PTE, OET, and similar test preparation.",
     examines: "We may examine how learners move from search, referral, or campaign activity to a relevant course page, inquiry or trial, follow-up, and paid enrollment—while taking class schedules and teaching capacity into account.",
     journey: "Relevant learner interest → inquiry or trial → follow-up → paid course or cohort enrollment."
   },
@@ -172,7 +171,7 @@ const audiences = [
     number: "05",
     icon: MonitorPlay,
     title: "Online Coaches, Trainers & Educational Content Creators",
-    description: "For expertise-led businesses that already sell a paid coaching offer, course, cohort, workshop, membership, professional training program, or B2B education service.",
+    description: "For established experts selling paid coaching, courses, cohorts, workshops, memberships, or training programs.",
     examines: "We may examine how existing audience and demand become qualified bookings, leads, or purchases, and whether launch follow-up, checkout, onboarding, or retention processes need attention.",
     journey: "Audience or demand source → booking, lead capture, or checkout → appropriate follow-up → paid program, course, cohort, or membership."
   },
@@ -180,7 +179,7 @@ const audiences = [
     number: "06",
     icon: Users,
     title: "College-Admissions Consultancies",
-    description: "For branded college-admissions advisory firms with multiple counselors or a structured team serving students and families, primarily around U.S. college applications.",
+    description: "For structured college-admissions advisory firms with counselor teams serving students and families.",
     examines: "We may examine qualification, consultation booking and attendance, proposal follow-up, ownership of inquiries, team capacity, and the ability to connect inquiry sources to signed advisory engagements.",
     journey: "Discovery → qualified family inquiry → consultation → proposal or package decision → signed engagement."
   }
@@ -219,45 +218,6 @@ const engagementSteps = [
   }
 ];
 
-const principles = [
-  {
-    number: "01",
-    icon: Search,
-    title: "Understand Before Prescribing",
-    description: "We don't assume the answer is more advertising, another funnel, or a new tool. We first examine the business and its current customer journey."
-  },
-  {
-    number: "02",
-    icon: Target,
-    title: "Focus on the Priority",
-    description: "We define the main objective and primary conversion journey for the agreed project instead of trying to change everything at once."
-  },
-  {
-    number: "03",
-    icon: Workflow,
-    title: "Connect Strategy to Implementation",
-    description: "Recommendations need to translate into clear actions. We build the components agreed for the project rather than stopping at advice alone."
-  },
-  {
-    number: "04",
-    icon: ShieldCheck,
-    title: "Define Responsibilities Clearly",
-    description: "The scope, deliverables, required access, client responsibilities, exclusions, and completion criteria should be understood before work begins."
-  },
-  {
-    number: "05",
-    icon: BarChart3,
-    title: "Measure What the Evidence Supports",
-    description: "We select measures that fit the business model and available data. We do not treat clicks or raw leads as proof of business growth when the relevant downstream outcomes cannot be established."
-  },
-  {
-    number: "06",
-    icon: Lightbulb,
-    title: "Improve Based on What We Learn",
-    description: "Performance reviews should help determine what to keep, change, test, or prioritize next—not justify activity that does not serve the agreed goal."
-  }
-];
-
 const fitSignals = [
   "Already sell a paid offer or service.",
   "Have some evidence of existing demand, such as inquiries, referrals, paid traffic, registrations, an audience, or repeat buyers.",
@@ -271,51 +231,39 @@ const fitSignals = [
 const faqs = [
   {
     question: "What does EduFaros do?",
-    answer: "EduFaros works with established education and knowledge businesses to assess their current approach, identify important growth constraints, develop a strategy, implement the relevant systems, and measure what changes. The scope depends on the business and the challenge being addressed."
+    answer: "EduFaros works with established education and knowledge businesses to understand their customer journey, identify a growth constraint, develop a focused strategy, implement the relevant systems, and measure what changes. The scope depends on the business and the agreed objective."
   },
   {
-    question: "What types of businesses does EduFaros work with?",
-    answer: "Our target segments include independent admissions consultants and college counselors, professional certification and exam-prep companies, continuing education providers, online language and test-preparation businesses, online coaches and educational content creators, and structured college-admissions consultancies."
+    question: "Which types of businesses does EduFaros work with?",
+    answer: "Our focus includes independent admissions consultants and college counselors, professional certification and exam-prep companies, continuing education providers, online language and test-preparation businesses, online coaches and educational content creators, and structured college-admissions consultancies. We are best suited to businesses with an existing paid offer and some evidence of demand."
   },
   {
-    question: "Does every client need paid ads, a new funnel, or a CRM?",
-    answer: "No. The audit determines which intervention, if any, is appropriate. Some businesses may need a clearer offer or conversion path; others may need better follow-up, measurement, demand generation, or an operational change. We do not automatically bundle every capability into every engagement."
+    question: "Does every client need paid ads, a funnel, or a CRM?",
+    answer: "No. The audit determines which intervention, if any, is appropriate. We work with the client's existing setup where it makes sense and select tools around the business need. We do not bundle every capability or prescribe the same platform to every client."
   },
   {
-    question: "What happens during the first conversation?",
-    answer: "We discuss what your business sells, the goal you want to pursue, how the current customer journey works, and what challenge you are trying to solve. The purpose is to understand the situation and determine whether EduFaros's approach is a suitable fit."
+    question: "What happens in the first conversation, and what makes a good fit?",
+    answer: "We discuss what the business sells, the goal it wants to pursue, how the customer journey currently works, and the challenge it is trying to solve. Our focus is established businesses with a paid offer and some evidence of demand; an idea-stage business may need to validate its offer before investing in a larger marketing or automation system."
   },
   {
-    question: "What does an engagement include?",
-    answer: "The scope is defined around the diagnosis and agreed objective. Depending on the project, work may include strategy, landing pages, campaigns, conversion flows, CRM workflows, follow-up, automation, tracking, reporting, or related implementation. The agreed scope specifies what is and is not included."
+    question: "What can an engagement include, and what does the client remain responsible for?",
+    answer: "The agreed scope may include strategy, campaigns, pages, conversion flows, CRM workflows, follow-up, automation, tracking, or reporting. EduFaros handles the agreed strategy and implementation work. The client remains responsible for its educational delivery, counseling, sales conversations, closing, timely prospect response, accurate information, and other responsibilities defined for the engagement."
   },
   {
-    question: "Does EduFaros guarantee leads, enrollments, exam results, admissions, or revenue?",
-    answer: "No. These outcomes depend on factors that may include the offer, market, budget, customer demand, sales execution, delivery capacity, and other conditions outside EduFaros's control. We define an appropriate objective and measure performance where reliable data is available, but we do not promise a fixed outcome regardless of those conditions."
+    question: "Does EduFaros guarantee leads, enrollments, admissions, exam results, or revenue?",
+    answer: "No. These outcomes depend on factors such as the offer, market, budget, customer demand, sales execution, delivery capacity, and other conditions outside EduFaros's control. We agree on an appropriate objective and measure performance where reliable data is available, but we do not promise a fixed result regardless of those conditions."
   },
   {
     question: "How do you measure progress?",
-    answer: "The measures depend on the business model, the agreed objective, and available data. They may include qualified inquiries, consultation bookings and attendance, signed engagements, paid course enrollments, registrations, purchases, repeat purchases, acquisition costs, or revenue where it can be reliably connected to the journey."
-  },
-  {
-    question: "Who handles sales conversations and customer delivery?",
-    answer: "The client remains responsible for its educational delivery, counseling, sales conversations, closing, and timely response to prospects. EduFaros's responsibilities are defined in the agreed scope and may include implementing systems that support the customer journey and help the team manage the process more consistently."
+    answer: "Measures depend on the business model, agreed objective, and available data. They may include qualified inquiries, consultation bookings and attendance, signed engagements, paid course enrollments, registrations, purchases, repeat purchases, acquisition costs, or revenue where it can be reliably connected to the customer journey."
   },
   {
     question: "How much does an engagement cost?",
-    answer: "Cost depends on the challenge, the scope of the work, the systems involved, and the agreed deliverables. We first need to understand the situation before defining an appropriate scope and price. No public price is stated here."
+    answer: "Cost depends on the challenge, scope, systems involved, and agreed deliverables. We first need to understand the situation before defining an appropriate scope and price."
   },
   {
-    question: "Is EduFaros suitable for a business that has not started selling yet?",
-    answer: "Our focus is established businesses with a real paid offer and some evidence of demand. If an offer has not been validated, the priority may be to establish whether customers want it before investing in a larger marketing or automation system."
-  },
-  {
-    question: "Does EduFaros work as an outsourced cold-outreach team?",
-    answer: "Daily manual prospect research and cold outreach are not our core client deliverable. Our focus is on diagnosing and implementing the relevant growth systems for the business and its customer journey."
-  },
-  {
-    question: "Which tools and platforms does EduFaros use?",
-    answer: "The tools depend on the business, the existing setup, and the requirements of the agreed implementation. We do not assume that every client needs the same platform or that every system requires the same combination of tools."
+    question: "Does EduFaros operate as an outsourced cold-outreach team?",
+    answer: "Daily manual prospect research and cold outreach are not our core client deliverable. Our focus is diagnosing and implementing the relevant growth systems for the business and its customer journey."
   }
 ];
 
@@ -354,14 +302,14 @@ export default function HomePage() {
               <Link href="/contact" className="button button-primary">
                 Discuss a Growth Challenge <ArrowUpRight size={17} aria-hidden="true" />
               </Link>
-              <Link href="#approach" className="button button-quiet">
-                <span className="play-button"><Play size={12} fill="currentColor" aria-hidden="true" /></span>
-                Explore Our Approach
+              <Link href="#fit" className="button button-quiet">
+                <span className="play-button"><Check size={12} aria-hidden="true" /></span>
+                See If We&apos;re a Fit
               </Link>
             </div>
             <div className="hero-pillars" aria-label="Our four-step approach">
               <div className="hero-pillar"><span className="pillar-number">01</span><span>Understand</span></div>
-              <div className="hero-pillar"><span className="pillar-number">02</span><span>Strategize</span></div>
+              <div className="hero-pillar"><span className="pillar-number">02</span><span>Prioritize</span></div>
               <div className="hero-pillar"><span className="pillar-number">03</span><span>Build</span></div>
               <div className="hero-pillar"><span className="pillar-number">04</span><span>Improve</span></div>
             </div>
@@ -434,8 +382,8 @@ export default function HomePage() {
               })}
             </div>
             <Reveal className="inline-cta">
-              <span>Have a specific growth challenge in mind?</span>
-              <Link href="/contact">Discuss a Growth Challenge <ArrowUpRight size={16} /></Link>
+              <span>See the six areas we review before recommending what to build.</span>
+              <Link href="#examine">Explore the Diagnostic Scope <ArrowUpRight size={16} /></Link>
             </Reveal>
           </div>
         </section>
@@ -486,13 +434,12 @@ export default function HomePage() {
                     <div className="systems-card-icon"><Icon size={25} strokeWidth={1.45} /></div>
                     <h3>{system.title}</h3>
                     <p>{system.description}</p>
-                    <Link href="/contact" className="systems-card-link">Discuss this capability <ArrowUpRight size={15} /></Link>
                   </Reveal>
                 );
               })}
             </div>
             <p className="systems-note"><Check size={15} />The components are selected after diagnosis. They are not a fixed package of every service, and not every engagement requires every component.</p>
-            <div className="systems-section-cta"><Link href="/contact" className="button button-primary">Discuss a Growth Challenge <ArrowUpRight size={16} /></Link></div>
+            <div className="systems-section-cta"><Link href="#who-we-help" className="button button-outline">See Who We Help <ArrowRight size={16} /></Link></div>
           </div>
         </section>
 
@@ -512,23 +459,34 @@ export default function HomePage() {
               {audiences.map((audience, index) => {
                 const Icon = audience.icon;
                 return (
-                  <Reveal key={audience.number} className="segment-card" delay={index * 0.045}>
-                    <div className="segment-card-top"><span>{audience.number} / SEGMENT</span><Icon size={22} strokeWidth={1.45} /></div>
-                    <h3>{audience.title}</h3>
-                    <p className="segment-description">{audience.description}</p>
-                    <div className="segment-divider" />
-                    <p className="segment-examines">{audience.examines}</p>
-                    <div className="segment-journey">
-                      <span className="micro-label">RELEVANT JOURNEY</span>
-                      <p>{audience.journey}</p>
-                    </div>
-                    <Link href="/contact" className="segment-link">Discuss your business <ArrowUpRight size={15} /></Link>
+                  <Reveal key={audience.number} className="segment-reveal" delay={index * 0.045}>
+                    <details className="segment-card">
+                      <summary className="segment-card-summary">
+                        <div className="segment-card-top"><span>{audience.number} / SEGMENT</span><Icon size={22} strokeWidth={1.45} /></div>
+                        <h3>{audience.title}</h3>
+                        <p className="segment-description">{audience.description}</p>
+                        <span className="segment-expand">
+                          <span className="segment-expand-open">View customer journey</span>
+                          <span className="segment-expand-close">Hide customer journey</span>
+                          <span className="segment-expand-icon" aria-hidden="true">+</span>
+                        </span>
+                      </summary>
+                      <div className="segment-details-body">
+                        <div className="segment-divider" />
+                        <span className="segment-detail-label">WHAT WE EXAMINE</span>
+                        <p className="segment-examines">{audience.examines}</p>
+                        <div className="segment-journey">
+                          <span className="micro-label">RELEVANT JOURNEY</span>
+                          <p>{audience.journey}</p>
+                        </div>
+                      </div>
+                    </details>
                   </Reveal>
                 );
               })}
             </div>
             <p className="audiences-disclaimer"><ShieldCheck size={16} />EduFaros supports the business and customer-acquisition systems of these providers. It does not guarantee college admissions, exam scores, exam passes, or other outcomes outside its control.</p>
-            <div className="audiences-cta"><Link href="/contact" className="button button-primary">Discuss a Growth Challenge <ArrowUpRight size={16} /></Link></div>
+            <div className="audiences-cta"><Link href="#engagement" className="button button-outline">See How an Engagement Works <ArrowRight size={16} /></Link></div>
           </div>
         </section>
 
@@ -558,40 +516,19 @@ export default function HomePage() {
           <p className="responsibility-note"><span>SHARED RESPONSIBILITY</span>EduFaros handles the agreed strategy and implementation work. The client remains responsible for its educational delivery, counseling and sales conversations, closing, timely response to prospects, accurate information, and other responsibilities agreed for the engagement.</p>
         </section>
 
-        <section className="section principles-section" id="principles">
-          <div className="page-shell">
-            <Reveal className="section-intro">
-              <div>
-                <SectionEyebrow>OUR OPERATING PRINCIPLES / 08</SectionEyebrow>
-                <h2 className="section-title">Thoughtful Decisions.<br /><span>Practical Implementation. Honest Measurement.</span></h2>
-              </div>
-            </Reveal>
-            <div className="principles-grid">
-              {principles.map((principle, index) => {
-                const Icon = principle.icon;
-                return (
-                  <Reveal key={principle.number} className="principle-card" delay={index * 0.045}>
-                    <div className="principle-card-top"><span>{principle.number}</span><Icon size={21} strokeWidth={1.45} /></div>
-                    <h3>{principle.title}</h3>
-                    <p>{principle.description}</p>
-                  </Reveal>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+        
 
         <section className="section about-section page-shell" id="about">
           <Reveal className="about-intro-grid">
             <div>
-              <SectionEyebrow>ABOUT EDUFAROS / 09</SectionEyebrow>
+              <SectionEyebrow>ABOUT EDUFAROS / 08</SectionEyebrow>
               <h2 className="section-title">A Business-Minded Perspective<br /><span>on Education.</span></h2>
             </div>
             <div className="about-copy">
-              <p>Education and expertise create value, but building a sustainable business around that value also requires an understanding of customers, business models, and how people move from interest to a buying decision.</p>
-              <p>EduFaros is being built around that intersection of education and business. The founder&apos;s background combines experience in the education industry with hands-on work in performance marketing.</p>
-              <p>Our focus is to understand the business before prescribing marketing activity, connect the strategy to practical implementation, and measure what can be measured.</p>
-              <Link href="#founder" className="button button-outline">About EduFaros <ArrowUpRight size={16} /></Link>
+              <p>Education and expertise create value. Building a sustainable business around them also requires understanding customers, business models, and the steps between interest and a buying decision.</p>
+              <p>EduFaros is built around that intersection of education and business. The founder brings experience in the education industry alongside hands-on work in performance marketing.</p>
+              <p>We start with the business context, choose a focused priority, and implement and measure the systems that fit.</p>
+              <Link href="#founder" className="button button-outline">Read the Founder&apos;s Note <ArrowUpRight size={16} /></Link>
             </div>
           </Reveal>
           <div className="about-bottomline"><span>EDUFAROS / POINT OF VIEW</span><span>BUSINESS CONTEXT × PRACTICAL SYSTEMS</span></div>
@@ -600,7 +537,7 @@ export default function HomePage() {
         <section className="section fit-section page-shell" id="fit">
           <Reveal className="section-intro">
             <div>
-              <SectionEyebrow>IS EDUFAROS THE RIGHT FIT? / 10</SectionEyebrow>
+              <SectionEyebrow>IS EDUFAROS THE RIGHT FIT? / 09</SectionEyebrow>
               <h2 className="section-title">Built for Businesses with a Real Offer<br /><span>and Readiness to Improve.</span></h2>
             </div>
             <p className="section-summary">The goal is to identify the work that makes sense for the business—not to recommend a system regardless of fit.</p>
@@ -623,7 +560,7 @@ export default function HomePage() {
         <section className="section faq-section page-shell" id="faq">
           <Reveal className="section-intro">
             <div>
-              <SectionEyebrow>COMMON QUESTIONS / 11</SectionEyebrow>
+              <SectionEyebrow>COMMON QUESTIONS / 10</SectionEyebrow>
               <h2 className="section-title">Clear Answers Before<br /><span>the First Conversation.</span></h2>
             </div>
             <p className="section-summary">A practical overview of what EduFaros does, how we work, and what to expect from a potential engagement.</p>
@@ -631,9 +568,9 @@ export default function HomePage() {
           <div className="faq-layout">
             <div className="faq-aside">
               <span className="faq-aside-icon"><MessageSquareText size={22} /></span>
-              <h3>Something specific on your mind?</h3>
-              <p>The first conversation is about understanding the business, the challenge, and whether there is a useful next step.</p>
-              <Link href="/contact">Discuss a Growth Challenge <ArrowUpRight size={15} /></Link>
+              <h3>Still deciding whether we're a fit?</h3>
+              <p>Review the conditions that make an engagement useful before taking the next step.</p>
+              <Link href="#fit">Review the Fit Criteria <ArrowUpRight size={15} /></Link>
             </div>
             <div className="faq-list">
               {faqs.map((faq, index) => (
@@ -650,7 +587,7 @@ export default function HomePage() {
           <div className="final-cta-atmosphere" aria-hidden="true"><div className="final-cta-orbit final-cta-orbit-one" /><div className="final-cta-orbit final-cta-orbit-two" /><div className="final-cta-beam" /></div>
           <div className="page-shell final-cta-layout">
             <Reveal className="final-cta-copy">
-              <SectionEyebrow>START WITH THE CHALLENGE / 12</SectionEyebrow>
+              <SectionEyebrow>START WITH THE CHALLENGE / 11</SectionEyebrow>
               <h2 className="section-title">Start by Understanding<br /><span>the Challenge.</span></h2>
               <p>Tell us what your business sells, what you want to improve, and what you currently know about your customer journey. We&apos;ll use that context to assess whether the way EduFaros works is a fit and whether there is a useful next step.</p>
               
