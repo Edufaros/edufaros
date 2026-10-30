@@ -6071,3 +6071,35 @@ html.lenis.lenis-smooth iframe {
     height: 78px;
   }
 }
+
+
+/* Stronger title band above the partner logo marquee. */
+.client-logo-strip {
+  padding: 0;
+  border: 0;
+  background: #ffffff;
+}
+.client-logo-strip-heading {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 12px 16px 11px;
+  color: #ffffff;
+  background: #050709;
+  font-family: var(--font-display);
+  font-size: clamp(11px, 0.95vw, 13px);
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1.35;
+  text-align: center;
+  text-transform: uppercase;
+}
+@media (max-width: 680px) {
+  .client-logo-strip-heading {
+    padding: 10px 10px 9px;
+    font-size: 10px;
+    letter-spacing: 0.10em;
+    line-height: 1.35;
+  }
+}
