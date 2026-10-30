@@ -6038,7 +6038,8 @@ html.lenis.lenis-smooth iframe {
 
 
 
-/* Equal-width partner logo slots keep every mark on a consistent rhythm. */
+
+/* One nine-slot source artwork keeps every partner on a consistent grid. */
 .client-logo-strip {
   padding: 8px 0 10px;
 }
@@ -6048,7 +6049,11 @@ html.lenis.lenis-smooth iframe {
   letter-spacing: 0.16em;
 }
 .client-logo-marquee-art {
-  height: 124px;
+  display: block;
+  width: auto;
+  height: 98px;
+  max-width: none;
+  flex: 0 0 auto;
 }
 @media (max-width: 680px) {
   .client-logo-strip {
@@ -6060,6 +6065,6 @@ html.lenis.lenis-smooth iframe {
     letter-spacing: 0.12em;
   }
   .client-logo-marquee-art {
-    height: 96px;
+    height: 78px;
   }
 }

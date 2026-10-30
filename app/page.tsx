@@ -335,19 +335,19 @@ export default function HomePage() {
           <div className="client-logo-marquee">
             <div className="client-logo-marquee-track">
               <Image
-                src="/client-logos-marquee.svg"
+                src="/partner-logos-strip.svg"
                 alt="Azan Overseas, Azan Enterprises, D-Naaz International, Synergy Career Consultant, Paika, Synergy IELTS, Nutri Coach, LinkedIn Coach, and Creative Agency"
-                width={3420}
+                width={4410}
                 height={320}
                 className="client-logo-marquee-art"
                 unoptimized
                 priority
               />
               <Image
-                src="/client-logos-marquee.svg"
+                src="/partner-logos-strip.svg"
                 alt=""
                 aria-hidden="true"
-                width={3420}
+                width={4410}
                 height={320}
                 className="client-logo-marquee-art"
                 unoptimized
