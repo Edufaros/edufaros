@@ -5993,7 +5993,7 @@ html.lenis.lenis-smooth iframe {
   display: flex;
   width: max-content;
   align-items: center;
-  animation: edufaros-client-logo-scroll 42s linear infinite;
+  animation: edufaros-client-logo-scroll 32s linear infinite;
   will-change: transform;
 }
 .client-logo-marquee-art {
