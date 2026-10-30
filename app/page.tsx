@@ -330,28 +330,67 @@ export default function HomePage() {
 
         <section className="client-logo-strip" aria-labelledby="client-logo-strip-heading">
           <h2 className="client-logo-strip-heading" id="client-logo-strip-heading">
-            COMPANIES WE&apos;VE WORKED WITH
+            COMPANIES &amp; PROFESSIONALS WE&apos;VE WORKED WITH
           </h2>
           <div className="client-logo-marquee">
             <div className="client-logo-marquee-track">
-              <Image
-                src="/client-logos-marquee.png"
-                alt="Azan Overseas, Enterprises, D-Naaz International, Synergy, Paika, Synergy IELTS, and Nutri Coach"
-                width={3430}
-                height={320}
-                className="client-logo-marquee-art"
-                unoptimized
-                priority
-              />
-              <Image
-                src="/client-logos-marquee.png"
-                alt=""
-                aria-hidden="true"
-                width={3430}
-                height={320}
-                className="client-logo-marquee-art"
-                unoptimized
-              />
+              <div className="client-logo-marquee-sequence">
+                <div className="client-logo-marquee-original">
+                  <Image
+                    src="/client-logos-marquee.png"
+                    alt="Paika, Synergy IELTS, Nutri Coach, Azan Overseas, Azan Enterprises, and D-Naaz International"
+                    width={3430}
+                    height={320}
+                    className="client-logo-marquee-art"
+                    unoptimized
+                    priority
+                  />
+                  <Image
+                    src="/synergy-career-consultant-overlay.svg"
+                    alt="Synergy Career Consultant"
+                    width={3430}
+                    height={320}
+                    className="client-logo-marquee-overlay"
+                    unoptimized
+                  />
+                </div>
+                <Image
+                  src="/new-professional-partner-logos.svg"
+                  alt="LinkedIn Coach and Creative Agency"
+                  width={1800}
+                  height={320}
+                  className="client-logo-marquee-art client-logo-marquee-additions"
+                  unoptimized
+                />
+              </div>
+              <div className="client-logo-marquee-sequence" aria-hidden="true">
+                <div className="client-logo-marquee-original">
+                  <Image
+                    src="/client-logos-marquee.png"
+                    alt=""
+                    width={3430}
+                    height={320}
+                    className="client-logo-marquee-art"
+                    unoptimized
+                  />
+                  <Image
+                    src="/synergy-career-consultant-overlay.svg"
+                    alt=""
+                    width={3430}
+                    height={320}
+                    className="client-logo-marquee-overlay"
+                    unoptimized
+                  />
+                </div>
+                <Image
+                  src="/new-professional-partner-logos.svg"
+                  alt=""
+                  width={1800}
+                  height={320}
+                  className="client-logo-marquee-art client-logo-marquee-additions"
+                  unoptimized
+                />
+              </div>
             </div>
           </div>
         </section>

@@ -6034,3 +6034,46 @@ html.lenis.lenis-smooth iframe {
     overflow-x: auto;
   }
 }
+
+
+/* Partner logo extensions: replace the former Synergy study-abroad marks
+   and append the two additional professional partners in the same loop. */
+.client-logo-strip-heading {
+  font-size: 8.5px;
+  letter-spacing: 0.18em;
+}
+.client-logo-marquee-sequence {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  flex: 0 0 auto;
+}
+.client-logo-marquee-original {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+  line-height: 0;
+}
+.client-logo-marquee-overlay {
+  position: absolute !important;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  pointer-events: none;
+}
+.client-logo-marquee-additions {
+  margin-left: 18px;
+  margin-right: 65px;
+}
+@media (max-width: 680px) {
+  .client-logo-strip-heading {
+    font-size: 7px;
+    letter-spacing: 0.12em;
+  }
+  .client-logo-marquee-additions {
+    margin-left: 12px;
+    margin-right: 35px;
+  }
+}

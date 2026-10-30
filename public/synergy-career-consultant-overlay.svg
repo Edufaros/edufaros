@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3430" height="320" viewBox="0 0 3430 320">
+  <g>
+    <rect x="55" y="0" width="360" height="320" fill="#fff"/>
+    <rect x="3015" y="0" width="415" height="320" fill="#fff"/>
+  </g>
+  <g fill="#050505" stroke="none">
+    <g transform="translate(235 0)">
+      <circle cx="0" cy="58" r="19"/>
+      <circle cx="-91" cy="154" r="17"/>
+      <circle cx="94" cy="176" r="17"/>
+      <path d="M-18 80 C-78 88 -111 126 -98 162 C-87 193 -44 204 10 221 C54 235 72 252 58 271 C43 292 1 293 -34 278 C-54 269 -70 255 -78 237 C-54 261 -17 263 8 252 C28 243 24 228 -1 218 C-43 201 -103 186 -119 153 C-140 110 -101 70 -54 54 C-41 49 -29 49 -18 50 Z"/>
+      <path d="M-15 86 C38 79 90 109 102 148 C111 177 91 202 66 219 C94 190 82 158 60 139 C33 116 3 111 -15 113 C-38 115 -56 126 -70 143 C-67 111 -45 93 -15 86 Z"/>
+    </g>
+    <g transform="translate(3260 0)">
+      <circle cx="0" cy="58" r="19"/>
+      <circle cx="-91" cy="154" r="17"/>
+      <circle cx="94" cy="176" r="17"/>
+      <path d="M-18 80 C-78 88 -111 126 -98 162 C-87 193 -44 204 10 221 C54 235 72 252 58 271 C43 292 1 293 -34 278 C-54 269 -70 255 -78 237 C-54 261 -17 263 8 252 C28 243 24 228 -1 218 C-43 201 -103 186 -119 153 C-140 110 -101 70 -54 54 C-41 49 -29 49 -18 50 Z"/>
+      <path d="M-15 86 C38 79 90 109 102 148 C111 177 91 202 66 219 C94 190 82 158 60 139 C33 116 3 111 -15 113 C-38 115 -56 126 -70 143 C-67 111 -45 93 -15 86 Z"/>
+    </g>
+  </g>
+  <g fill="#050505" font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+    <text x="235" y="247" font-size="48" font-weight="700" letter-spacing="2">SYNERGY</text>
+    <text x="235" y="278" font-size="19" font-weight="700" letter-spacing="1.4">CAREER CONSULTANT</text>
+    <text x="3260" y="247" font-size="48" font-weight="700" letter-spacing="2">SYNERGY</text>
+    <text x="3260" y="278" font-size="19" font-weight="700" letter-spacing="1.4">CAREER CONSULTANT</text>
+  </g>
+</svg>
