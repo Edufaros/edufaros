@@ -6279,3 +6279,32 @@ html.lenis.lenis-smooth iframe {
   .lb-stage-cinematic::before,
   .lb-stage-cinematic > i { animation: none; }
 }
+
+
+/* Keep the four hero process pillars on a single row on mobile. */
+@media (max-width: 680px) {
+  .hero-section .hero-pillars {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: start;
+    width: 100%;
+    gap: 0;
+    box-sizing: border-box;
+  }
+
+  .hero-section .hero-pillar {
+    min-width: 0;
+    width: auto;
+    padding: 0 3px 0 0;
+    font-size: clamp(8px, 2.5vw, 10px);
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+    white-space: nowrap;
+  }
+
+  .hero-section .pillar-number {
+    font-size: clamp(8px, 2.3vw, 9px);
+    letter-spacing: 0.11em;
+    white-space: nowrap;
+  }
+}
