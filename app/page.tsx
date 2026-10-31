@@ -33,6 +33,8 @@ import FounderMessage from "@/components/founder-message";
 import SiteFooter from "@/components/site-footer";
 import HeroVisual from "@/components/hero-visual";
 import Reveal from "@/components/reveal";
+import LogoSparkSmoke from "@/components/LogoSparkSmoke";
+import { clients } from "@/data/clients";
 
 const approach = [
   {
@@ -332,28 +334,7 @@ export default function HomePage() {
           <h2 className="client-logo-strip-heading" id="client-logo-strip-heading">
             COMPANIES &amp; PROFESSIONALS WE&apos;VE WORKED WITH
           </h2>
-          <div className="client-logo-marquee">
-            <div className="client-logo-marquee-track">
-              <Image
-                src="/partner-logos-strip.svg"
-                alt="Azan Overseas, Azan Enterprises, D-Naaz International, Synergy Career Consultant, Paika, Synergy IELTS, Nutri Coach, LinkedIn Coach, and Creative Agency"
-                width={4410}
-                height={320}
-                className="client-logo-marquee-art"
-                unoptimized
-                priority
-              />
-              <Image
-                src="/partner-logos-strip.svg"
-                alt=""
-                aria-hidden="true"
-                width={4410}
-                height={320}
-                className="client-logo-marquee-art"
-                unoptimized
-              />
-            </div>
-          </div>
+          <LogoSparkSmoke logos={clients} cycleMs={4000} mode="mono" />
         </section>
 
         <section className="section challenge-section page-shell" id="challenge">
