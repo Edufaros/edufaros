@@ -495,21 +495,6 @@ export default function MagicBook() {
       ref={stageRef}
       className={`${styles.stage} ${ready ? styles.ready : ""}`}
       aria-hidden="true"
-    >
-      <div className={styles.poster}>
-        <div className={styles.posterAura} />
-        <div className={styles.bookShell}>
-          <div className={styles.bookCover} />
-          <div className={`${styles.bookPage} ${styles.bookPageLeft}`} />
-          <div className={`${styles.bookPage} ${styles.bookPageRight}`} />
-          <div className={styles.bookPageStack} />
-          <div className={styles.bookSpine} />
-          <div className={styles.bookGilt} />
-        </div>
-        <span className={styles.posterSparkOne} />
-        <span className={styles.posterSparkTwo} />
-        <span className={styles.posterSparkThree} />
-      </div>
-    </div>
+    />
   );
 }
