@@ -1,19 +1,6 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-const MagicBook = dynamic(() => import("./magic-book"), {
-  ssr: false,
-  loading: () => (
-    <div className="scene-fallback book-scene-fallback" aria-hidden="true">
-      <div className="fallback-book">
-        <span className="fallback-page fallback-page-left" />
-        <span className="fallback-page fallback-page-right" />
-        <span className="fallback-spine" />
-      </div>
-    </div>
-  )
-});
+import MagicBook from "./magic-book";
 
 export default function HeroVisual() {
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import styles from "./magic-book.module.css";
 
@@ -45,6 +45,7 @@ type ParticleLayer = {
 
 export default function MagicBook() {
   const stageRef = useRef<HTMLDivElement>(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -411,7 +412,15 @@ export default function MagicBook() {
     resize();
     camera.position.set(0, 3.6, baseZ);
     camera.lookAt(look);
+
+    // Populate the page geometry before the first frame so the first visible
+    // WebGL render is already a complete open book, not a blank mesh.
+    for (let k = 0; k < C.pages; k += 1) {
+      bendPage(pages[k], k, -k * C.phase);
+    }
+
     renderer.render(scene, camera);
+    setReady(true);
 
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(stageElement);
@@ -481,5 +490,26 @@ export default function MagicBook() {
     };
   }, []);
 
-  return <div ref={stageRef} className={styles.stage} aria-hidden="true" />;
+  return (
+    <div
+      ref={stageRef}
+      className={`${styles.stage} ${ready ? styles.ready : ""}`}
+      aria-hidden="true"
+    >
+      <div className={styles.poster}>
+        <div className={styles.posterAura} />
+        <div className={styles.bookShell}>
+          <div className={styles.bookCover} />
+          <div className={`${styles.bookPage} ${styles.bookPageLeft}`} />
+          <div className={`${styles.bookPage} ${styles.bookPageRight}`} />
+          <div className={styles.bookPageStack} />
+          <div className={styles.bookSpine} />
+          <div className={styles.bookGilt} />
+        </div>
+        <span className={styles.posterSparkOne} />
+        <span className={styles.posterSparkTwo} />
+        <span className={styles.posterSparkThree} />
+      </div>
+    </div>
+  );
 }
