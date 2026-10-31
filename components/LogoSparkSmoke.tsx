@@ -32,7 +32,26 @@ function buildLogo(name:string,image:HTMLImageElement,mode:"mono"|"original"):Lo
   const sourceContext=source.getContext("2d",{willReadFrequently:true});
   if(!sourceContext)return null;
   let pixels:Uint8ClampedArray;
-  try{sourceContext.drawImage(image,0,0,width,height);pixels=sourceContext.getImageData(0,0,width,height).data;}catch{return null;}
+  try {
+    sourceContext.drawImage(image, 0, 0, width, height);
+    const imageData = sourceContext.getImageData(0, 0, width, height);
+    const data = imageData.data;
+    // Convert white/off-white source backgrounds to transparency while
+    // keeping anti-aliased dark logo edges smooth.
+    for (let i = 0; i < data.length; i += 4) {
+      if (data[i + 3] === 0) continue;
+      const luminance = data[i] * 0.2126 + data[i + 1] * 0.7152 + data[i + 2] * 0.0722;
+      const inkAlpha = clamp((248 - luminance) / 34);
+      data[i + 3] = Math.round(data[i + 3] * inkAlpha);
+      data[i] = 0;
+      data[i + 1] = 0;
+      data[i + 2] = 0;
+    }
+    sourceContext.putImageData(imageData, 0, 0);
+    pixels = data;
+  } catch {
+    return null;
+  }
   const countVisible=(step:number)=>{
     let count=0;
     for(let py=0;py<height;py+=step)for(let px=0;px<width;px+=step)if(pixels[(py*width+px)*4+3]>110)count++;
@@ -49,7 +68,7 @@ function buildLogo(name:string,image:HTMLImageElement,mode:"mono"|"original"):Lo
   if(!particles.length)return null;
   const sprite=document.createElement("canvas");sprite.width=width;sprite.height=height;
   const spriteContext=sprite.getContext("2d");if(!spriteContext)return null;
-  spriteContext.drawImage(image,0,0,width,height);
+  spriteContext.drawImage(source,0,0,width,height);
   if(mode==="mono"){spriteContext.globalCompositeOperation="source-in";spriteContext.fillStyle="#fff";spriteContext.fillRect(0,0,width,height);}
   const shimmer=document.createElement("canvas");shimmer.width=width;shimmer.height=height;
   const choose=()=>particles[Math.floor(Math.random()*particles.length)];
