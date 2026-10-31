@@ -11,7 +11,7 @@ type LogoItem = {
   puffs:{x:number;y:number;delay:number;scale:number}[];
 };
 
-const W=720,H=405,MAX_PARTICLES=2200,ACCENT="97,238,219";
+const W=720,H=328,MAX_PARTICLES=2200,ACCENT="97,238,219";
 const clamp=(v:number,min=0,max=1)=>Math.min(max,Math.max(min,v));
 const outExpo=(t:number)=>t>=1?1:1-Math.pow(2,-10*t);
 const pad=(n:number)=>String(n).padStart(2,"0");
@@ -24,7 +24,7 @@ function loadImage(src:string):Promise<HTMLImageElement|null>{
 }
 
 function buildLogo(name:string,image:HTMLImageElement,mode:"mono"|"original"):LogoItem|null{
-  const scale=Math.min((W*.5)/image.naturalWidth,(H*.34)/image.naturalHeight);
+  const scale=Math.min((W*.5)/image.naturalWidth,(H*.49)/image.naturalHeight);
   const width=Math.max(2,Math.round(image.naturalWidth*scale));
   const height=Math.max(2,Math.round(image.naturalHeight*scale));
   const x=Math.round((W-width)/2),y=Math.round((H-height)/2-8);

@@ -6140,3 +6140,40 @@ html.lenis.lenis-smooth iframe {
  .lb-grid li { min-height:68px; } .lb-grid img { max-width:142px; max-height:58px; }
 }
 @media (prefers-reduced-motion:reduce) { .lb-name { animation:none; } .lb-bar i { animation:none; width:100%; } }
+
+
+/* Tighter preview composition: keep logo scale, remove unused canvas space. */
+.logo-box {
+  width: min(620px, calc(100% - 40px));
+  margin: 14px auto 0;
+  padding: 13px 15px 11px;
+  border-radius: 19px;
+}
+.lb-head {
+  margin-bottom: 9px;
+}
+.lb-stage {
+  aspect-ratio: 720 / 328;
+  border-radius: 14px;
+}
+.lb-foot {
+  margin-top: 9px;
+}
+@media (max-width: 680px) {
+  .logo-box {
+    width: calc(100% - 28px);
+    margin-top: 12px;
+    padding: 11px 10px 10px;
+    border-radius: 16px;
+  }
+  .lb-head {
+    margin-bottom: 8px;
+  }
+  .lb-stage {
+    aspect-ratio: 720 / 328;
+    border-radius: 11px;
+  }
+  .lb-foot {
+    margin-top: 8px;
+  }
+}
