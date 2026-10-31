@@ -6214,3 +6214,68 @@ html.lenis.lenis-smooth iframe {
     margin-top: 7px;
   }
 }
+
+
+/* V3 cinematic anime-inspired layer — preview branch only. */
+.lb-stage-cinematic {
+  isolation: isolate;
+  background: radial-gradient(ellipse at 50% 58%, rgba(13,55,66,.9) 0%, rgba(5,13,22,.98) 52%, #020407 100%);
+  box-shadow: inset 0 0 76px rgba(0,0,0,.62), 0 0 26px rgba(36,184,191,.06);
+}
+.lb-stage-cinematic::before {
+  position: absolute;
+  z-index: 0;
+  inset: -16%;
+  background:
+    radial-gradient(ellipse at 50% 55%, rgba(74,232,215,.16), transparent 40%),
+    radial-gradient(ellipse at 18% 24%, rgba(76,124,255,.09), transparent 32%),
+    radial-gradient(ellipse at 83% 78%, rgba(34,167,202,.09), transparent 30%);
+  content: "";
+  pointer-events: none;
+  animation: lb-energy-breathe 5.5s ease-in-out infinite alternate;
+}
+.lb-stage-cinematic canvas { position: absolute; z-index: 1; inset: 0; }
+.lb-stage-cinematic::after {
+  z-index: 2;
+  opacity: .72;
+  background:
+    linear-gradient(115deg, transparent 0 36%, rgba(97,238,219,.018) 48%, transparent 62%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 4px);
+}
+.lb-stage-cinematic .lb-c,
+.lb-stage-cinematic > i {
+  z-index: 3;
+  box-shadow: 0 0 9px rgba(97,238,219,.22);
+  animation: lb-corner-pulse 3.6s ease-in-out infinite;
+}
+.lb-stage-cinematic .lb-tr { animation-delay: .4s; }
+.lb-stage-cinematic .lb-bl { animation-delay: .8s; }
+.lb-stage-cinematic .lb-br { animation-delay: 1.2s; }
+.lb-stage-cinematic .lb-loading { z-index: 4; }
+.logo-box {
+  border-color: rgba(115,207,215,.2);
+  box-shadow: 0 22px 70px rgba(0,0,0,.3), inset 0 1px rgba(255,255,255,.07), 0 0 34px rgba(38,181,189,.045);
+}
+.logo-box::after {
+  position: absolute;
+  top: 0;
+  left: 13%;
+  width: 74%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(97,238,219,.34), rgba(104,145,255,.3), transparent);
+  content: "";
+  pointer-events: none;
+}
+@keyframes lb-energy-breathe {
+  from { transform: translate3d(-1%,0,0) scale(.98); opacity: .65; }
+  to { transform: translate3d(1%,-1%,0) scale(1.035); opacity: 1; }
+}
+@keyframes lb-corner-pulse { 0%,100% { opacity: .48; } 50% { opacity: 1; } }
+@media (max-width: 680px) {
+  .lb-stage-cinematic::before { animation-duration: 7s; opacity: .75; }
+  .lb-stage-cinematic::after { opacity: .5; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lb-stage-cinematic::before,
+  .lb-stage-cinematic > i { animation: none; }
+}
