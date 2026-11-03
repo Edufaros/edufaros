@@ -6513,3 +6513,25 @@ html.lenis.lenis-smooth iframe {
     mask-image: none;
   }
 }
+
+
+
+/* Mobile hero metadata: separate the illustration footer from its bottom coordinates. */
+@media (max-width: 680px) {
+  .hero-section .hero-art {
+    margin-bottom: 25px !important;
+  }
+
+  .hero-section .hero-art-footnote {
+    right: 50%;
+    bottom: -21px;
+    width: max-content;
+    max-width: calc(100% - 24px);
+    justify-content: center;
+    font-size: clamp(6px, 1.85vw, 7px);
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+    white-space: nowrap;
+    transform: translateX(50%);
+  }
+}
