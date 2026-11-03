@@ -6410,7 +6410,7 @@ html.lenis.lenis-smooth iframe {
   display: flex;
   width: max-content;
   align-items: center;
-  animation: ef-partner-marquee-scroll 38s linear infinite;
+  animation: ef-partner-marquee-scroll 24s linear infinite;
   will-change: transform;
 }
 
@@ -6488,7 +6488,7 @@ html.lenis.lenis-smooth iframe {
   }
 
   .ef-partner-marquee__track {
-    animation-duration: 30s;
+    animation-duration: 19s;
   }
 
   .ef-partner-marquee__item {
