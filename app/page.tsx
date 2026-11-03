@@ -336,7 +336,6 @@ export default function HomePage() {
               <h2 className="partner-marquee-band__title" id="partner-marquee-title">
                 Companies &amp; professionals we&apos;ve worked with
               </h2>
-              <span className="partner-marquee-band__count">09 PARTNERS</span>
             </div>
             <ClientLogoMarquee logos={clients} />
           </div>
