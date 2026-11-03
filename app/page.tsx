@@ -33,7 +33,7 @@ import FounderMessage from "@/components/founder-message";
 import SiteFooter from "@/components/site-footer";
 import HeroVisual from "@/components/hero-visual";
 import Reveal from "@/components/reveal";
-import LogoSparkSmoke from "@/components/LogoSparkSmoke";
+import ClientLogoMarquee from "@/components/ClientLogoMarquee";
 import { clients } from "@/data/clients";
 
 const approach = [
@@ -330,11 +330,16 @@ export default function HomePage() {
 
         <FounderMessage />
 
-        <section className="client-logo-strip" aria-labelledby="client-logo-strip-heading">
-          <h2 className="client-logo-strip-heading" id="client-logo-strip-heading">
-            COMPANIES &amp; PROFESSIONALS WE&apos;VE WORKED WITH
-          </h2>
-          <LogoSparkSmoke logos={clients} cycleMs={4000} mode="mono" />
+        <section className="partner-marquee-section" aria-labelledby="partner-marquee-title">
+          <div className="partner-marquee-band">
+            <div className="partner-marquee-band__heading">
+              <h2 className="partner-marquee-band__title" id="partner-marquee-title">
+                Companies &amp; professionals we&apos;ve worked with
+              </h2>
+              <span className="partner-marquee-band__count">09 PARTNERS</span>
+            </div>
+            <ClientLogoMarquee logos={clients} />
+          </div>
         </section>
 
         <section className="section challenge-section page-shell" id="challenge">
