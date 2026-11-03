@@ -6308,3 +6308,211 @@ html.lenis.lenis-smooth iframe {
     white-space: nowrap;
   }
 }
+
+
+
+/* EduFaros partner logo band — compact, monochrome, continuous glass marquee. */
+.partner-marquee-section {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 26px clamp(16px, 4.2vw, 64px);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.partner-marquee-band {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 1320px);
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid rgba(151, 192, 204, 0.16);
+  border-radius: 17px;
+  background:
+    radial-gradient(ellipse at 50% -18%, rgba(75, 205, 201, 0.105), transparent 58%),
+    linear-gradient(115deg, rgba(11, 17, 21, 0.97), rgba(5, 8, 11, 0.98) 48%, rgba(9, 14, 18, 0.97));
+  box-shadow:
+    0 18px 52px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.075),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.025);
+}
+
+.partner-marquee-band::before {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 9%;
+  width: 82%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(198, 252, 250, 0.3), rgba(103, 151, 255, 0.2), transparent);
+  content: "";
+  pointer-events: none;
+}
+
+.partner-marquee-band::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(112deg, transparent 15%, rgba(255, 255, 255, 0.018) 48%, transparent 76%);
+  content: "";
+  pointer-events: none;
+}
+
+.partner-marquee-band__heading {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 22px 10px;
+}
+
+.partner-marquee-band__title {
+  margin: 0;
+  color: rgba(230, 244, 247, 0.82);
+  font-family: var(--font-display), sans-serif;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.19em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.partner-marquee-band__count {
+  flex: 0 0 auto;
+  color: rgba(161, 184, 198, 0.62);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  white-space: nowrap;
+}
+
+.ef-partner-marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 2px 0 10px;
+  outline: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 4.5%, #000 95.5%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 4.5%, #000 95.5%, transparent);
+}
+
+.ef-partner-marquee:focus-visible {
+  outline: 1px solid rgba(97, 238, 219, 0.55);
+  outline-offset: -2px;
+  border-radius: 12px;
+}
+
+.ef-partner-marquee__track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  animation: ef-partner-marquee-scroll 24s linear infinite;
+  will-change: transform;
+}
+
+.ef-partner-marquee__group {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+}
+
+.ef-partner-marquee__item {
+  display: grid;
+  width: 184px;
+  height: 82px;
+  flex: 0 0 184px;
+  place-items: center;
+  box-sizing: border-box;
+  padding: 5px 24px;
+  border-right: 1px solid rgba(184, 212, 222, 0.075);
+}
+
+.ef-partner-marquee__item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 142px;
+  max-height: 72px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.88;
+  transition: opacity 220ms ease, transform 220ms ease;
+  user-select: none;
+}
+
+@keyframes ef-partner-marquee-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ef-partner-marquee:hover .ef-partner-marquee__track {
+    animation-play-state: paused;
+  }
+
+  .ef-partner-marquee:hover .ef-partner-marquee__item img {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 680px) {
+  .partner-marquee-section {
+    padding: 18px 14px;
+  }
+
+  .partner-marquee-band {
+    border-radius: 13px;
+  }
+
+  .partner-marquee-band__heading {
+    padding: 11px 14px 8px;
+    gap: 10px;
+  }
+
+  .partner-marquee-band__title {
+    font-size: 8px;
+    letter-spacing: 0.115em;
+  }
+
+  .partner-marquee-band__count {
+    font-size: 8px;
+    letter-spacing: 0.08em;
+  }
+
+  .ef-partner-marquee {
+    padding: 0 0 7px;
+  }
+
+  .ef-partner-marquee__track {
+    animation-duration: 19s;
+  }
+
+  .ef-partner-marquee__item {
+    width: 146px;
+    height: 70px;
+    flex-basis: 146px;
+    padding: 5px 18px;
+  }
+
+  .ef-partner-marquee__item img {
+    max-width: 116px;
+    max-height: 60px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ef-partner-marquee__track {
+    animation: none;
+    transform: none;
+  }
+
+  .ef-partner-marquee {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
