@@ -299,8 +299,12 @@ button, a { -webkit-tap-highlight-color: transparent; }
   content: ""; pointer-events: none;
 }
 .hero-layout {
-  position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(360px, .88fr);
-  align-items: center; gap: clamp(42px, 6vw, 86px);
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, .94fr) minmax(0, 1.06fr);
+  align-items: center;
+  gap: clamp(24px, 3.4vw, 46px);
 }
 .hero-copy { max-width: 680px; }
 .home-hero h1 { max-width: 720px; margin: 0; color: #FFF; font-size: clamp(44px, 5.25vw, 66px); line-height: 1.08; }
@@ -310,24 +314,188 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .hero-audience { margin: 25px 0 0; color: #AABAC5; font-size: 12px; letter-spacing: .025em; }
 .hero-bottom-line { position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: .65; }
 
+/* Original Magic Book hero — same right-side placement and proportions as the previous site. */
+.hero-book-art {
+  position: relative;
+  min-width: 0;
+  height: 590px;
+  margin-right: -30px;
+  margin-left: -16px;
+  isolation: isolate;
+}
 .hero-visual {
-  position: relative; padding: 28px 27px 25px; border: 1px solid rgba(255,255,255,.16);
-  border-radius: 15px; background: linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.025));
-  box-shadow: 0 26px 80px rgba(0,0,0,.19), inset 0 1px rgba(255,255,255,.07);
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+  mask-image: radial-gradient(ellipse at 52% 51%, #000 42%, rgba(0, 0, 0, .95) 64%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse at 52% 51%, #000 42%, rgba(0, 0, 0, .95) 64%, transparent 90%);
 }
-.visual-kicker { margin-bottom: 24px; color: #D5C28E; font: 700 10px/1.4 var(--sans); letter-spacing: .13em; text-transform: uppercase; }
-.visual-path { position: relative; display: grid; gap: 11px; }
-.visual-path-line { position: absolute; top: 19px; bottom: 19px; left: 18px; width: 1px; background: linear-gradient(var(--gold), rgba(213,166,64,.15)); }
-.visual-path-step { position: relative; display: flex; align-items: center; gap: 15px; min-height: 54px; }
-.visual-path-number {
-  position: relative; z-index: 1; display: grid; flex: 0 0 37px; width: 37px; height: 37px;
-  place-items: center; border: 1px solid rgba(213,166,64,.58); border-radius: 50%;
-  background: var(--navy); color: #E7C779; font: 600 10px var(--sans);
+.hero-node {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  min-width: 148px;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid rgba(103, 185, 210, .32);
+  border-radius: 12px;
+  padding: 12px 15px;
+  background: linear-gradient(135deg, rgba(10, 24, 39, .84), rgba(6, 12, 21, .8));
+  box-shadow: 0 14px 40px rgba(0, 0, 0, .2), inset 0 1px rgba(200, 248, 255, .045);
+  backdrop-filter: blur(14px);
+  animation: node-drift 7s ease-in-out infinite;
 }
-.visual-path-copy { display: grid; gap: 2px; }
-.visual-path-copy strong { color: #F7F8F9; font-size: 14px; font-weight: 600; }
-.visual-path-copy small { color: #A9B6C0; font-size: 11px; line-height: 1.45; }
-.visual-note { margin: 22px 0 0; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.13); color: #9EADB8; font-size: 11px; line-height: 1.55; }
+.hero-node strong {
+  color: #EDF5FC;
+  font-family: var(--serif);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.node-label {
+  color: #9CAEC2;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .15em;
+}
+.node-indicator {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #61EEDB;
+  box-shadow: 0 0 9px rgba(97, 238, 219, .85);
+}
+.node-indicator.blue {
+  background: #6294FF;
+  box-shadow: 0 0 9px rgba(98, 148, 255, .85);
+}
+.hero-node-acquire { top: 14%; left: 5%; }
+.hero-node-convert { top: 18%; right: 5%; animation-delay: -2s; }
+.hero-node-automate { bottom: 23%; left: 3%; animation-delay: -3.5s; }
+.hero-node-scale { right: 3%; bottom: 21%; animation-delay: -1.4s; }
+.visual-caption {
+  position: absolute;
+  z-index: 4;
+  right: 50%;
+  bottom: 14%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #B1C5D8;
+  font-size: 9px;
+  white-space: nowrap;
+  transform: translateX(50%);
+}
+.caption-pulse {
+  position: relative;
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #61EEDB;
+  box-shadow: 0 0 12px rgba(97, 238, 219, .75);
+}
+.caption-pulse::after {
+  position: absolute;
+  inset: -4px;
+  border: 1px solid rgba(97, 238, 219, .6);
+  border-radius: 50%;
+  content: "";
+  animation: pulse-ring 2.2s ease-out infinite;
+}
+
+/* Journey panel moved into the second homepage section. */
+.challenge-journey-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(380px, .92fr);
+  gap: 22px;
+  align-items: stretch;
+}
+.challenge-journey-layout .problem-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  align-content: stretch;
+}
+.challenge-journey-layout .problem-card {
+  min-height: 205px;
+  padding: 23px 20px 22px;
+}
+.journey-panel {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: 27px 27px 23px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 15px;
+  background: linear-gradient(145deg, #142F43, #0B2235 78%);
+  box-shadow: 0 22px 54px rgba(7, 26, 43, .15), inset 0 1px rgba(255,255,255,.055);
+}
+.journey-panel .visual-kicker {
+  margin: 0 0 21px;
+  color: #D5C28E;
+  font: 700 10px/1.4 var(--sans);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.journey-panel .visual-path {
+  position: relative;
+  display: grid;
+  gap: 8px;
+}
+.journey-panel .visual-path-line {
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  left: 18px;
+  width: 1px;
+  background: linear-gradient(var(--gold), rgba(213,166,64,.15));
+}
+.journey-panel .visual-path-step {
+  position: relative;
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  gap: 15px;
+}
+.journey-panel .visual-path-number {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 37px;
+  height: 37px;
+  flex: 0 0 37px;
+  place-items: center;
+  border: 1px solid rgba(213,166,64,.58);
+  border-radius: 50%;
+  background: #102A3E;
+  color: #E7C779;
+  font: 600 10px var(--sans);
+}
+.journey-panel .visual-path-copy { display: grid; gap: 2px; }
+.journey-panel .visual-path-copy strong { color: #F7F8F9; font-size: 14px; font-weight: 600; }
+.journey-panel .visual-path-copy small { color: #A9B6C0; font-size: 11px; line-height: 1.45; }
+.journey-panel .visual-note {
+  margin: 17px 0 0;
+  padding-top: 13px;
+  border-top: 1px solid rgba(255,255,255,.13);
+  color: #B7C3CB;
+  font-size: 10px;
+  line-height: 1.55;
+}
+.journey-specificity-note {
+  margin: 9px 0 0;
+  color: #879AA8;
+  font-size: 9px;
+  line-height: 1.55;
+}
 
 /* Home content sections */
 .problem-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
@@ -573,6 +741,17 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .thank-you-page p, .not-found-page p { max-width: 630px; color: var(--slate); font-size: 16px; line-height: 1.8; }
 
 /* Mobile menu */
+@media (max-width: 1100px) {
+  .hero-layout {
+    grid-template-columns: minmax(0, .98fr) minmax(0, 1.02fr);
+    gap: 22px;
+  }
+  .hero-book-art { height: 520px; margin-right: -22px; margin-left: -18px; }
+  .hero-node { min-width: 132px; padding: 10px 12px; }
+  .challenge-journey-layout { grid-template-columns: minmax(0, 1.02fr) minmax(350px, .98fr); gap: 16px; }
+  .challenge-journey-layout .problem-card { padding-inline: 18px; }
+}
+
 @media (max-width: 1050px) {
   .desktop-nav { gap: 16px; }
   .nav-link { font-size: 12px; }
@@ -622,14 +801,28 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .hero-actions { align-items: stretch; flex-direction: column; max-width: 390px; gap: 10px; margin-top: 23px; }
   .hero-actions .button { width: 100%; }
   .hero-audience { margin-top: 18px; font-size: 11px; }
-  .hero-visual { padding: 22px 19px; }
-  .visual-kicker { margin-bottom: 17px; font-size: 9px; }
-  .visual-path { gap: 7px; }
-  .visual-path-step { min-height: 48px; gap: 12px; }
-  .visual-path-number { flex-basis: 33px; width: 33px; height: 33px; }
-  .visual-path-line { left: 16px; }
-  .visual-path-copy strong { font-size: 13px; }
-  .visual-path-copy small { font-size: 10px; }
+  .hero-book-art { height: 380px; margin: 8px -20px -4px; }
+  .hero-node { min-width: 100px; max-width: 123px; border-radius: 9px; padding: 8px 9px; }
+  .hero-node strong { font-size: 8px; }
+  .node-label { font-size: 7px; }
+  .hero-node-acquire { top: 10%; left: 4%; }
+  .hero-node-convert { top: 13%; right: 4%; }
+  .hero-node-automate { bottom: 18%; left: 3%; }
+  .hero-node-scale { right: 3%; bottom: 16%; }
+  .visual-caption { bottom: 9%; font-size: 8px; }
+  .challenge-journey-layout { grid-template-columns: 1fr; gap: 16px; }
+  .challenge-journey-layout .problem-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .challenge-journey-layout .problem-card { min-height: 174px; padding: 20px 17px; }
+  .journey-panel { padding: 22px 20px 19px; }
+  .journey-panel .visual-kicker { margin-bottom: 17px; font-size: 9px; }
+  .journey-panel .visual-path { gap: 7px; }
+  .journey-panel .visual-path-step { min-height: 48px; gap: 12px; }
+  .journey-panel .visual-path-number { width: 33px; height: 33px; flex-basis: 33px; }
+  .journey-panel .visual-path-line { left: 16px; }
+  .journey-panel .visual-path-copy strong { font-size: 13px; }
+  .journey-panel .visual-path-copy small { font-size: 10px; }
+  .journey-panel .visual-note { margin-top: 14px; padding-top: 11px; font-size: 10px; }
+  .journey-specificity-note { font-size: 9px; }
   .problem-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
   .problem-card { min-height: 215px; padding: 20px 17px; }
   .card-index { margin-bottom: 20px; }
@@ -716,11 +909,22 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .container, .narrow-container { width: calc(100% - 34px); }
   .brand-link { width: 158px; }
   .problem-grid { grid-template-columns: 1fr; }
+  .challenge-journey-layout .problem-grid { grid-template-columns: 1fr; }
+  .challenge-journey-layout .problem-card { min-height: 0; }
   .problem-card { min-height: 0; }
   .segment-journey { grid-template-columns: 1fr; }
   .engagement-path { grid-template-columns: 1fr; }
   .footer-links { grid-template-columns: 1fr; }
   .footer-links > div:first-child { grid-column: auto; }
+}
+
+@keyframes node-drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(.65); opacity: .9; }
+  100% { transform: scale(1.75); opacity: 0; }
 }
 
 @keyframes logo-moon-glow {

@@ -1,8 +1,8 @@
 import Link from "next/link";
+import { HeroBookVisual } from "@/components/hero-book-visual";
 import {
   CTASection,
   FAQList,
-  JourneyMap,
   MethodSteps,
   SectionHeading,
   SegmentCard,
@@ -152,44 +152,49 @@ export default function HomePage() {
             <p className="hero-audience">For education and training businesses in the United States and United Kingdom.</p>
           </div>
 
-          <div className="hero-visual" aria-label="The five stages of a student-growth journey">
-            <div className="visual-kicker">A clearer path through the student journey</div>
-            <div className="visual-path">
-              <div className="visual-path-line" aria-hidden="true" />
-              {[
-                ["01", "Attract", "Reach the right people"],
-                ["02", "Capture", "Understand the enquiry"],
-                ["03", "Follow up", "Make the next step clear"],
-                ["04", "Convert", "Support the decision"],
-                ["05", "Improve", "Learn from the process"],
-              ].map(([number, title, detail]) => (
-                <div className="visual-path-step" key={number}>
-                  <span className="visual-path-number">{number}</span>
-                  <span className="visual-path-copy"><strong>{title}</strong><small>{detail}</small></span>
-                </div>
-              ))}
-            </div>
-            <p className="visual-note">One connected process. Different priorities for every education business.</p>
-          </div>
+          <HeroBookVisual />
         </div>
         <div className="hero-bottom-line" aria-hidden="true" />
       </section>
 
-      <section className="section section-ivory">
+      <section className="section section-ivory challenge-section">
         <div className="container">
           <SectionHeading
             eyebrow="The growth challenge"
             title="More leads are not always the answer."
             intro="A campaign can generate enquiries and still leave an education business short of its enrolment goals. The issue may sit in the audience being reached, the information collected, the speed of follow-up, the next step offered—or the way the admissions process is managed."
           />
-          <div className="problem-grid">
-            {challenges.map((item) => (
-              <article className="problem-card" key={item.number}>
-                <span className="card-index">{item.number}</span>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
-            ))}
+          <div className="challenge-journey-layout">
+            <div className="problem-grid">
+              {challenges.map((item) => (
+                <article className="problem-card" key={item.number}>
+                  <span className="card-index">{item.number}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </article>
+              ))}
+            </div>
+
+            <aside className="journey-panel" aria-labelledby="journey-panel-title">
+              <p className="visual-kicker" id="journey-panel-title">A clearer path through the student journey</p>
+              <div className="visual-path">
+                <span className="visual-path-line" aria-hidden="true" />
+                {[
+                  ["01", "Attract", "Reach the right people"],
+                  ["02", "Capture", "Understand the enquiry"],
+                  ["03", "Follow up", "Make the next step clear"],
+                  ["04", "Convert", "Support the decision"],
+                  ["05", "Improve", "Learn from the process"],
+                ].map(([number, title, detail]) => (
+                  <div className="visual-path-step" key={number}>
+                    <span className="visual-path-number">{number}</span>
+                    <span className="visual-path-copy"><strong>{title}</strong><small>{detail}</small></span>
+                  </div>
+                ))}
+              </div>
+              <p className="visual-note">One connected process. Different priorities for every education business.</p>
+              <p className="journey-specificity-note">A placement assessment, paid consultation and training eligibility review are different next steps.</p>
+            </aside>
           </div>
           <p className="section-close-copy">The first task is not to assume which problem you have. It is to find out where the journey is breaking down.</p>
         </div>
@@ -221,18 +226,6 @@ export default function HomePage() {
               <p>Look at fit, information, ownership, follow-up and the next meaningful action.</p>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="section section-mist">
-        <div className="container">
-          <SectionHeading
-            eyebrow="The student-growth journey"
-            title="Every stage should lead to a clear next step."
-            intro="The exact route differs by education business. The important thing is that each suitable opportunity has a logical next action and someone responsible for it."
-          />
-          <JourneyMap />
-          <p className="diagram-note">A language school's placement assessment is not the same as an admissions consultancy's paid consultation or a training provider's eligibility review.</p>
         </div>
       </section>
 
