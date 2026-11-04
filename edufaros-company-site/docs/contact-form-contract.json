@@ -1,0 +1,28 @@
+{
+  "endpoint": "POST /api/contact",
+  "status": "UI-and-validation-implemented; CRM-destination-not-configured",
+  "fields": {
+    "name": { "required": true, "type": "string", "maxLength": 100 },
+    "email": { "required": true, "type": "email", "maxLength": 254 },
+    "business": { "required": true, "type": "string", "maxLength": 140 },
+    "website": { "required": true, "type": "http-url-or-not-available", "maxLength": 300 },
+    "country": { "required": true, "enum": ["United States", "United Kingdom", "Other"] },
+    "businessType": { "required": true, "enum": ["Education or admissions consultancy", "Language school or English-test preparation", "Tutoring or test preparation", "Vocational or professional training", "Online academy or certification", "Other"] },
+    "challenges": { "required": true, "type": "string[]", "maxItems": 8 },
+    "context": { "required": false, "type": "string", "maxLength": 1600 },
+    "phone": { "required": false, "type": "string", "maxLength": 40 },
+    "websiteConfirmation": { "required": false, "type": "honeypot" }
+  },
+  "challengeOptions": [
+    "Attracting suitable enquiries",
+    "Improving enquiry quality",
+    "Follow-up and contact",
+    "Consultation or assessment booking",
+    "Applications or registration",
+    "Enrolment visibility and reporting",
+    "Retention or re-engagement",
+    "Not sure where the problem is"
+  ],
+  "successRule": "Return success only after CRM or an approved monitored fallback confirms receipt.",
+  "currentBehaviour": "Returns HTTP 503 without persisting or logging PII because CRM and privacy approvals are not configured."
+}
