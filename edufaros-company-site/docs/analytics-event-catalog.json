@@ -1,0 +1,14 @@
+{
+  "status": "not-enabled",
+  "reason": "Analytics vendor and consent model have not been approved.",
+  "proposedEvents": [
+    { "name": "cta_click", "properties": ["cta_name", "page_path", "placement"], "prohibited": ["name", "email", "phone", "free_text", "CRM_ID"] },
+    { "name": "segment_page_view", "properties": ["segment_id", "page_path"], "prohibited": ["personal_data"] },
+    { "name": "approach_page_view", "properties": ["page_path"], "prohibited": ["form_content"] },
+    { "name": "growth_systems_view", "properties": ["page_path"], "prohibited": ["personal_data"] },
+    { "name": "contact_form_start", "properties": ["page_path"], "prohibited": ["field_values"] },
+    { "name": "contact_form_submit_success", "properties": ["page_path", "country_choice", "segment_choice"], "prohibited": ["email", "name", "phone", "context"] },
+    { "name": "form_validation_error", "properties": ["field_name"], "prohibited": ["entered_value"] },
+    { "name": "form_handoff_failure", "properties": ["failure_category"], "prohibited": ["payload", "raw_error", "PII"] }
+  ]
+}
