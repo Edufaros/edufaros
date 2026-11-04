@@ -50,3 +50,13 @@ The in-memory throttle is best-effort per serverless instance only. Configure a 
 - Work on `setup/edufaros-company-site` and feature branches.
 - Use a Vercel Preview deployment for founder review.
 - Do not merge the new app or deploy it on the existing website's custom domain until explicitly approved.
+
+## Homepage visual hierarchy — Magic Book hero
+
+- The original Three.js Magic Book from the previous EduFaros site is the primary homepage hero visual again.
+- It occupies the same visual column beside the hero copy on desktop and moves below the hero copy on mobile, using the original responsive proportions (590px desktop, 380px mobile).
+- The four original floating labels remain around the book: Understand, Prioritize, Build and Improve.
+- The five-stage student journey panel is moved into homepage section two, alongside the four growth-challenge cards. The later duplicate journey-map section is removed to avoid repeating the same process.
+- The existing new-site copy, navigation, header/footer identity, and other page sections remain unchanged.
+- The animation reuses the original Three.js scene and its pause-on-scroll/tab-hidden and reduced-motion handling. The new sub-app declares `three` and `@types/three` as dependencies.
+
