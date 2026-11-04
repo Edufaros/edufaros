@@ -28,7 +28,7 @@ export function SiteHeader() {
       }
       if (event.key === "Tab") {
         const panel = document.getElementById("mobile-navigation");
-        const focusable = panel?.querySelectorAll<HTMLElement>("a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex=\\\"-1\\\"])");
+        const focusable = panel?.querySelectorAll<HTMLElement>("a[href], button:not([disabled])");
         if (!focusable?.length) return;
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
