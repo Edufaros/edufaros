@@ -1,0 +1,6 @@
+# No real secrets or values belong in this file.
+# CRM integration is not active until the location, pipeline, field mapping and notifications are confirmed.
+GHL_API_KEY=
+GHL_LOCATION_ID=
+GHL_PIPELINE_ID=
+# Add any confirmed custom-field identifiers only after the CRM mapping is signed off.
