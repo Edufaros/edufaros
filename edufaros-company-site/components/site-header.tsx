@@ -59,7 +59,7 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="container header-inner">
         <Link href="/" className="brand-link" aria-label="EduFaros home" onClick={closeMenu}>
-          <Image src="/edufaros-logo-dark.svg" alt="EduFaros — Education Growth Systems" width={190} height={64} priority />
+          <Image src="/edufaros-logo.svg" alt="EduFaros — Education Growth Systems" width={190} height={64} priority />
         </Link>
 
         <nav className="desktop-nav" aria-label="Main navigation">
