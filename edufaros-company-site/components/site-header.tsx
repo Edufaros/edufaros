@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const segments = [
   ["Education & Admissions Consultancies", "/who-we-help/education-admissions-consultancies/"],
@@ -14,22 +14,46 @@ const segments = [
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!menuOpen) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMenuOpen(false);
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        triggerRef.current?.focus();
+        return;
+      }
+      if (event.key === "Tab") {
+        const panel = document.getElementById("mobile-navigation");
+        const focusable = panel?.querySelectorAll<HTMLElement>("a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex=\\\"-1\\\"])");
+        if (!focusable?.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
     };
     window.addEventListener("keydown", onKeyDown);
+    const panel = document.getElementById("mobile-navigation");
+    panel?.querySelector<HTMLElement>("a[href], button:not([disabled])")?.focus();
     return () => {
       document.body.style.overflow = previous;
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [menuOpen]);
 
-  const closeMenu = () => setMenuOpen(false);
+  const closeMenu = () => {
+    setMenuOpen(false);
+    triggerRef.current?.focus();
+  };
 
   return (
     <header className="site-header">
@@ -54,6 +78,7 @@ export function SiteHeader() {
         <Link className="header-cta" href="/discuss-growth/">Discuss Your Challenge <span aria-hidden="true">↗</span></Link>
 
         <button
+          ref={triggerRef}
           type="button"
           className="mobile-menu-trigger"
           aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
