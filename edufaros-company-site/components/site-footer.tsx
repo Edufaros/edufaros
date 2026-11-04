@@ -15,8 +15,15 @@ export function SiteFooter() {
       <div className="container">
         <div className="footer-main">
           <div className="footer-brand">
-            <Link href="/" aria-label="EduFaros home">
-              <Image src="/edufaros-logo.svg" alt="EduFaros — Education Growth Systems" width={190} height={64} />
+            <Link href="/" className="footer-logo-link" aria-label="EduFaros home">
+              <Image
+                src="/edufaros-logo.webp"
+                alt="EduFaros — Education Growth Systems"
+                width={760}
+                height={253}
+                unoptimized
+                className="brand-logo"
+              />
             </Link>
             <p className="footer-tagline">Build a stronger path from student interest to enrolment.</p>
             <p>EduFaros helps independent education businesses find where student opportunities are being lost and improve the acquisition, qualification, follow-up and admissions processes that move suitable enquiries forward.</p>
