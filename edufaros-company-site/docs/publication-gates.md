@@ -28,18 +28,17 @@ The current new website omits client logos, case studies, testimonials and campa
 - [ ] Do not claim advanced attribution, Google Ads results or retention improvement without evidence.
 - [ ] Keep every service scoped after diagnosis; do not imply a fixed all-inclusive bundle.
 
-## Contact form and CRM
+## Contact form and Google Sheets
 
-- [ ] Confirm live GoHighLevel location/subaccount.
-- [ ] Confirm pipeline and stages.
-- [ ] Confirm custom field IDs and mapping for country, business type, challenge, website and source.
-- [ ] Confirm contact/opportunity creation and duplicate-handling approach.
-- [ ] Confirm assignment, notification recipient and operational owner.
-- [ ] Configure credentials only as server-side Vercel environment variables.
-- [ ] Test with dummy records in Preview.
-- [ ] Configure durable rate limiting and monitoring.
-- [ ] Confirm retention, deletion and access-control procedures.
-- [ ] Enable the API only after the destination and privacy notice are confirmed.
+- [ ] Create the owner-controlled Google Sheet and `Enquiries` tab using `docs/google-sheets-webhook.gs`.
+- [ ] Deploy the Apps Script web app as the sheet owner with access set to Anyone; confirm the account policy allows public web-app access.
+- [ ] Store the shared webhook secret in Apps Script Script Properties and Vercel only; never commit it or expose it in browser code.
+- [ ] Configure `GOOGLE_SHEETS_WEBHOOK_URL` and `GOOGLE_SHEETS_WEBHOOK_SECRET` in Vercel Preview.
+- [ ] Test successful writes, repeated submissions, validation failures and destination outages using dummy information.
+- [ ] Confirm exactly one row per accepted enquiry, correct field mapping, access control, retention and deletion procedures.
+- [ ] Configure durable rate limiting and monitoring before public launch.
+- [ ] Keep the form unavailable until a Preview test row is verified.
+- [ ] Configure Production only after legal/privacy review and final founder approval.
 
 ## Privacy and legal
 
