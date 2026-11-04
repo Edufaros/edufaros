@@ -42,16 +42,19 @@ npm run build
 
 The implementation follows the six EduFaros phase documents supplied by the founder. Phase 4 is the copy source; Phase 5 is the visual and interaction source; Phase 6 is the technical acceptance source. See `docs/` for implementation decisions and publication gates.
 
-## Contact form status
+## Contact form and Google Sheets
 
-The contact form UI and same-origin API boundary are implemented. The API intentionally returns an unavailable response until the live CRM destination, pipeline, field mapping, authorised credentials, notification owner and privacy notice are confirmed. It does not store or log submitted contact details and does not claim success.
+The contact form posts to the same-origin `/api/contact` route. The server validates the fields and forwards the enquiry to a Google Apps Script web app using server-only environment variables. The Apps Script writes the enquiry to the owner's Google Sheet.
 
-Before public launch:
-1. Confirm GoHighLevel location/subaccount and pipeline.
-2. Map country, business type, challenge, website and source fields.
-3. Configure server-only credentials in Vercel Preview, then Production.
-4. Test contact/opportunity creation and duplicate handling with dummy data.
-5. Confirm assignment, notifications, retention and privacy language.
+Setup instructions and the receiver source are in:
+- `docs/google-sheets-setup.md`
+- `docs/google-sheets-webhook.gs`
+
+Required Vercel environment variables:
+- `GOOGLE_SHEETS_WEBHOOK_URL`
+- `GOOGLE_SHEETS_WEBHOOK_SECRET`
+
+The integration is not live until the owner creates the Sheet, deploys Apps Script, configures both variables in Preview and verifies a test row. Keep Production disabled until privacy/legal review and launch approval are complete. Never commit a real URL/secret pair.
 
 ## Vercel
 
