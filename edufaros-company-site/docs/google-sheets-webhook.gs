@@ -164,7 +164,7 @@ function cleanText(value, maxLength) {
 
 function safeCell(value) {
   const text = value === null || value === undefined ? "" : String(value);
-  return /^[\\s]*[=+\\-@]/.test(text) ? "'" + text : text;
+  return /^\\s*[=+@-]/.test(text) ? "'" + text : text;
 }
 
 function constantTimeEquals(a, b) {
