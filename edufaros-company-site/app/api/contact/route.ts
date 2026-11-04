@@ -24,8 +24,20 @@ function clean(value: unknown, max: number) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
 }
 
+// Per-instance best-effort throttle. Configure an edge/WAF limit before public launch.
+const requestTimes = new Map<string, number[]>();
+
 export async function POST(request: NextRequest) {
   try {
+    const address = (request.headers.get("x-forwarded-for") || "unknown").split(",")[0].trim();
+    const now = Date.now();
+    const recent = (requestTimes.get(address) || []).filter((time) => now - time < 60_000);
+    if (recent.length >= 5) {
+      return NextResponse.json({ error: "Too many attempts. Please wait a moment and try again." }, { status: 429 });
+    }
+    recent.push(now);
+    requestTimes.set(address, recent);
+
     const origin = request.headers.get("origin");
     const expectedOrigin = request.nextUrl.origin;
     if (origin && origin !== expectedOrigin) {
