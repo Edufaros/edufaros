@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: "Student Acquisition & Enrolment Growth for Education Businesses | EduFaros",
-    template: "%s | EduFaros",
+    template: "%s",
   },
   description:
     "EduFaros helps independent education businesses improve student acquisition, enquiry quality, follow-up and enrolment processes across the US and UK.",
