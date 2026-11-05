@@ -110,3 +110,11 @@ The in-memory throttle is best-effort per serverless instance only. Configure a 
 - Add Home as the first destination in the mobile navigation drawer.
 - Both links point to the site root `/`; preserve the logo's existing homepage link and all other navigation destinations.
 
+## Mobile hero book placement
+
+- On mobile only, flatten the hero copy wrapper into the hero grid and explicitly order the hero elements.
+- Place the existing animated Magic Book immediately after the H1 and before the supporting lede.
+- Keep the four floating process labels and 360px mobile book canvas intact.
+- Keep the desktop two-column hero layout and desktop book placement unchanged.
+- Keep the headline, lede, supporting copy, CTA labels and audience note unchanged.
+
