@@ -181,19 +181,23 @@ export default function HomePage() {
             </div>
 
             <aside className="journey-panel" aria-labelledby="journey-panel-title">
-              <p className="visual-kicker" id="journey-panel-title">A clearer path through the student journey</p>
-              <div className="visual-path">
-                <span className="visual-path-line" aria-hidden="true" />
+              <div className="journey-heading-row">
+                <p className="visual-kicker" id="journey-panel-title">A clearer path through the student journey</p>
+                <span className="journey-stage-count"><i aria-hidden="true" /> 5 connected stages</span>
+              </div>
+              <div className="visual-path" aria-label="Five connected stages: attract, capture, follow up, convert and improve">
+                <span className="visual-path-line" aria-hidden="true"><span className="visual-path-signal" /></span>
                 {[
-                  ["01", "Attract", "Reach the right people"],
-                  ["02", "Capture", "Understand the enquiry"],
-                  ["03", "Follow up", "Make the next step clear"],
-                  ["04", "Convert", "Support the decision"],
-                  ["05", "Improve", "Learn from the process"],
-                ].map(([number, title, detail]) => (
+                  ["01", "Attract", "Reach the right people", "AUDIENCE"],
+                  ["02", "Capture", "Understand the enquiry", "INTAKE"],
+                  ["03", "Follow up", "Make the next step clear", "RESPONSE"],
+                  ["04", "Convert", "Support the decision", "DECISION"],
+                  ["05", "Improve", "Learn from the process", "INSIGHT"],
+                ].map(([number, title, detail, stage]) => (
                   <div className="visual-path-step" key={number}>
                     <span className="visual-path-number">{number}</span>
                     <span className="visual-path-copy"><strong>{title}</strong><small>{detail}</small></span>
+                    <span className="visual-path-tag">{stage}</span>
                   </div>
                 ))}
               </div>

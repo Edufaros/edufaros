@@ -86,3 +86,13 @@ The in-memory throttle is best-effort per serverless instance only. Configure a 
 - Fix the founder heading's responsive selector specificity so tablet/mobile font sizing is honoured.
 - Retain the existing content, navigation, section order, palette, logo and animation.
 
+## Student journey panel motion and hierarchy
+
+- Retain the same five journey stages and their supporting descriptions.
+- Add a compact stage-count label and short stage-category tags to improve scanning on desktop.
+- Present each stage as a distinct visual row with a clear number, title and description.
+- Animate a soft gold signal down the vertical connector and illuminate each stage in sequence.
+- Add a restrained pulse ring around the active step number and a small hover affordance on pointer devices.
+- Hide the extra stage tags on mobile to preserve a clean reading column.
+- Respect prefers-reduced-motion and keep the full journey readable without animation.
+
