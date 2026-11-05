@@ -1468,7 +1468,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 767px) {
   :root { --section-space: 52px; }
   .section { padding-block: var(--section-space); }
-  .container, .narrow-container { width: calc(100% - 40px); }
+  .container, .narrow-container { width: calc(100% - 40px); max-width: calc(100% - 40px); min-width: 0; }
   .section-heading { margin-bottom: 25px; }
   .section-heading h2 { font-size: clamp(30px,8vw,37px); }
   .section-intro-copy { margin-top: 13px; font-size: 15px; }
@@ -1489,12 +1489,14 @@ button, a { -webkit-tap-highlight-color: transparent; }
     grid-column: 1;
     grid-row: 3;
     position: relative;
-    left: 50%;
-    width: 100vw;
-    max-width: 100vw;
+    left: auto;
+    box-sizing: border-box;
+    width: calc(100% + 40px);
+    max-width: none;
+    min-width: 0;
     height: 380px;
-    margin: 9px 0 -4px;
-    transform: translateX(-50%);
+    margin: 9px -20px -4px;
+    transform: none;
   }
   .hero-visual {
     mask-image: radial-gradient(ellipse at 50% 50%, #000 52%, transparent 88%);

@@ -126,3 +126,10 @@ The in-memory throttle is best-effort per serverless instance only. Configure a 
 - Preserve pointer parallax on fine-pointer desktop devices.
 - Keep the existing 3D scene, floating labels, mobile order (H1 → book → lede), desktop placement and all copy unchanged.
 
+## Mobile hero overflow correction
+
+- Replace the `100vw` plus relative 50% offset on the Magic Book grid item with a symmetrical `calc(100% + 40px)` full-bleed treatment and 20px negative side margins.
+- Keep the book centered across the visual viewport while preserving the 20px text gutters and normal hero grid width.
+- Remove the relative horizontal offset and transform that caused horizontal page overflow and clipped copy/buttons.
+- Preserve the 380px canvas, centered glow mask, mobile hero order, and touch-safe camera behaviour.
+
