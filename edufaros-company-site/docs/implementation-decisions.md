@@ -68,3 +68,11 @@ The in-memory throttle is best-effort per serverless instance only. Configure a 
 - Show the seven logos in the supplied reference: LinkedIn Coach, Creative Agency, Azan Overseas, Azan Enterprises, D-Naaz International, Synergy Career Consultant and Paika.
 - Keep the founder section in a two-column desktop layout and stack it for mobile. The logo band remains continuously readable at small widths and respects reduced-motion preferences.
 
+## Founder section visual alignment with the new design system
+
+- Restyle the founder message as a warm-ivory editorial section rather than a near-black, teal-accented panel.
+- Use the Phase 5 palette: navy and deep navy for typography, warm ivory/white for the surface, muted gold for accent details, and slate for body copy.
+- Use DM Serif Display for the founder heading and quote, DM Sans for supporting text and labels, with Caveat retained only for the handwritten signature.
+- Keep the founder's message, portrait, position after the hero, and the partner-logo strip below it unchanged.
+- Reduce the oversized typography and portrait treatment and keep a compact responsive layout on mobile.
+
