@@ -104,3 +104,9 @@ The in-memory throttle is best-effort per serverless instance only. Configure a 
 - Keep the navigation links, destinations, CTA and focus-trap/Escape behaviour unchanged.
 - Retain the EduFaros navy and gold visual identity in the drawer.
 
+## Explicit Home navigation
+
+- Add a visible Home link as the first item in the desktop navigation.
+- Add Home as the first destination in the mobile navigation drawer.
+- Both links point to the site root `/`; preserve the logo's existing homepage link and all other navigation destinations.
+

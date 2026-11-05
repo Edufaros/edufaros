@@ -73,6 +73,7 @@ export function SiteHeader() {
         </Link>
 
         <nav className="desktop-nav" aria-label="Main navigation">
+          <Link className="nav-link" href="/">Home</Link>
           <div className="nav-dropdown">
             <Link href="/who-we-help/" className="nav-link nav-parent">Who We Help <span aria-hidden="true">⌄</span></Link>
             <div className="nav-dropdown-panel">
@@ -109,6 +110,7 @@ export function SiteHeader() {
             <span>Explore EduFaros</span>
             <button type="button" onClick={closeMenu} aria-label="Close menu">×</button>
           </div>
+          <Link href="/" onClick={closeMenu}>Home <span>→</span></Link>
           <Link href="/who-we-help/" onClick={closeMenu}>Who We Help <span>→</span></Link>
           {segments.map(([label, href]) => <Link className="mobile-sub-link" key={href} href={href} onClick={closeMenu}>{label}</Link>)}
           <Link href="/approach/" onClick={closeMenu}>How We Work <span>→</span></Link>
