@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 const segments = [
   ["Education & Admissions Consultancies", "/who-we-help/education-admissions-consultancies/"],
@@ -56,6 +57,7 @@ export function SiteHeader() {
   };
 
   return (
+    <>
     <header className="site-header">
       <div className="container header-inner">
         <Link href="/" className="brand-link" aria-label="EduFaros home" onClick={closeMenu}>
@@ -98,23 +100,25 @@ export function SiteHeader() {
         </button>
       </div>
 
-      {menuOpen && (
-        <div className="mobile-nav-layer">
-          <button className="mobile-nav-scrim" type="button" aria-label="Close navigation" onClick={closeMenu} />
-          <nav id="mobile-navigation" className="mobile-nav-panel" aria-label="Mobile navigation">
-            <div className="mobile-nav-top">
-              <span>Explore EduFaros</span>
-              <button type="button" onClick={closeMenu} aria-label="Close menu">×</button>
-            </div>
-            <Link href="/who-we-help/" onClick={closeMenu}>Who We Help <span>→</span></Link>
-            {segments.map(([label, href]) => <Link className="mobile-sub-link" key={href} href={href} onClick={closeMenu}>{label}</Link>)}
-            <Link href="/approach/" onClick={closeMenu}>How We Work <span>→</span></Link>
-            <Link href="/growth-systems/" onClick={closeMenu}>Growth Systems <span>→</span></Link>
-            <Link href="/about/" onClick={closeMenu}>About <span>→</span></Link>
-            <Link className="button button-gold mobile-menu-cta" href="/discuss-growth/" onClick={closeMenu}>Discuss Your Student Growth Challenge <span aria-hidden="true">↗</span></Link>
-          </nav>
-        </div>
-      )}
     </header>
+    {menuOpen && typeof document !== "undefined" && createPortal(
+      <div className="mobile-nav-layer">
+        <button className="mobile-nav-scrim" type="button" aria-label="Close navigation" onClick={closeMenu} />
+        <nav id="mobile-navigation" className="mobile-nav-panel" aria-label="Mobile navigation">
+          <div className="mobile-nav-top">
+            <span>Explore EduFaros</span>
+            <button type="button" onClick={closeMenu} aria-label="Close menu">×</button>
+          </div>
+          <Link href="/who-we-help/" onClick={closeMenu}>Who We Help <span>→</span></Link>
+          {segments.map(([label, href]) => <Link className="mobile-sub-link" key={href} href={href} onClick={closeMenu}>{label}</Link>)}
+          <Link href="/approach/" onClick={closeMenu}>How We Work <span>→</span></Link>
+          <Link href="/growth-systems/" onClick={closeMenu}>Growth Systems <span>→</span></Link>
+          <Link href="/about/" onClick={closeMenu}>About <span>→</span></Link>
+          <Link className="button button-gold mobile-menu-cta" href="/discuss-growth/" onClick={closeMenu}>Discuss Your Student Growth Challenge <span aria-hidden="true">↗</span></Link>
+        </nav>
+      </div>,
+      document.body
+    )}
+    </>
   );
 }

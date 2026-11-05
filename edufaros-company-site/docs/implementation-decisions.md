@@ -96,3 +96,11 @@ The in-memory throttle is best-effort per serverless instance only. Configure a 
 - Hide the extra stage tags on mobile to preserve a clean reading column.
 - Respect prefers-reduced-motion and keep the full journey readable without animation.
 
+## Mobile navigation clipping fix
+
+- Render the mobile navigation layer through a React portal attached to `document.body`, outside the sticky header's backdrop-filter containing block.
+- Keep the layer fixed from the bottom of the header to the bottom of the dynamic viewport.
+- Make the drawer independently scrollable, safe-area aware and fully height constrained on short screens.
+- Keep the navigation links, destinations, CTA and focus-trap/Escape behaviour unchanged.
+- Retain the EduFaros navy and gold visual identity in the drawer.
+
