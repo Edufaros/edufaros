@@ -969,11 +969,11 @@ button, a { -webkit-tap-highlight-color: transparent; }
   animation: journey-step-highlight 10s ease-in-out infinite;
   transition: border-color .25s ease, background .25s ease, transform .25s ease;
 }
-.journey-panel .visual-path-step:nth-of-type(2) { animation-delay: 0s; }
-.journey-panel .visual-path-step:nth-of-type(3) { animation-delay: 2s; }
-.journey-panel .visual-path-step:nth-of-type(4) { animation-delay: 4s; }
-.journey-panel .visual-path-step:nth-of-type(5) { animation-delay: 6s; }
-.journey-panel .visual-path-step:nth-of-type(6) { animation-delay: 8s; }
+.journey-panel .visual-path-step:nth-child(2) { animation-delay: 0s; }
+.journey-panel .visual-path-step:nth-child(3) { animation-delay: 2s; }
+.journey-panel .visual-path-step:nth-child(4) { animation-delay: 4s; }
+.journey-panel .visual-path-step:nth-child(5) { animation-delay: 6s; }
+.journey-panel .visual-path-step:nth-child(6) { animation-delay: 8s; }
 .journey-panel .visual-path-number {
   position: relative;
   display: grid;
@@ -996,11 +996,11 @@ button, a { -webkit-tap-highlight-color: transparent; }
   opacity: 0;
   animation: journey-node-ring 10s ease-out infinite;
 }
-.journey-panel .visual-path-step:nth-of-type(2) .visual-path-number::after { animation-delay: 0s; }
-.journey-panel .visual-path-step:nth-of-type(3) .visual-path-number::after { animation-delay: 2s; }
-.journey-panel .visual-path-step:nth-of-type(4) .visual-path-number::after { animation-delay: 4s; }
-.journey-panel .visual-path-step:nth-of-type(5) .visual-path-number::after { animation-delay: 6s; }
-.journey-panel .visual-path-step:nth-of-type(6) .visual-path-number::after { animation-delay: 8s; }
+.journey-panel .visual-path-step:nth-child(2) .visual-path-number::after { animation-delay: 0s; }
+.journey-panel .visual-path-step:nth-child(3) .visual-path-number::after { animation-delay: 2s; }
+.journey-panel .visual-path-step:nth-child(4) .visual-path-number::after { animation-delay: 4s; }
+.journey-panel .visual-path-step:nth-child(5) .visual-path-number::after { animation-delay: 6s; }
+.journey-panel .visual-path-step:nth-child(6) .visual-path-number::after { animation-delay: 8s; }
 .journey-panel .visual-path-copy { display: grid; gap: 1px; min-width: 0; }
 .journey-panel .visual-path-copy strong {
   color: #F7F8F9;
