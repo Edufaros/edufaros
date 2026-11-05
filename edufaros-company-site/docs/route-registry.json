@@ -1,0 +1,22 @@
+{
+  "routes": [
+    { "path": "/", "status": "required", "indexable": true },
+    { "path": "/who-we-help/", "status": "required", "indexable": true },
+    { "path": "/who-we-help/education-admissions-consultancies/", "status": "required", "indexable": true },
+    { "path": "/who-we-help/language-schools/", "status": "required", "indexable": true },
+    { "path": "/who-we-help/tutoring-test-prep/", "status": "required", "indexable": true },
+    { "path": "/who-we-help/vocational-professional-training/", "status": "required", "indexable": true },
+    { "path": "/who-we-help/online-academies/", "status": "required", "indexable": true },
+    { "path": "/approach/", "status": "required", "indexable": true },
+    { "path": "/growth-systems/", "status": "required", "indexable": true },
+    { "path": "/about/", "status": "required", "indexable": true },
+    { "path": "/discuss-growth/", "status": "required", "indexable": true },
+    { "path": "/privacy/", "status": "required-review-pending", "indexable": false },
+    { "path": "/thank-you/", "status": "utility", "indexable": false }
+  ],
+  "conditionalRoutes": [
+    { "path": "/insights/", "status": "not-created-until-content-ready" },
+    { "path": "/experience/", "status": "not-created-until-proof-permissions-ready" },
+    { "path": "/terms/", "status": "not-created-until-legal-review" }
+  ]
+}

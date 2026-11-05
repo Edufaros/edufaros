@@ -1,0 +1,10 @@
+# Google Sheets enquiry destination (Apps Script web app).
+# Add real values only in Vercel Environment Variables. Never commit secrets here.
+GOOGLE_SHEETS_WEBHOOK_URL=
+GOOGLE_SHEETS_WEBHOOK_SECRET=
+
+# Optional future CRM integration; not used by the current Google Sheets bridge.
+GHL_API_KEY=
+GHL_LOCATION_ID=
+GHL_PIPELINE_ID=
+# Add custom-field identifiers only after a separate CRM mapping is confirmed.
