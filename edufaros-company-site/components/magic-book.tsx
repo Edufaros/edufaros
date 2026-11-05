@@ -363,7 +363,11 @@ export default function MagicBook() {
       }
     }
 
+    const supportsFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
     function onPointerMove(event: PointerEvent) {
+      // Touch interactions on phones must never offset the book in its canvas.
+      if (!supportsFinePointer || event.pointerType !== "mouse") return;
       pointer.tx = (event.clientX / window.innerWidth - 0.5) * 2;
       pointer.ty = (event.clientY / window.innerHeight - 0.5) * 2;
     }
@@ -383,7 +387,11 @@ export default function MagicBook() {
 
       pointer.x += (pointer.tx - pointer.x) * 0.05;
       pointer.y += (pointer.ty - pointer.y) * 0.05;
-      camera.position.set(pointer.x * 0.9, 3.6 + pointer.y * -0.4, baseZ);
+      camera.position.set(
+        supportsFinePointer ? pointer.x * 0.9 : 0,
+        supportsFinePointer ? 3.6 + pointer.y * -0.4 : 3.6,
+        baseZ
+      );
       camera.lookAt(look);
       book.position.y = Math.sin(time * 0.9) * 0.04;
       book.rotation.y = Math.sin(time * 0.25) * 0.1;

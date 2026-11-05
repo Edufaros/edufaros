@@ -118,3 +118,11 @@ The in-memory throttle is best-effort per serverless instance only. Configure a 
 - Keep the desktop two-column hero layout and desktop book placement unchanged.
 - Keep the headline, lede, supporting copy, CTA labels and audience note unchanged.
 
+## Mobile Magic Book centring and old-site proportions
+
+- Restore the previous site's 380px mobile book canvas height and its centered 50%/50% radial mask.
+- Make the mobile book canvas exactly viewport-width and center it against the viewport, independent of the copy container's width.
+- Disable pointer-follow camera parallax on coarse/touch devices so taps and touch scrolling cannot leave the book shifted sideways.
+- Preserve pointer parallax on fine-pointer desktop devices.
+- Keep the existing 3D scene, floating labels, mobile order (H1 → book → lede), desktop placement and all copy unchanged.
+
