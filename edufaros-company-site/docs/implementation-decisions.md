@@ -76,3 +76,13 @@ The in-memory throttle is best-effort per serverless instance only. Configure a 
 - Keep the founder's message, portrait, position after the hero, and the partner-logo strip below it unchanged.
 - Reduce the oversized typography and portrait treatment and keep a compact responsive layout on mobile.
 
+## Site-wide spacing and layout cleanup
+
+- Standardise section spacing with a responsive spacing token instead of the previous fixed 92px padding.
+- Reduce the homepage hero's top/bottom whitespace without shrinking the desktop Magic Book artwork.
+- Tighten section heading, CTA, footer, founder and partner-strip vertical rhythm.
+- Remove fixed minimum heights from content-driven challenge, capability and segment cards so short copy does not leave empty card space; rely on grid row stretching for alignment.
+- Reduce internal page-intro padding consistently on desktop and mobile.
+- Fix the founder heading's responsive selector specificity so tablet/mobile font sizing is honoured.
+- Retain the existing content, navigation, section order, palette, logo and animation.
+
