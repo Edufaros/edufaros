@@ -60,3 +60,11 @@ The in-memory throttle is best-effort per serverless instance only. Configure a 
 - The existing new-site copy, navigation, header/footer identity, and other page sections remain unchanged.
 - The animation reuses the original Three.js scene and its pause-on-scroll/tab-hidden and reduced-motion handling. The new sub-app declares `three` and `@types/three` as dependencies.
 
+## Homepage sequence — founder message and client logos
+
+- Place the founder message directly after the Magic Book hero, before the growth-challenge section.
+- Reuse the founder-note copy and the approved `faizan-ul-haque-v2.webp` portrait already present in the repository.
+- Follow the founder note with the continuous logo band titled “Education companies & professionals we've worked with”.
+- Show the seven logos in the supplied reference: LinkedIn Coach, Creative Agency, Azan Overseas, Azan Enterprises, D-Naaz International, Synergy Career Consultant and Paika.
+- Keep the founder section in a two-column desktop layout and stack it for mobile. The logo band remains continuously readable at small widths and respects reduced-motion preferences.
+

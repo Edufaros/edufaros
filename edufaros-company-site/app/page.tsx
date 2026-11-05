@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { HeroBookVisual } from "@/components/hero-book-visual";
+import { FounderMessage } from "@/components/founder-message";
+import { ClientLogoMarquee } from "@/components/client-logo-marquee";
 import {
   CTASection,
   FAQList,
@@ -156,6 +158,9 @@ export default function HomePage() {
         </div>
         <div className="hero-bottom-line" aria-hidden="true" />
       </section>
+
+      <FounderMessage />
+      <ClientLogoMarquee />
 
       <section className="section section-ivory challenge-section">
         <div className="container">
